@@ -55,8 +55,6 @@ private var _binding: FragmentFirstBinding? = null
 
 
 
-
-
       return binding.root
 
     }
@@ -66,7 +64,8 @@ private var _binding: FragmentFirstBinding? = null
         //childFragmentManager
         populaImagemPlacehld()
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            NoteImagens.imgs.add
+            findNavController().navigate(R.id.action_voltarParaListaNotas)
 
         }
 

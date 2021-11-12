@@ -16,10 +16,9 @@ class FirstFragmentViewModel : ViewModel() {
 
 
     private val _input = MutableLiveData<String>().apply {
-        value = "Textfield"
+        value = ""
     }
     val input: LiveData<String> = _input
-    val pl: String = ""
     private val _ldImagem = MutableLiveData<String>().apply {
         value = ""
     }
