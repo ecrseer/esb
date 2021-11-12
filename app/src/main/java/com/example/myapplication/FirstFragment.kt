@@ -55,18 +55,21 @@ private var _binding: FragmentFirstBinding? = null
 
 
 
+
+
       return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        //childFragmentManager
+        populaImagemPlacehld()
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
         }
+
         binding.myinputHome.setOnKeyListener { v, keyCode, event ->
             if((keyCode == KeyEvent.KEYCODE_SPACE) &&
                 (event.action == KeyEvent.ACTION_DOWN)){
@@ -84,7 +87,12 @@ private var _binding: FragmentFirstBinding? = null
 
     }
 
-override fun onDestroyView() {
+    private fun populaImagemPlacehld() {
+        val placehd = getString(R.string.imagemTeste)
+        firstFragmentViewModel.setLdImagem(placehd)
+    }
+
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

@@ -9,6 +9,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,8 +35,7 @@ private lateinit var binding: ActivityMainBinding
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "such snack much ", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            navController.navigate(R.id.action_criar_nota)
         }
     }
 override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,4 +59,11 @@ override fun onCreateOptionsMenu(menu: Menu): Boolean {
     return navController.navigateUp(appBarConfiguration)
             || super.onSupportNavigateUp()
     }
+    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = 2
+
+
+        override fun createFragment(position: Int): Fragment = FirstFragment()
+    }
+
 }

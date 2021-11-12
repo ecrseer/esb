@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ImagemDaNota">
+        <item name="android:alpha">0.5</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/ic_launcher_background</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

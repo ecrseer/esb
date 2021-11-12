@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+        app:startDestination="@id/listaImagemPesquisadaFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -19,10 +19,14 @@
         android:id="@+id/SecondFragment"
         android:name="com.example.myapplication.SecondFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second" >
-
+        tools:layout="@layout/fragment_second" />
+    <fragment
+            android:id="@+id/listaImagemPesquisadaFragment"
+            android:name="com.example.myapplication.ListaImagemPesquisadaFragment"
+            android:label="fragment_imagem_item_list"
+            tools:layout="@layout/fragment_imagem_item_list" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+                android:id="@+id/action_criar_nota"
+                app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

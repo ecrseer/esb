@@ -1,5 +1,6 @@
 
 data class ImagemPesquisada constructor(
     var big: String,
-    var thumb:String
+    var thumb:String,
+    var texto: String
 )

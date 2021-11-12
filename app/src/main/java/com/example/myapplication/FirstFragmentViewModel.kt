@@ -11,14 +11,22 @@ import okhttp3.Request
 import org.jetbrains.anko.doAsync
 
 class FirstFragmentViewModel : ViewModel() {
+    private val  apiurl = "https://notecompletion.herokuapp.com/pesquisaImagem"
+
+
+
     private val _input = MutableLiveData<String>().apply {
         value = "Textfield"
     }
     val input: LiveData<String> = _input
-
+    val pl: String = ""
     private val _ldImagem = MutableLiveData<String>().apply {
-        value = "https://techcrunch.com/wp-content/uploads/2021/06/Team-Photo-of-Carro.jpg"
+        value = ""
     }
+    fun setLdImagem(txt:String){
+        _ldImagem.value=txt
+    }
+
     val ldImagem: LiveData<String> = _ldImagem
 
     fun testan(){
@@ -26,7 +34,7 @@ class FirstFragmentViewModel : ViewModel() {
     }
     fun pesquisaImagemDe(palavrachave: String){
         val client = OkHttpClient()
-        val apiurl = "https://notecompletion.herokuapp.com/pesquisaImagem"
+
         val request = Request.Builder().url(
             "$apiurl?palavraChave=$palavrachave").get().build()
 
@@ -37,13 +45,13 @@ class FirstFragmentViewModel : ViewModel() {
             var json = "nadinha"
             if(response.body()!==null) {
                 json = response.body()!!.string();
+                val imagemDaApi = Gson().fromJson(json,ImagemPesquisada::class.java)
+                val imagemGrande = "${imagemDaApi.big}"
+                val thumbP = "${imagemDaApi.thumb}"
+                _ldImagem.postValue( imagemGrande)
             }
 
 
-            val imagemDaApi = Gson().fromJson(json,ImagemPesquisada::class.java)
-            val imagemGrande = "${imagemDaApi.big}"
-            val thumbP = "${imagemDaApi.thumb}"
-             _ldImagem.postValue( imagemGrande)
             Log.d("HomeFragt","ldImg eh ${_ldImagem.value}")
 
         }
