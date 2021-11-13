@@ -30,11 +30,12 @@ import java.net.URL
  */
 class FirstFragment : Fragment() {
 
-private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentFirstBinding? = null
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var firstFragmentViewModel : FirstFragmentViewModel
+    private lateinit var firstFragmentViewModel: FirstFragmentViewModel
 
 
     override fun onCreateView(
@@ -46,16 +47,16 @@ private var _binding: FragmentFirstBinding? = null
         firstFragmentViewModel = ViewModelProvider(this)
             .get(FirstFragmentViewModel::class.java)
 
-        firstFragmentViewModel.input.observe(viewLifecycleOwner, Observer{it->
+        firstFragmentViewModel.input.observe(viewLifecycleOwner, Observer { it ->
             binding.myinputHome.setText(it);
         })
-        firstFragmentViewModel.ldImagem.observe(viewLifecycleOwner,Observer{
-            novaUrlimg -> Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
+        firstFragmentViewModel.ldImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
+            Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
         })
 
 
 
-      return binding.root
+        return binding.root
 
     }
 
@@ -63,15 +64,25 @@ private var _binding: FragmentFirstBinding? = null
         super.onViewCreated(view, savedInstanceState)
         //childFragmentManager
         populaImagemPlacehld()
+
         binding.buttonFirst.setOnClickListener {
-            NoteImagens.imgs.add
+            val conteudo: String = binding.txtConteudoNota.text.toString()
+            val titulo: String = "${binding.myinputHome.text.toString()}"
+            val img: String = "${firstFragmentViewModel.ldImagem.value}"
+
+            val imgP=ImagemPesquisada(
+                "${img}", "${img}",
+                "${conteudo}", "${titulo}"
+            )
+            NoteImagens.imgs.add(imgP)
             findNavController().navigate(R.id.action_voltarParaListaNotas)
 
         }
 
         binding.myinputHome.setOnKeyListener { v, keyCode, event ->
-            if((keyCode == KeyEvent.KEYCODE_SPACE) &&
-                (event.action == KeyEvent.ACTION_DOWN)){
+            if ((keyCode == KeyEvent.KEYCODE_SPACE) &&
+                (event.action == KeyEvent.ACTION_DOWN)
+            ) {
                 firstFragmentViewModel
                     .pesquisaImagemDe("${binding.myinputHome.text}")
 
@@ -81,7 +92,6 @@ private var _binding: FragmentFirstBinding? = null
 
 
         }
-
 
 
     }

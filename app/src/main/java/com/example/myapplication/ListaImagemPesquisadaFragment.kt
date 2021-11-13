@@ -31,7 +31,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_imagem_item_list, container, false)
-       populaImgs()
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -51,11 +51,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         return view
     }
 
-    private fun populaImgs() {
-        NoteImagens.imgs.forEach { img ->
-            img.big=getString(R.string.imagemTeste)
-        }
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -28,6 +28,8 @@ class FirstFragmentViewModel : ViewModel() {
 
     val ldImagem: LiveData<String> = _ldImagem
 
+
+
     fun testan(){
         Log.d("HomeFragt","ttttttttttt")
     }
@@ -47,7 +49,7 @@ class FirstFragmentViewModel : ViewModel() {
                 val imagemDaApi = Gson().fromJson(json,ImagemPesquisada::class.java)
                 val imagemGrande = "${imagemDaApi.big}"
                 val thumbP = "${imagemDaApi.thumb}"
-                _ldImagem.postValue( imagemGrande)
+                _ldImagem.postValue(imagemGrande)
             }
 
 

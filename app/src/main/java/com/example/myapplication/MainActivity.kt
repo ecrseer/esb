@@ -37,6 +37,12 @@ private lateinit var binding: ActivityMainBinding
         binding.fab.setOnClickListener { view ->
             navController.navigate(R.id.action_criar_nota)
         }
+        populaImgs()
+    }
+    private fun populaImgs() {
+        NoteImagens.imgs.forEach { img ->
+            img.big=getString(R.string.imagemTeste)
+        }
     }
 override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

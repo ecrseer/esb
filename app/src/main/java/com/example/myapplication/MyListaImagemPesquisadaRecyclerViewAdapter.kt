@@ -46,15 +46,18 @@ class MyListaImagemPesquisadaRecyclerViewAdapter(
             .centerCrop().resize(580,80)
             .error(R.drawable.ic_launcher_background)
             .into(holder.imgeView)
+
+        holder.titulo.text = item.titulo
         holder.contentView.text = item.texto
-        //holder.fundoDaNota.setOnClickListener {  }
+
+    //holder.fundoDaNota.setOnClickListener {  }
 
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding: FragmentImagemItemBinding,funcaoDeClic:(Int)->Unit ) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
+        val titulo: TextView = binding.titulo
         val contentView: TextView = binding.content
         val fundoDaNota: FrameLayout = binding.itemImgContainer
         val imgeView: ImageView = binding.imageView
