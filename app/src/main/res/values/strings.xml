@@ -4,7 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Nuxt</string>
+    <string name="next">Save</string>
     <string name="previous">Previous</string>
     <string name="tituloNotaCriar">Title</string>
     <string name="imagemTeste">https://techcrunch.com/wp-content/uploads/2021/06/Team-Photo-of-Carro.jpg</string>

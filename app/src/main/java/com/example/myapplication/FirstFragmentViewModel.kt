@@ -20,18 +20,20 @@ class FirstFragmentViewModel : ViewModel() {
     }
     val input: LiveData<String> = _input
     private val _ldImagem = MutableLiveData<String>().apply {
-        value = ""
-    }
-    fun setLdImagem(txt:String){
-        _ldImagem.value=txt
+        value = "https://i.imgur.com/1X1PZGq.png"
     }
 
     val ldImagem: LiveData<String> = _ldImagem
 
 
 
+
     fun testan(){
         Log.d("HomeFragt","ttttttttttt")
+    }
+    fun carregaNotaSalva(imagemPesquisada: ImagemPesquisada){
+        _ldImagem.value = imagemPesquisada.big
+        _input.value = imagemPesquisada.titulo
     }
     fun pesquisaImagemDe(palavrachave: String){
         val client = OkHttpClient()

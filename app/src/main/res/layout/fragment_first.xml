@@ -29,14 +29,15 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/myinput_home"
+            android:id="@+id/txtTitulo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:hint="@string/tituloNotaCriar" />
+            android:hint="@string/tituloNotaCriar"
+            android:textSize="20sp" />
 
     <Button
-            android:id="@+id/button_first"
+            android:id="@+id/btnSalvar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next"
@@ -45,11 +46,13 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:gravity="start|top"
             android:ems="10"
             android:id="@+id/txtConteudoNota"
-            app:layout_constraintTop_toBottomOf="@+id/myinput_home" />
+            app:layout_constraintTop_toBottomOf="@+id/txtTitulo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

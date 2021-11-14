@@ -65,11 +65,6 @@ override fun onCreateOptionsMenu(menu: Menu): Boolean {
     return navController.navigateUp(appBarConfiguration)
             || super.onSupportNavigateUp()
     }
-    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = 2
 
-
-        override fun createFragment(position: Int): Fragment = FirstFragment()
-    }
 
 }

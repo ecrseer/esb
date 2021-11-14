@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -36,7 +37,7 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var firstFragmentViewModel: FirstFragmentViewModel
-
+    private var  notaImagemArmazenada:Int?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +49,7 @@ class FirstFragment : Fragment() {
             .get(FirstFragmentViewModel::class.java)
 
         firstFragmentViewModel.input.observe(viewLifecycleOwner, Observer { it ->
-            binding.myinputHome.setText(it);
+            binding.txtTitulo.setText(it);
         })
         firstFragmentViewModel.ldImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
             Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
@@ -63,11 +64,19 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //childFragmentManager
-        populaImagemPlacehld()
+        val l = arguments
+        notaImagemArmazenada=arguments?.getInt("posicao")
+        if(notaImagemArmazenada!=null){
+            Toast.makeText(context,"carregando",
+                Toast.LENGTH_LONG+4234)
+                .show()
 
-        binding.buttonFirst.setOnClickListener {
+            val notaClicada=NoteImagens.imgs[notaImagemArmazenada!!]
+            firstFragmentViewModel.carregaNotaSalva(notaClicada)
+        }
+        binding.btnSalvar.setOnClickListener {
             val conteudo: String = binding.txtConteudoNota.text.toString()
-            val titulo: String = "${binding.myinputHome.text.toString()}"
+            val titulo: String = "${binding.txtTitulo.text.toString()}"
             val img: String = "${firstFragmentViewModel.ldImagem.value}"
 
             val imgP=ImagemPesquisada(
@@ -79,12 +88,12 @@ class FirstFragment : Fragment() {
 
         }
 
-        binding.myinputHome.setOnKeyListener { v, keyCode, event ->
+        binding.txtTitulo.setOnKeyListener { v, keyCode, event ->
             if ((keyCode == KeyEvent.KEYCODE_SPACE) &&
                 (event.action == KeyEvent.ACTION_DOWN)
             ) {
                 firstFragmentViewModel
-                    .pesquisaImagemDe("${binding.myinputHome.text}")
+                    .pesquisaImagemDe("${binding.txtTitulo.text}")
 
                 return@setOnKeyListener false;
             }
@@ -94,11 +103,6 @@ class FirstFragment : Fragment() {
         }
 
 
-    }
-
-    private fun populaImagemPlacehld() {
-        val placehd = getString(R.string.imagemTeste)
-        firstFragmentViewModel.setLdImagem(placehd)
     }
 
     override fun onDestroyView() {

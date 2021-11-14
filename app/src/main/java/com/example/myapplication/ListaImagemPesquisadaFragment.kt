@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,9 +42,11 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 }
                 adapter = MyListaImagemPesquisadaRecyclerViewAdapter(NoteImagens.imgs){
                     posicao->
-                    val tx = NoteImagens.imgs[posicao].texto
-                    Toast.makeText(context,"clicou no $tx",Toast.LENGTH_LONG+3222)
-                        .show()
+                    startActivity(
+                        Intent(activity,ModoLivroActivity::class.java)
+                            .putExtra("posicao",posicao)
+                    )
+
 
                 }
             }
