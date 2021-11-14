@@ -7,7 +7,7 @@
     <string name="next">Save</string>
     <string name="previous">Previous</string>
     <string name="tituloNotaCriar">Title</string>
-    <string name="imagemTeste">https://techcrunch.com/wp-content/uploads/2021/06/Team-Photo-of-Carro.jpg</string>
+    <string name="imagemTeste">https://i.imgur.com/1X1PZGq.png</string>
     <string name="hello_first_fragment">hi waydroid</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
