@@ -26,7 +26,12 @@ class ListaImagemPesquisadaFragment : Fragment() {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
     }
-
+    fun clicarNoItemAbreNota(posicao:Int){
+            startActivity(
+                Intent(activity,ModoLivroActivity::class.java)
+                    .putExtra("posicao",posicao)
+            )
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,13 +46,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 adapter = MyListaImagemPesquisadaRecyclerViewAdapter(NoteImagens.imgs){
-                    posicao->
-                    startActivity(
-                        Intent(activity,ModoLivroActivity::class.java)
-                            .putExtra("posicao",posicao)
-                    )
-
-
+                    posicao->clicarNoItemAbreNota(posicao)
                 }
             }
         }

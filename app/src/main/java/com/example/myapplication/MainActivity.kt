@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
@@ -44,9 +45,15 @@ private lateinit var binding: ActivityMainBinding
             img.big=getString(R.string.imagemTeste)
         }
     }
+
 override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+            val searchWdgt =menu?.findItem(R.id.app_bar_search)
+            val actionViewPesquisa:SearchView = searchWdgt?.actionView as SearchView
+
+
+        //actionViewPesquisa.setOnQueryTextListener(true)
         return true
     }
 

@@ -83,6 +83,7 @@ class FirstFragment : Fragment() {
                 "${img}", "${img}",
                 "${conteudo}", "${titulo}"
             )
+            //todo:verificar se esta sendo editado ou se é nova nota
             NoteImagens.imgs.add(imgP)
             findNavController().navigate(R.id.action_voltarParaListaNotas)
 
@@ -95,7 +96,7 @@ class FirstFragment : Fragment() {
                 firstFragmentViewModel
                     .pesquisaImagemDe("${binding.txtTitulo.text}")
 
-                return@setOnKeyListener false;
+
             }
             return@setOnKeyListener false;
 
