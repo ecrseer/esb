@@ -39,15 +39,19 @@ class MyListaImagemPesquisadaRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
 
-        Picasso.get().load(item.big)
-            .centerCrop().resize(580,60)
-            .error(R.drawable.ic_launcher_background)
-            .into(holder.imgeView)
+            val item = values[position]
 
-        holder.titulo.text = item.titulo
-        holder.contentView.text = item.texto
+
+
+            Picasso.get().load(item.big)
+                .centerCrop().resize(580, 60)
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.imgeView)
+
+            holder.titulo.text = item.titulo
+            holder.contentView.text = item.texto
+
 
     //holder.fundoDaNota.setOnClickListener {  }
 

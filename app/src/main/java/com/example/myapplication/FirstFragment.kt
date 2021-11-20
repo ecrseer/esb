@@ -45,8 +45,8 @@ class FirstFragment : Fragment() {
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        firstFragmentViewModel = ViewModelProvider(this)
-            .get(FirstFragmentViewModel::class.java)
+        firstFragmentViewModel =
+            ViewModelProvider(this)[FirstFragmentViewModel::class.java]
 
         firstFragmentViewModel.input.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);

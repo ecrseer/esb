@@ -21,13 +21,14 @@ import com.example.myapplication.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+    private val mh: MainHandler = MainHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-     binding = ActivityMainBinding.inflate(layoutInflater)
-     setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
 
@@ -40,20 +41,20 @@ private lateinit var binding: ActivityMainBinding
         }
         populaImgs()
     }
+
     private fun populaImgs() {
         NoteImagens.imgs.forEach { img ->
-            img.big=getString(R.string.imagemTeste)
+            img.big = getString(R.string.imagemTeste)
         }
     }
 
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-            val searchWdgt =menu?.findItem(R.id.app_bar_search)
-            val actionViewPesquisa:SearchView = searchWdgt?.actionView as SearchView
+        val searchWdgt = menu?.findItem(R.id.app_bar_search)
+        val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
 
-
-        //actionViewPesquisa.setOnQueryTextListener(true)
+        actionViewPesquisa.setOnQueryTextListener(mh)
         return true
     }
 
@@ -61,16 +62,16 @@ override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-    val navController = findNavController(R.id.nav_host_fragment_content_main)
-    return navController.navigateUp(appBarConfiguration)
-            || super.onSupportNavigateUp()
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
     }
 
 

@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.databinding.ActivityModoLivroBinding
 
 class ModoLivroActivity : AppCompatActivity() {
+
     private lateinit var binding:ActivityModoLivroBinding
     private var posicaoPagina=0
 
