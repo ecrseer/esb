@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var  mh: MainHandler
+    private lateinit var navController:NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            navController.navigate(R.id.action_criar_nota)
-        }
+
         populaImgs()
 
         mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
@@ -44,6 +44,14 @@ class MainActivity : AppCompatActivity() {
     private fun populaImgs() {
         NoteImagens.imgs.forEach { img ->
             img.big = getString(R.string.imagemTeste)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.fab.setOnClickListener { view ->
+            val acao = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(3)
+            navController.navigate(acao)
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.databinding.FragmentFirstBinding
 import com.squareup.picasso.Picasso
@@ -27,6 +28,9 @@ class FirstFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    val args: FirstFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,9 +48,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.pager.adapter = ScreenSlidePagerAdapter(requireActivity())
-        //safeargs
-        binding.pager.currentItem = intent.getIntExtra("posicao",0)
-        //childFragmentManager
+        binding.pager.currentItem = args.posicao
         }
 
     override fun onDestroyView() {
@@ -58,7 +60,7 @@ class FirstFragment : Fragment() {
 
 
         override fun createFragment(position: Int): Fragment {
-            val frag = FirstFragment()
+            val frag = NotaFragment()
 
             val bundl = Bundle()
             bundl.putInt("posicao",position)
