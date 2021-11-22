@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var firstFragmentViewModel: FirstFragmentViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var  mh: MainHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         }
         populaImgs()
 
-        firstFragmentViewModel = ViewModelProvider(this,MainViewModelFactory())[FirstFragmentViewModel::class.java]
-        mh = MainHandler(firstFragmentViewModel.peneiraNotaPorTexto)
+        mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
+        mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
     }
 
     private fun populaImgs() {

@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
@@ -20,7 +19,7 @@ import com.example.myapplication.placeholder.PlaceholderContent
 class ListaImagemPesquisadaFragment : Fragment() {
 
     private var columnCount = 1
-    private lateinit var firstFragmentViewModel: FirstFragmentViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +40,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_imagem_item_list, container, false)
 
-        firstFragmentViewModel =
-            ViewModelProvider(requireActivity(),MainViewModelFactory())[FirstFragmentViewModel::class.java]
+        mainViewModel =
+            ViewModelProvider(requireActivity(),MainViewModelFactory())[MainViewModel::class.java]
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -53,10 +52,10 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 }
 
 
-                adapter = MyListaImagemPesquisadaRecyclerViewAdapter(firstFragmentViewModel.notasImgs.value!!){
+                adapter = MyListaImagemPesquisadaRecyclerViewAdapter(mainViewModel.notasImgs.value!!){
                     posicao->clicarNoItemAbreNota(posicao)
                 }
-                firstFragmentViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
+                mainViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
                     adapter = MyListaImagemPesquisadaRecyclerViewAdapter(it){
                             posicao->clicarNoItemAbreNota(posicao)
                     }

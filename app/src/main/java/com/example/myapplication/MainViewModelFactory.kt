@@ -6,9 +6,9 @@ import java.lang.IllegalArgumentException
 
 class MainViewModelFactory:ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(FirstFragmentViewModel::class.java)){
+        if(modelClass.isAssignableFrom(MainViewModel::class.java)){
 
-            return FirstFragmentViewModel() as T;
+            return MainViewModel() as T;
         }
         throw IllegalArgumentException("instanciando errado")
     }

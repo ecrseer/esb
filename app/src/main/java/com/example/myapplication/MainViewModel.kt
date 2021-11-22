@@ -14,7 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jetbrains.anko.doAsync
 
-class FirstFragmentViewModel : ViewModel() , ImagensServiceListener {
+class MainViewModel : ViewModel() , ImagensServiceListener {
     private val servico = ImagensService()
     init{
         servico.setImagensServiceListener(this)
