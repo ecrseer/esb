@@ -16,17 +16,7 @@ object NoteImagens {
         else -> imgsPeneiradas
     }
 
-    fun peneiraImagensPorTexto(txt:String){
 
-        for(notaImg in imgs){
-            val contemTxtNoTexto = notaImg.texto.contains("$txt",true)
-            val contemTxtNoTitulo = notaImg.texto.contains("$txt",true)
-            if(contemTxtNoTexto || contemTxtNoTitulo){
-                imgsPeneiradas.add(notaImg)
-            }
-        }
-
-    }
 
 
 

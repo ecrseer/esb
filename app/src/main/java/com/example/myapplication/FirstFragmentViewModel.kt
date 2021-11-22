@@ -1,16 +1,25 @@
 package com.example.myapplication
 
 import ImagemPesquisada
+import android.media.Image
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.api.ImagensService
+import com.example.myapplication.api.ImagensServiceListener
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jetbrains.anko.doAsync
 
-class FirstFragmentViewModel : ViewModel() {
+class FirstFragmentViewModel : ViewModel() , ImagensServiceListener {
+    private val servico = ImagensService()
+    init{
+        servico.setImagensServiceListener(this)
+    }
+
     private val  apiurl = "https://notecompletion.herokuapp.com/pesquisaImagem"
 
 
@@ -26,15 +35,11 @@ class FirstFragmentViewModel : ViewModel() {
     val ldImagem: LiveData<String> = _ldImagem
 
 
-
-
-    fun testan(){
-        Log.d("HomeFragt","ttttttttttt")
-    }
     fun carregaNotaSalva(imagemPesquisada: ImagemPesquisada){
         _ldImagem.value = imagemPesquisada.big
         _input.value = imagemPesquisada.titulo
     }
+
     fun pesquisaImagemDe(palavrachave: String){
         val client = OkHttpClient()
 
@@ -62,4 +67,39 @@ class FirstFragmentViewModel : ViewModel() {
 
 
     }
+
+
+    private val _notasImgs = MutableLiveData<MutableList<ImagemPesquisada> >().apply {
+        value = NoteImagens.imgs
+    }
+
+    val notasImgs: MutableLiveData<MutableList<ImagemPesquisada> > = _notasImgs
+
+    val peneiraNotaPorTexto={txt:String->
+        if(txt.isBlank()){
+            //_notasImgs.value=NoteImagens.imgs
+        }else{
+            val vll = notasImgs.value
+            notasImgs.postValue(
+                mutableListOf(
+                    ImagemPesquisada("pg","nsei","mudei meu  bone","titulo2") )
+                    )
+            }
+
+        }
+
+    override fun obterImagemTerminou(imagem: ImagemPesquisada?) {
+        if(imagem!=null){
+            _ldImagem.postValue(imagem.big)
+        }
+    }
+
+    override fun deuRuim(erro: String) {
+        println("deu ruim retrofit")
+    }
+    fun pesquisaImagemRetrofit(palavrachave:String){
+        servico.obterImagem(palavrachave)
+    }
 }
+
+

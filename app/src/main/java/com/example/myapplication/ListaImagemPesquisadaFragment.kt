@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.placeholder.PlaceholderContent
 
 /**
@@ -18,6 +20,7 @@ import com.example.myapplication.placeholder.PlaceholderContent
 class ListaImagemPesquisadaFragment : Fragment() {
 
     private var columnCount = 1
+    private lateinit var firstFragmentViewModel: FirstFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +41,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_imagem_item_list, container, false)
 
+        firstFragmentViewModel =
+            ViewModelProvider(requireActivity(),MainViewModelFactory())[FirstFragmentViewModel::class.java]
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -45,9 +51,17 @@ class ListaImagemPesquisadaFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyListaImagemPesquisadaRecyclerViewAdapter(NoteImagens.getNotaImgs){
+
+
+                adapter = MyListaImagemPesquisadaRecyclerViewAdapter(firstFragmentViewModel.notasImgs.value!!){
                     posicao->clicarNoItemAbreNota(posicao)
                 }
+                firstFragmentViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
+                    adapter = MyListaImagemPesquisadaRecyclerViewAdapter(it){
+                            posicao->clicarNoItemAbreNota(posicao)
+                    }
+                    Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
+                })
             }
         }
         return view

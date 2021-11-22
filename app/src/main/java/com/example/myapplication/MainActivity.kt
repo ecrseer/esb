@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,19 +9,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val mh: MainHandler = MainHandler()
+
+    private lateinit var firstFragmentViewModel: FirstFragmentViewModel
+    private lateinit var  mh: MainHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +36,9 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_criar_nota)
         }
         populaImgs()
+
+        firstFragmentViewModel = ViewModelProvider(this,MainViewModelFactory())[FirstFragmentViewModel::class.java]
+        mh = MainHandler(firstFragmentViewModel.peneiraNotaPorTexto)
     }
 
     private fun populaImgs() {
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-        val searchWdgt = menu?.findItem(R.id.app_bar_search)
+        val searchWdgt = menu.findItem(R.id.app_bar_search)
         val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
 
         actionViewPesquisa.setOnQueryTextListener(mh)

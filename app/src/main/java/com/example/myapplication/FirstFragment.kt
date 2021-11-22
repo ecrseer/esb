@@ -46,7 +46,7 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         firstFragmentViewModel =
-            ViewModelProvider(this)[FirstFragmentViewModel::class.java]
+            ViewModelProvider(requireActivity(),MainViewModelFactory())[FirstFragmentViewModel::class.java]
 
         firstFragmentViewModel.input.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);
@@ -94,8 +94,7 @@ class FirstFragment : Fragment() {
                 (event.action == KeyEvent.ACTION_DOWN)
             ) {
                 firstFragmentViewModel
-                    .pesquisaImagemDe("${binding.txtTitulo.text}")
-
+                    .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
 
             }
             return@setOnKeyListener false;
