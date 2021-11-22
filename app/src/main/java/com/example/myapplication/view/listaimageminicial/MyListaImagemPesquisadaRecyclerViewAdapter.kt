@@ -1,14 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.view.listaimageminicial
 
-import ImagemPesquisada
+import com.example.myapplication.model.ImagemPesquisada
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.myapplication.R
 
 import com.example.myapplication.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.myapplication.databinding.FragmentImagemItemBinding

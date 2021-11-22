@@ -1,9 +1,6 @@
 package com.example.myapplication
 
-import ImagemPesquisada
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.MutableLiveData
 
 class MainHandler(funcCallBack:(String)->Unit): SearchView.OnQueryTextListener {
 

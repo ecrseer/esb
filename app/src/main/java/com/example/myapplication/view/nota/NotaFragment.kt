@@ -1,6 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.view.nota
 
-import ImagemPesquisada
+import com.example.myapplication.model.ImagemPesquisada
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.MainViewModel
+import com.example.myapplication.MainViewModelFactory
+import com.example.myapplication.model.NoteImagens
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNotaBinding
 import com.squareup.picasso.Picasso
 
@@ -47,7 +51,7 @@ class NotaFragment : Fragment() {
         _binding = FragmentNotaBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         mainViewModel =
-            ViewModelProvider(requireActivity(),MainViewModelFactory())[MainViewModel::class.java]
+            ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
 
         mainViewModel.input.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);
@@ -68,7 +72,7 @@ class NotaFragment : Fragment() {
                 Toast.LENGTH_LONG+4234)
                 .show()
 
-            val notaClicada=NoteImagens.imgs[notaImagemArmazenada!!]
+            val notaClicada= NoteImagens.imgs[notaImagemArmazenada!!]
             mainViewModel.carregaNotaSalva(notaClicada)
         }
         binding.btnSalvar.setOnClickListener {
@@ -76,7 +80,7 @@ class NotaFragment : Fragment() {
             val titulo: String = "${binding.txtTitulo.text.toString()}"
             val img: String = "${mainViewModel.ldImagem.value}"
 
-            val imgP=ImagemPesquisada(
+            val imgP= ImagemPesquisada(
                 "${img}", "${img}",
                 "${conteudo}", "${titulo}"
             )

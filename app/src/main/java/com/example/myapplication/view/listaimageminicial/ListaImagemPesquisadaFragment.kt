@@ -1,6 +1,5 @@
-package com.example.myapplication
+package com.example.myapplication.view.listaimageminicial
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.myapplication.MainViewModel
+import com.example.myapplication.MainViewModelFactory
+import com.example.myapplication.R
 
 /**
  * A fragment representing a list of Items.
@@ -25,14 +28,16 @@ class ListaImagemPesquisadaFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            columnCount = it.getInt("ARG_COLUMN_COUNT")
         }
     }
     fun clicarNoItemAbreNota(posicao:Int){
-            startActivity(
-                Intent(activity,ModoLivroActivity::class.java)
-                    .putExtra("posicao",posicao)
+            //todo
+        val acao =
+            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(
+                posicao
             )
+        findNavController().navigate(acao)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +46,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_imagem_item_list, container, false)
 
         mainViewModel =
-            ViewModelProvider(requireActivity(),MainViewModelFactory())[MainViewModel::class.java]
+            ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -73,18 +78,4 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            ListaImagemPesquisadaFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
-    }
 }

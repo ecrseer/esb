@@ -1,14 +1,13 @@
 package com.example.myapplication
 
-import ImagemPesquisada
-import android.media.Image
+import com.example.myapplication.model.ImagemPesquisada
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.ImagensService
 import com.example.myapplication.api.ImagensServiceListener
+import com.example.myapplication.model.NoteImagens
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -53,7 +52,7 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
             var json = "nadinha"
             if(response.body()!==null) {
                 json = response.body()!!.string();
-                val imagemDaApi = Gson().fromJson(json,ImagemPesquisada::class.java)
+                val imagemDaApi = Gson().fromJson(json, ImagemPesquisada::class.java)
                 val imagemGrande = "${imagemDaApi.big}"
                 val thumbP = "${imagemDaApi.thumb}"
                 _ldImagem.postValue(imagemGrande)
@@ -76,6 +75,7 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
     val notasImgs: MutableLiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
     val peneiraNotaPorTexto={txt:String->
+        //todo
         if(txt.isBlank()){
             //_notasImgs.value=NoteImagens.imgs
         }else{
@@ -95,7 +95,7 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
     }
 
     override fun deuRuim(erro: String) {
-        println("deu ruim retrofit")
+        println("deu ruim retrofit:\n$erro")
     }
     fun pesquisaImagemRetrofit(palavrachave:String){
         servico.obterImagem(palavrachave)

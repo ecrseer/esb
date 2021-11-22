@@ -12,6 +12,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.model.NoteImagens
+import com.example.myapplication.view.listaimageminicial.ListaImagemPesquisadaFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.fab.setOnClickListener { view ->
+            //todo
             val acao = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(3)
             navController.navigate(acao)
         }

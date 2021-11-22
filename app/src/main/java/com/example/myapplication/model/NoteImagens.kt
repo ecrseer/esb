@@ -1,6 +1,4 @@
-package com.example.myapplication
-
-import ImagemPesquisada
+package com.example.myapplication.model
 
 object NoteImagens {
     var imgs  = mutableListOf(

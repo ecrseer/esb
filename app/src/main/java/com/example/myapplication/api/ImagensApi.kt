@@ -1,9 +1,8 @@
 package com.example.myapplication.api
 
-import ImagemPesquisada
+import com.example.myapplication.model.ImagemPesquisada
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ImagensApi {
