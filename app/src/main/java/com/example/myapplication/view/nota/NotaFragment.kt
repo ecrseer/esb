@@ -71,9 +71,7 @@ class NotaFragment : Fragment() {
             Toast.makeText(context,"carregando",
                 Toast.LENGTH_LONG+4234)
                 .show()
-
-            val notaClicada= NoteImagens.imgs[notaImagemArmazenada!!]
-            mainViewModel.carregaNotaSalva(notaClicada)
+            mainViewModel.carregaNotaSalva(notaImagemArmazenada!!)
         }
         binding.btnSalvar.setOnClickListener {
             val conteudo: String = binding.txtConteudoNota.text.toString()

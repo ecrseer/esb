@@ -34,10 +34,7 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
     val ldImagem: LiveData<String> = _ldImagem
 
 
-    fun carregaNotaSalva(imagemPesquisada: ImagemPesquisada){
-        _ldImagem.value = imagemPesquisada.big
-        _input.value = imagemPesquisada.titulo
-    }
+
 
     fun pesquisaImagemDe(palavrachave: String){
         val client = OkHttpClient()
@@ -72,15 +69,23 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
         value = NoteImagens.imgs
     }
 
-    val notasImgs: MutableLiveData<MutableList<ImagemPesquisada> > = _notasImgs
+    val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
+
+    fun carregaNotaSalva(posicao: Int){
+        if(_notasImgs.value!=null){
+            val imagemPesquisada = _notasImgs.value!![posicao]
+            _ldImagem.value = imagemPesquisada.big
+            _input.value = imagemPesquisada.titulo
+        }
+    }
 
     val peneiraNotaPorTexto={txt:String->
         //todo
         if(txt.isBlank()){
             //_notasImgs.value=NoteImagens.imgs
         }else{
-            val vll = notasImgs.value
-            notasImgs.postValue(
+            val vll = _notasImgs.value
+            _notasImgs.postValue(
                 mutableListOf(
                     ImagemPesquisada("pg","nsei","mudei meu  bone","titulo2") )
                     )

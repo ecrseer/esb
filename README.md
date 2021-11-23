@@ -6,3 +6,7 @@ em kotlin android
 
 ## demonstração
 ![demonstracao gif](https://raw.githubusercontent.com/ecrseer/note-completion-kotlin/faseDois/assets/demo.gif)
+
+## Demonstraçao
+
+<img src="https://raw.githubusercontent.com/z21E221E3GRPEDS01C2N2P1/Libfy/main/2.documentation/demo.gif">

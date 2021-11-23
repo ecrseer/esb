@@ -53,9 +53,11 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.fab.setOnClickListener { view ->
             //todo
+
             val acao = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(3)
             navController.navigate(acao)
         }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

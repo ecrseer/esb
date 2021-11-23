@@ -34,9 +34,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
     fun clicarNoItemAbreNota(posicao:Int){
             //todo
         val acao =
-            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(
-                posicao
-            )
+            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(posicao)
+
         findNavController().navigate(acao)
     }
     override fun onCreateView(
