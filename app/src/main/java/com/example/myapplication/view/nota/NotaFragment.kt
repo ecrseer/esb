@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.MainViewModel
 import com.example.myapplication.MainViewModelFactory
@@ -32,6 +33,7 @@ class NotaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var notaViewModel: NotaViewModel
     private var  notaImagemArmazenada:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +54,13 @@ class NotaFragment : Fragment() {
         // Inflate the layout for this fragment
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
+        notaViewModel = ViewModelProvider(this).get(NotaViewModel::class.java)
 
-        mainViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
+
+        notaViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);
         })
-        mainViewModel.fundoImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
+        notaViewModel.fundoImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
             Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
         })
 
@@ -71,12 +75,16 @@ class NotaFragment : Fragment() {
             Toast.makeText(context,"carregando",
                 Toast.LENGTH_LONG+4234)
                 .show()
-            mainViewModel.carregaNotaSalva(notaImagemArmazenada!!)
+            val todasNotaImgs = mainViewModel.notasImgs.value
+            if(todasNotaImgs!=null){
+                notaViewModel.carregaNotaSalva(todasNotaImgs,notaImagemArmazenada!!)
+            }
+
         }
         binding.btnSalvar.setOnClickListener {
             val conteudo: String = binding.txtConteudoNota.text.toString()
             val titulo: String = "${binding.txtTitulo.text.toString()}"
-            val img: String = "${mainViewModel.fundoImagem.value}"
+            val img: String = "${notaViewModel.fundoImagem.value}"
 
             val imgP= ImagemPesquisada(
                 "${img}", "${img}",
@@ -92,7 +100,7 @@ class NotaFragment : Fragment() {
             if ((keyCode == KeyEvent.KEYCODE_SPACE) &&
                 (event.action == KeyEvent.ACTION_DOWN)
             ) {
-                mainViewModel
+                notaViewModel
                     .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
 
             }

@@ -30,17 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
 
-         navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-
-        populaImgs()
-
-        mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
-        mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
     }
 
     private fun populaImgs() {
@@ -51,8 +41,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        setSupportActionBar(binding.toolbar)
+
+        navController = findNavController(R.id.Nav_hostNovo)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+        populaImgs()
+
+        mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
+        mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
         binding.fab.setOnClickListener { view ->
-            navController.navigate(R.id.action_criar_nota_imagem)
+            val action = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(0);
+            navController.navigate(action)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(R.id.Nav_hostNovo)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }

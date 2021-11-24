@@ -40,9 +40,6 @@ class MyListaImagemPesquisadaRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
             val item = values[position]
-
-
-
             Picasso.get().load(item.big)
                 .centerCrop().resize(580, 60)
                 .error(R.drawable.ic_launcher_background)
@@ -75,9 +72,6 @@ class MyListaImagemPesquisadaRecyclerViewAdapter(
             return super.toString() + " '" + contentView.text + "'"
         }
 
-    }
-    fun atualizaTamanhoViewHolder(){
-        
     }
 
 

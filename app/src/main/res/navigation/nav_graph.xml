@@ -26,4 +26,9 @@
                 android:id="@+id/action_criar_nota_imagem"
                 app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+            android:id="@+id/sobreFragment"
+            android:name="com.example.myapplication.view.sobre.SobreFragment"
+            android:label="fragment_sobre"
+            tools:layout="@layout/fragment_sobre" />
 </navigation>

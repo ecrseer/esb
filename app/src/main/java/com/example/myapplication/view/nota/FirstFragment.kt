@@ -30,7 +30,7 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
 
     val args: FirstFragmentArgs by navArgs()
-
+    private var posicao:Int=0
     private lateinit var mainViewModel: MainViewModel
     private var isNotaNovaDeveSerCriada = true
 
@@ -52,8 +52,13 @@ class FirstFragment : Fragment() {
             mainViewModel.notasImgs.value?.add(notaImgTemporaria)
         }
 
-        val adaptr = ScreenSlidePagerAdapter(requireActivity(),true)
-        binding.pager.adapter = adaptr
+        if(args!=null && args.posicao!=0){
+            posicao = args.posicao
+        }
+
+        binding.pager.currentItem = posicao
+        val adaptr = SliderAdapter(requireActivity(),true,mainViewModel.notasImgs.value?.size)
+        binding.pager.adapter =  adaptr
 
         return binding.root
 
@@ -61,9 +66,9 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val posicao:Int = args.posicao
-        binding.pager.currentItem = posicao
+        //retainInstance = true;
+        val bin = binding.pager
+        binding.pager.setCurrentItem(posicao,true);
         }
 
 
@@ -71,29 +76,4 @@ class FirstFragment : Fragment() {
         super.onDestroyView()
         //_binding = null
     }
-      inner class ScreenSlidePagerAdapter(fa: FragmentActivity,
-                                           val isNotaNova: Boolean) : FragmentStateAdapter(fa) {
-          override fun getItemCount(): Int = mainViewModel.notasImgs.value?.size ?: 3
-
-          override fun getItemId(position: Int): Long {
-              return super.getItemId(position)
-          }
-
-        override fun createFragment(position: Int): Fragment {
-            val frag = NotaFragment()
-
-
-            val bundl = Bundle()
-
-            if(isNotaNova){
-                //todo
-            }
-            bundl.putInt("posicao",position)
-            frag.arguments = bundl
-
-            return frag;
-        }
-
-
-      }
 }
