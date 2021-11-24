@@ -52,10 +52,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.fab.setOnClickListener { view ->
-            //todo
-
-            val acao = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(3)
-            navController.navigate(acao)
+            navController.navigate(R.id.action_criar_nota_imagem)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }

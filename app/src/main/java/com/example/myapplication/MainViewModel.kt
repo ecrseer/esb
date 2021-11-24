@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import com.example.myapplication.model.ImagemPesquisada
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,20 +22,20 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
 
 
 
-    private val _input = MutableLiveData<String>().apply {
+    private val _tituloNota = MutableLiveData<String>().apply {
         value = ""
     }
-    val input: LiveData<String> = _input
-    private val _ldImagem = MutableLiveData<String>().apply {
+    val tituloNota: LiveData<String> = _tituloNota
+    private val _fundoImagem = MutableLiveData<String>().apply {
         value = "https://i.imgur.com/1X1PZGq.png"
     }
 
-    val ldImagem: LiveData<String> = _ldImagem
+    val fundoImagem: LiveData<String> = _fundoImagem
 
 
 
 
-    fun pesquisaImagemDe(palavrachave: String){
+    fun pesquisaImagemOkHttp(palavrachave: String){
         val client = OkHttpClient()
 
         val request = Request.Builder().url(
@@ -45,19 +44,14 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
 
         doAsync{
             val response = client.newCall(request).execute()
-            Log.d("HomeFragt","getand$response")
             var json = "nadinha"
             if(response.body()!==null) {
                 json = response.body()!!.string();
                 val imagemDaApi = Gson().fromJson(json, ImagemPesquisada::class.java)
                 val imagemGrande = "${imagemDaApi.big}"
                 val thumbP = "${imagemDaApi.thumb}"
-                _ldImagem.postValue(imagemGrande)
+                _fundoImagem.postValue(imagemGrande)
             }
-
-
-            Log.d("HomeFragt","ldImg eh ${_ldImagem.value}")
-
         }
 
 
@@ -74,8 +68,8 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
     fun carregaNotaSalva(posicao: Int){
         if(_notasImgs.value!=null){
             val imagemPesquisada = _notasImgs.value!![posicao]
-            _ldImagem.value = imagemPesquisada.big
-            _input.value = imagemPesquisada.titulo
+            _fundoImagem.value = imagemPesquisada.big
+            _tituloNota.value = imagemPesquisada.titulo
         }
     }
 
@@ -95,13 +89,14 @@ class MainViewModel : ViewModel() , ImagensServiceListener {
 
     override fun obterImagemTerminou(imagem: ImagemPesquisada?) {
         if(imagem!=null){
-            _ldImagem.postValue(imagem.big)
+            _fundoImagem.postValue(imagem.big)
         }
     }
 
     override fun deuRuim(erro: String) {
         println("deu ruim retrofit:\n$erro")
     }
+
     fun pesquisaImagemRetrofit(palavrachave:String){
         servico.obterImagem(palavrachave)
     }

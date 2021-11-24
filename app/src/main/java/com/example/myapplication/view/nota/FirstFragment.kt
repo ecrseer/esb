@@ -15,6 +15,7 @@ import com.example.myapplication.MainViewModel
 import com.example.myapplication.MainViewModelFactory
 import com.example.myapplication.model.NoteImagens
 import com.example.myapplication.databinding.FragmentFirstBinding
+import com.example.myapplication.model.ImagemPesquisada
 
 
 /**
@@ -31,6 +32,7 @@ class FirstFragment : Fragment() {
     val args: FirstFragmentArgs by navArgs()
 
     private lateinit var mainViewModel: MainViewModel
+    private var isNotaNovaDeveSerCriada = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +46,13 @@ class FirstFragment : Fragment() {
         arguments?.let {
             //notaImagemArmazenada = it.getInt("posicao")
         }
-        val adaptr = ScreenSlidePagerAdapter(activity!!)
+        isNotaNovaDeveSerCriada = args.posicao==null
+        if(isNotaNovaDeveSerCriada){
+            val notaImgTemporaria = ImagemPesquisada("","","","")
+            mainViewModel.notasImgs.value?.add(notaImgTemporaria)
+        }
+
+        val adaptr = ScreenSlidePagerAdapter(requireActivity(),true)
         binding.pager.adapter = adaptr
 
         return binding.root
@@ -53,16 +61,19 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val posicao:Int = args.posicao
-        binding.pager.currentItem = 1
+        binding.pager.currentItem = posicao
         }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         //_binding = null
     }
-      inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = mainViewModel.notasImgs.value?.size ?: 3
+      inner class ScreenSlidePagerAdapter(fa: FragmentActivity,
+                                           val isNotaNova: Boolean) : FragmentStateAdapter(fa) {
+          override fun getItemCount(): Int = mainViewModel.notasImgs.value?.size ?: 3
 
           override fun getItemId(position: Int): Long {
               return super.getItemId(position)
@@ -73,7 +84,11 @@ class FirstFragment : Fragment() {
 
 
             val bundl = Bundle()
-            bundl.putInt("posicao",args.posicao)
+
+            if(isNotaNova){
+                //todo
+            }
+            bundl.putInt("posicao",position)
             frag.arguments = bundl
 
             return frag;

@@ -53,10 +53,10 @@ class NotaFragment : Fragment() {
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
 
-        mainViewModel.input.observe(viewLifecycleOwner, Observer { it ->
+        mainViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);
         })
-        mainViewModel.ldImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
+        mainViewModel.fundoImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
             Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
         })
 
@@ -76,7 +76,7 @@ class NotaFragment : Fragment() {
         binding.btnSalvar.setOnClickListener {
             val conteudo: String = binding.txtConteudoNota.text.toString()
             val titulo: String = "${binding.txtTitulo.text.toString()}"
-            val img: String = "${mainViewModel.ldImagem.value}"
+            val img: String = "${mainViewModel.fundoImagem.value}"
 
             val imgP= ImagemPesquisada(
                 "${img}", "${img}",
