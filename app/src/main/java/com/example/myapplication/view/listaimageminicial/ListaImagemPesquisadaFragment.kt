@@ -34,7 +34,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     fun clicarNoItemAbreNota(posicao:Int){
             //todo
         val acao =
-            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(posicao)
+            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(posicao,false)
 
         findNavController().navigate(acao)
     }
@@ -56,11 +56,11 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 }
 
 
-                adapter = MyListaImagemPesquisadaRecyclerViewAdapter(mainViewModel.notasImgs.value!!){
+                adapter = ListaImagemPesquisadaRecyclerViewAdapter(mainViewModel.notasImgs.value!!){
                     posicao->clicarNoItemAbreNota(posicao)
                 }
                 mainViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
-                    adapter = MyListaImagemPesquisadaRecyclerViewAdapter(it){
+                    adapter = ListaImagemPesquisadaRecyclerViewAdapter(it){
                             posicao->clicarNoItemAbreNota(posicao)
                     }
                     Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()

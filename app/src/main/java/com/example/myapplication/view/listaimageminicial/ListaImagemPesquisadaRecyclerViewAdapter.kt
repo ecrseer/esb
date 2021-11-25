@@ -17,10 +17,10 @@ import com.squareup.picasso.Picasso
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyListaImagemPesquisadaRecyclerViewAdapter(
+class ListaImagemPesquisadaRecyclerViewAdapter(
     private val values: List<ImagemPesquisada>,
     val funcaoParaClic:(Int)->Unit
-) : RecyclerView.Adapter<MyListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val imagemItemViewHolder = ViewHolder(

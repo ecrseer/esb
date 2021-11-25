@@ -6,16 +6,19 @@
         app:startDestination="@id/listaImagemPesquisadaFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.view.nota.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first" >
+        android:id="@+id/NotaViewPagerFragment"
+        android:name="com.example.myapplication.view.nota.NotaViewPagerFragment"
+        android:label="@string/nota_view_pager_label"
+        tools:layout="@layout/fragment_nota_view_pager" >
         <action
                 android:id="@+id/action_voltarParaListaNotas"
                 app:destination="@id/listaImagemPesquisadaFragment" />
         <argument
                 android:name="posicao"
                 app:argType="integer" />
+        <argument
+                android:name="isNotaNova"
+                app:argType="boolean"  />
     </fragment>
     <fragment
             android:id="@+id/listaImagemPesquisadaFragment"
@@ -24,7 +27,7 @@
             tools:layout="@layout/fragment_imagem_item_list" >
         <action
                 android:id="@+id/action_criar_nota_imagem"
-                app:destination="@id/FirstFragment" />
+                app:destination="@id/NotaViewPagerFragment" />
     </fragment>
     <fragment
             android:id="@+id/sobreFragment"

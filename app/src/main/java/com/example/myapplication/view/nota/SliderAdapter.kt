@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class SliderAdapter (fa: FragmentActivity, val isNotaNova: Boolean,var tamanho:Int?) : FragmentStateAdapter(fa) {
+class SliderAdapter (fa: FragmentActivity,var tamanho:Int?) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = tamanho?: 2
     /*override fun getCount(): Int {
         return  tamanho?: 2;
@@ -16,13 +16,8 @@ class SliderAdapter (fa: FragmentActivity, val isNotaNova: Boolean,var tamanho:I
     private fun notaSegundoPosicao(position: Int):Fragment{
         val frag = NotaFragment()
         val bundl = Bundle()
-
-        if(isNotaNova){
-            //todo
-        }
-        bundl.putInt("posicao",position)
+            bundl.putInt("posicao",position)
         frag.arguments = bundl
-
         return frag;
     }
 

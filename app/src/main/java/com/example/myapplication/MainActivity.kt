@@ -53,7 +53,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
         binding.fab.setOnClickListener { view ->
-            val action = ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(0);
+            val isNotaNova = true;
+            val action = ListaImagemPesquisadaFragmentDirections
+                .actionCriarNotaImagem(0,isNotaNova)
             navController.navigate(action)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)

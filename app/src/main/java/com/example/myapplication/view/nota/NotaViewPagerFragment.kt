@@ -13,63 +13,64 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.MainViewModel
 import com.example.myapplication.MainViewModelFactory
+import com.example.myapplication.R
+import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
 import com.example.myapplication.model.NoteImagens
-import com.example.myapplication.databinding.FragmentFirstBinding
 import com.example.myapplication.model.ImagemPesquisada
 
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class NotaViewPagerFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentNotaViewPagerBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
-    val args: FirstFragmentArgs by navArgs()
+    val args: NotaViewPagerFragmentArgs by navArgs()
     private var posicao:Int=0
     private lateinit var mainViewModel: MainViewModel
-    private var isNotaNovaDeveSerCriada = true
+    private var isNotaNovaDeveSerCriada = false
 
+    private fun inicializaArgs(){
+        if( args.posicao!=null){
+            posicao = args.posicao
+        }
+        if(args.isNotaNova){
+            isNotaNovaDeveSerCriada = args.isNotaNova
+            val imagemPlaceholdr = getString(R.string.imagemTeste)
+            val notaImgTemporaria = ImagemPesquisada(
+                "$imagemPlaceholdr","","","")
+            mainViewModel.notasImgs.value?.add(notaImgTemporaria)
+            posicao = mainViewModel.notasImgs.value?.size?.minus(1) ?: posicao
+
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
 
-        arguments?.let {
-            //notaImagemArmazenada = it.getInt("posicao")
-        }
-        isNotaNovaDeveSerCriada = args.posicao==null
-        if(isNotaNovaDeveSerCriada){
-            val notaImgTemporaria = ImagemPesquisada("","","","")
-            mainViewModel.notasImgs.value?.add(notaImgTemporaria)
+        if(args!=null){
+             inicializaArgs()
         }
 
-        if(args!=null && args.posicao!=0){
-            posicao = args.posicao
-        }
-
-        binding.pager.currentItem = posicao
-        val adaptr = SliderAdapter(requireActivity(),true,mainViewModel.notasImgs.value?.size)
+        val adaptr = SliderAdapter(requireActivity(),
+            mainViewModel.notasImgs.value?.size)
         binding.pager.adapter =  adaptr
+        binding.pager.currentItem = posicao
 
         return binding.root
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //retainInstance = true;
-        val bin = binding.pager
-        binding.pager.setCurrentItem(posicao,true);
-        }
 
 
     override fun onDestroyView() {

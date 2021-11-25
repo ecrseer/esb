@@ -60,37 +60,40 @@ class NotaFragment : Fragment() {
         notaViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
             binding.txtTitulo.setText(it);
         })
+        notaViewModel.textoNota.observe(viewLifecycleOwner, Observer { it ->
+            binding.txtConteudoNota.setText(it)
+        })
         notaViewModel.fundoImagem.observe(viewLifecycleOwner, Observer { novaUrlimg ->
             Picasso.get().load(novaUrlimg).into(binding.idImgFirst)
         })
+
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //childFragmentManager
+
 
         if(notaImagemArmazenada!=null){
-            Toast.makeText(context,"carregando",
-                Toast.LENGTH_LONG+4234)
-                .show()
             val todasNotaImgs = mainViewModel.notasImgs.value
             if(todasNotaImgs!=null){
                 notaViewModel.carregaNotaSalva(todasNotaImgs,notaImagemArmazenada!!)
             }
 
-        }
+        }//pegar agua guardar panela
         binding.btnSalvar.setOnClickListener {
+
+            val titulo: String = binding.txtTitulo.text.toString()
             val conteudo: String = binding.txtConteudoNota.text.toString()
-            val titulo: String = "${binding.txtTitulo.text.toString()}"
             val img: String = "${notaViewModel.fundoImagem.value}"
 
             val imgP= ImagemPesquisada(
                 "${img}", "${img}",
-                "${conteudo}", "${titulo}"
-            )
+                "${conteudo}", "${titulo}"  )
+
             //todo:verificar se esta sendo editado ou se é nova nota
+
             NoteImagens.imgs.add(imgP)
             findNavController().navigate(R.id.action_voltarParaListaNotas)
 

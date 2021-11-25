@@ -20,7 +20,7 @@ class MainViewModel : ViewModel()  {
 
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
-
+    val adicionaNota={}
 
     val peneiraNotaPorTexto={txt:String->
         //todo
