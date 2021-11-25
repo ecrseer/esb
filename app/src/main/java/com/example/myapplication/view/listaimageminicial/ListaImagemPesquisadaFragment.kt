@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.MainViewModel
 import com.example.myapplication.MainViewModelFactory
 import com.example.myapplication.R
+import com.example.myapplication.view.tabs.TabFragmentDirections
 
 /**
  * A fragment representing a list of Items.
@@ -34,7 +35,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     fun clicarNoItemAbreNota(posicao:Int){
             //todo
         val acao =
-            ListaImagemPesquisadaFragmentDirections.actionCriarNotaImagem(posicao,false)
+            TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao,false)
 
         findNavController().navigate(acao)
     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-        app:startDestination="@id/listaImagemPesquisadaFragment">
+        app:startDestination="@id/tabFragment2">
 
     <fragment
         android:id="@+id/NotaViewPagerFragment"
@@ -34,4 +34,13 @@
             android:name="com.example.myapplication.view.sobre.SobreFragment"
             android:label="fragment_sobre"
             tools:layout="@layout/fragment_sobre" />
+    <fragment
+            android:id="@+id/tabFragment2"
+            android:name="com.example.myapplication.view.tabs.TabFragment"
+            android:label="fragment_tab"
+            tools:layout="@layout/fragment_tab" >
+        <action
+                android:id="@+id/action_tabFragment_to_NotaViewPagerFragment"
+                app:destination="@id/NotaViewPagerFragment" />
+    </fragment>
 </navigation>

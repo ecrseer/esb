@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.NoteImagens
 import com.example.myapplication.view.listaimageminicial.ListaImagemPesquisadaFragmentDirections
+import com.example.myapplication.view.tabs.TabFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;
-            val action = ListaImagemPesquisadaFragmentDirections
-                .actionCriarNotaImagem(0,isNotaNova)
+            val action = TabFragmentDirections
+                .actionTabFragmentToNotaViewPagerFragment(0,isNotaNova)
             navController.navigate(action)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)

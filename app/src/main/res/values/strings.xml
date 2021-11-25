@@ -7,4 +7,6 @@
     <string name="previous">Previous</string>
     <string name="tituloNotaCriar">Title</string>
     <string name="imagemTeste">https://i.imgur.com/1X1PZGq.png</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
