@@ -45,6 +45,7 @@ class NotaViewPagerFragment : Fragment() {
             val notaImgTemporaria = ImagemPesquisada(
                 "$imagemPlaceholdr","","","")
             mainViewModel.notasImgs.value?.add(notaImgTemporaria)
+
             posicao = mainViewModel.notasImgs.value?.size?.minus(1) ?: posicao
 
         }
