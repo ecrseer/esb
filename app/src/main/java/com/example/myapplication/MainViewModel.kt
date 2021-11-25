@@ -21,17 +21,26 @@ class MainViewModel : ViewModel()  {
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
     val adicionaNota={}
-
+    private fun getNotasPesquisadas(txt:String):MutableList<ImagemPesquisada>{
+        val results= mutableListOf<ImagemPesquisada>()
+        for(notaimg in _notasImgs.value!!){
+            if (notaimg.titulo.contains(txt)){
+                results.add(notaimg)
+            }
+        }
+        return results;
+    }
     val peneiraNotaPorTexto={txt:String->
-        //todo
+         //todo
         if(txt.isBlank()){
-            //_notasImgs.value=NoteImagens.imgs
+            _notasImgs.postValue(NoteImagens.imgs)
         }else{
-            val vll = _notasImgs.value
-            _notasImgs.postValue(
-                mutableListOf(
-                    ImagemPesquisada("pg","nsei","mudei meu  bone","titulo2") )
-                    )
+            if(_notasImgs.value!=null){
+                val resultadoPesquisa=getNotasPesquisadas(txt)
+                if(resultadoPesquisa.size>=1)
+                    _notasImgs.postValue(resultadoPesquisa)
+            }
+
             }
 
         }

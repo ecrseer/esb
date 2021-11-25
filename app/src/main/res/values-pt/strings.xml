@@ -9,4 +9,5 @@
     <string name="previous">Anterior</string>
     <string name="tituloNotaCriar">Titulo</string>
     <string name="imagemTeste">https://i.imgur.com/1X1PZGq.png</string>
+    <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
 </resources>

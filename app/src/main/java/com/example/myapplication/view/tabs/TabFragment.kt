@@ -47,7 +47,8 @@ class TabFragment : Fragment() {
             viewpagr.setCurrentItem(tab.position,true)
             if(position==1) tab.text="sobre"
             if(position==0) tab.text="anotacoes"
-        }
+        }.attach()
+
     }
 
 }
