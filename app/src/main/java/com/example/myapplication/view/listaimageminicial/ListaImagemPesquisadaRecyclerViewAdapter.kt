@@ -42,7 +42,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
             val item = values[position]
             Picasso.get().load(item.big)
                 .centerCrop().resize(580, 60)
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground)
                 .into(holder.imgeView)
 
             holder.titulo.text = item.titulo

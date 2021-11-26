@@ -29,9 +29,11 @@ class NotaFragment : Fragment() {
     private var _binding: FragmentNotaBinding?=null
     private val binding get() = _binding!!
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+
     private lateinit var mainViewModel: MainViewModel
     private lateinit var notaViewModel: NotaViewModel
+
+    private var param1: String? = null
     private var  posicaoNotaImagemArmazenada:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {

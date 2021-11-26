@@ -41,10 +41,12 @@ class MainViewModel : ViewModel()  {
                 val resultadoPesquisa=getNotasPesquisadas(txt)
                 if(resultadoPesquisa.size>=1)
                     _notasImgs.postValue(resultadoPesquisa)
-            }
+
 
             }
 
+            }
+         false
         }
 
 

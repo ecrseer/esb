@@ -8,6 +8,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -47,7 +48,17 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            val fabDeveSumir = destination.id==R.id.NotaViewPagerFragment
+            if(fabDeveSumir){
+                //binding.fabDeletarNota?.visibility = View.VISIBLE
+                binding.fab?.visibility = View.GONE
+            }else{
+              //  binding.fabDeletarNota?.visibility = View.GONE
+                binding.fab?.visibility = View.VISIBLE
+            }
+        //    if(destination.id=="com.example.myapplication:id/NotaViewPagerFragment")
+        }
         mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
         binding.fab.setOnClickListener { view ->
