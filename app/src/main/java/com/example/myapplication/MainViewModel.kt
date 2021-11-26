@@ -20,7 +20,9 @@ class MainViewModel : ViewModel()  {
 
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
-    val adicionaNota={}
+    val setNotaEditadaOuNova={posicao:Int->
+        //_notasImgs.value.set()
+    }
     private fun getNotasPesquisadas(txt:String):MutableList<ImagemPesquisada>{
         val results= mutableListOf<ImagemPesquisada>()
         for(notaimg in _notasImgs.value!!){

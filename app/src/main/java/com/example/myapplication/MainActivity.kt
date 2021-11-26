@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.NoteImagens
-import com.example.myapplication.view.listaimageminicial.ListaImagemPesquisadaFragmentDirections
+
 import com.example.myapplication.view.tabs.TabFragmentDirections
 
 class MainActivity : AppCompatActivity() {
@@ -27,11 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
+        populaImgs()
     }
 
     private fun populaImgs() {
@@ -49,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        populaImgs()
 
         mainViewModel = ViewModelProvider(this,MainViewModelFactory())[MainViewModel::class.java]
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
@@ -60,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(action)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

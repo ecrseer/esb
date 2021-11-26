@@ -29,12 +29,29 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
 
     val fundoImagem: LiveData<String> = _fundoImagem
 
+    private val _notaImg = MutableLiveData<ImagemPesquisada>()
+
+    val notaImg: LiveData<ImagemPesquisada> = _notaImg
+
+    fun editaNotaAtual(cabecalho:String, conteudo:String, img:String){
+        if(_notaImg.value!=null){
+            _notaImg.value?.apply {
+                titulo = cabecalho
+                texto = conteudo
+                big = img
+                thumb = img
+            }
+        }
+    }
+
 
     fun carregaNotaSalva(listaNotaImgs:MutableList<ImagemPesquisada>, posicao: Int){
-            val imagemPesquisada = listaNotaImgs[posicao]
-            _fundoImagem.value = imagemPesquisada.big
-            _tituloNota.value = imagemPesquisada.titulo
-            _textoNota.value = imagemPesquisada.texto
+
+        val imagemEncontrada = listaNotaImgs[posicao]
+        _notaImg.postValue(imagemEncontrada)
+            _fundoImagem.value = imagemEncontrada.big
+            _tituloNota.value = imagemEncontrada.titulo
+            _textoNota.value = imagemEncontrada.texto
 
     }
     override fun obterImagemTerminou(imagem: ImagemPesquisada?) {

@@ -15,7 +15,7 @@
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            android:tint="#C3FFFFFF" />
+            app:tint="#C3FFFFFF" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,7 +32,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="titi"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         <TextView
                 android:id="@+id/content"

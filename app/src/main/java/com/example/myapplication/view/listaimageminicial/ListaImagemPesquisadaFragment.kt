@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.MainViewModel
 import com.example.myapplication.MainViewModelFactory
 import com.example.myapplication.R
@@ -34,8 +35,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     }
     fun clicarNoItemAbreNota(posicao:Int){
             //todo
-        val acao =
-            TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao,false)
+        val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao,false)
 
         findNavController().navigate(acao)
     }
@@ -55,6 +55,12 @@ class ListaImagemPesquisadaFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
+                this.addItemDecoration(
+                    DividerItemDecoration(requireActivity().baseContext,
+                        DividerItemDecoration.VERTICAL),
+
+                )
+
 
 
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(mainViewModel.notasImgs.value!!){
