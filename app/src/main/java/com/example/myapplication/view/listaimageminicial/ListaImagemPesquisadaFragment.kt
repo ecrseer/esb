@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.*
+import com.example.myapplication.databinding.FragmentImagemItemListBinding
 import com.example.myapplication.view.tabs.TabFragmentDirections
 
 /**
@@ -20,18 +21,15 @@ import com.example.myapplication.view.tabs.TabFragmentDirections
  */
 class ListaImagemPesquisadaFragment : Fragment() {
 
+    private var _binding: FragmentImagemItemListBinding? = null
+    private val binding get() = _binding!!
+
     private var columnCount = 1
     private lateinit var mainViewModel: MainViewModel
     private lateinit var mh: MainHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true);
-        arguments?.let {
-            columnCount = it.getInt("ARG_COLUMN_COUNT")
-        }
-
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
                 .get(MainViewModel::class.java)
@@ -39,6 +37,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         //requireActivity().invalidateOptionsMenu()
@@ -54,51 +53,62 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    fun clicarNoItemAbreNota(posicao:Int){
-        val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao,false)
-
+    val clicarNoItemAbreNota={posicao: Int->
+        val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
         findNavController().navigate(acao)
     }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_imagem_item_list, container, false)
+        setHasOptionsMenu(true);
+        _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                this.addItemDecoration(
-                    DividerItemDecoration(requireActivity().baseContext,
-                        DividerItemDecoration.VERTICAL),
 
-                )
-
-
-
-                //todo:delay on observer
-                mainViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
-                    adapter = ListaImagemPesquisadaRecyclerViewAdapter(it){
-                            posicao->clicarNoItemAbreNota(posicao)
-                    }
-                    //Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
-                })
+        with(binding.list) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
             }
+            this.addItemDecoration(
+                DividerItemDecoration(
+                    requireActivity().baseContext,
+                    DividerItemDecoration.VERTICAL
+                ),
+            )
+            val listaNotas= mainViewModel.notasImgs.value
+            if(listaNotas!=null) {
+                adapter = ListaImagemPesquisadaRecyclerViewAdapter(
+                    listaNotas, clicarNoItemAbreNota
+                )
+            }
+        }//fim do with
+        inscreverObserver()
+
+        return binding.root
+    }
+
+    private fun inscreverObserver() {
+        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
+          mainViewModel.notasImgs.observe(viewLifecycleOwner, Observer {
+                this.mudarLista(it)
+                //Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
+            })
+
         }
-        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id==R.id.tabFragment2){
+            if (destination.id == R.id.tabFragment2) {
                 //requireActivity().invalidateOptionsMenu()
             }
         }
     }
+
 
 }

@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
  * TODO: Replace the implementation with code for your data type.
  */
 class ListaImagemPesquisadaRecyclerViewAdapter(
-    private val values: List<ImagemPesquisada>,
+    private var listaNotasImg: List<ImagemPesquisada>,
     val funcaoParaClic:(Int)->Unit
 ) : RecyclerView.Adapter<ListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
 
@@ -32,10 +32,14 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
         return imagemItemViewHolder
 
     }
+    fun mudarLista(listaNotasImgNova: List<ImagemPesquisada>){
+        listaNotasImg = listaNotasImgNova
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-            val item = values[position]
+            val item = listaNotasImg[position]
             Picasso.get().load(item.big)
                 .centerCrop().resize(580, 60)
                 .error(R.drawable.ic_launcher_foreground)
@@ -49,7 +53,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
 
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = listaNotasImg.size
 
     inner class ViewHolder(binding: FragmentImagemItemBinding,funcaoDeClic:(Int)->Unit ) : RecyclerView.ViewHolder(binding.root) {
         val titulo: TextView = binding.titulo

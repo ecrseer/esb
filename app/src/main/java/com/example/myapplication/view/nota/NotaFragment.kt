@@ -51,7 +51,8 @@ class NotaFragment : Fragment() {
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
                 .get(MainViewModel::class.java)
-        notaViewModel = ViewModelProvider(this).get(NotaViewModel::class.java)
+        notaViewModel = ViewModelProvider(this).get(
+            "$posicaoNotaImagemArmazenada",NotaViewModel::class.java)
 
 
         notaViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
@@ -118,7 +119,7 @@ class NotaFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.menuItemSelva -> salvaAlteracoesNota()
-            else -> salvaAlteracoesNota()
+            else -> true
         }
     }
 
