@@ -1,11 +1,11 @@
 package com.example.myapplication.view.tabs
 
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.myapplication.R
+import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -16,16 +16,18 @@ import com.google.android.material.tabs.TabLayoutMediator
  * create an instance of this fragment.
  */
 class TabFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
     private var _binding: FragmentTabBinding?=null
     private val binding get()= _binding!!
+
+    private var param1: String? = null
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             //param1 = it.getString("ARG_PARAM1")
         }
+
     }
 
     override fun onCreateView(
@@ -37,16 +39,18 @@ class TabFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val tabLayout = binding.tabLayout
         val viewpagr = binding.viewpager
         viewpagr.adapter = TabAdapter(requireActivity())
+
         TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
             viewpagr.setCurrentItem(tab.position,true)
-            if(position==1) tab.text="sobre"
             if(position==0) tab.text="anotacoes"
+            if(position==1) tab.text="sobre"
         }.attach()
 
     }

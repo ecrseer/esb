@@ -14,8 +14,8 @@ class TabAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         lateinit var frag:Fragment;
         when(position){
-            0 -> frag= ListaImagemPesquisadaFragment()
             1 -> frag= SobreFragment()
+            0 -> frag= ListaImagemPesquisadaFragment()
         }
         return frag;
     }

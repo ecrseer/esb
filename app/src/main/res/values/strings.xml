@@ -3,10 +3,10 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="nota_view_pager_label">Imaginote</string>
-    <string name="next">Save</string>
+    <string name="btnsalva">Save</string>
+    <string name="btndeleta">Delete</string>
     <string name="previous">Previous</string>
     <string name="tituloNotaCriar">Title</string>
     <string name="imagemTeste">https://i.imgur.com/1X1PZGq.png</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
 </resources>

@@ -1,8 +1,9 @@
 package com.example.myapplication
 
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 
-class MainHandler(funcCallBack:(String)->Boolean): SearchView.OnQueryTextListener {
+class MainHandler(funcCallBack:(String)->Boolean):  SearchView.OnQueryTextListener {
     var aindaEstaPesquisando=false;
     val pesquisaPorNota = funcCallBack
 
@@ -15,4 +16,6 @@ class MainHandler(funcCallBack:(String)->Boolean): SearchView.OnQueryTextListene
 
         return pesquisaPorNota("$newText")
     }
+
+
 }

@@ -1,9 +1,8 @@
 package com.example.myapplication.view.nota
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -11,9 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.myapplication.MainViewModel
-import com.example.myapplication.MainViewModelFactory
-import com.example.myapplication.R
+import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
 import com.example.myapplication.model.NoteImagens
 import com.example.myapplication.model.ImagemPesquisada
@@ -30,10 +27,10 @@ class NotaViewPagerFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    val args: NotaViewPagerFragmentArgs by navArgs()
-    private var posicao:Int=0
     private lateinit var mainViewModel: MainViewModel
+    private var posicao:Int=0
     private var isNotaNovaDeveSerCriada = false
+    val args: NotaViewPagerFragmentArgs by navArgs()
 
     private fun inicializaArgs(){
         if( args.posicao!=null){
@@ -50,14 +47,18 @@ class NotaViewPagerFragment : Fragment() {
 
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true);
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
         mainViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
+            ViewModelProvider(requireActivity(),
+                MainViewModelFactory())[MainViewModel::class.java]
+
 
         if(args!=null){
              inicializaArgs()
@@ -74,8 +75,16 @@ class NotaViewPagerFragment : Fragment() {
 
 
 
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
+        requireActivity().menuInflater.inflate(R.menu.menu_nota,menu)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        //_binding = null
+        _binding = null
     }
+
 }

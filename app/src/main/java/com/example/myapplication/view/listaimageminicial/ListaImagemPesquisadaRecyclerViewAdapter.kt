@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.myapplication.R
 
-import com.example.myapplication.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.myapplication.databinding.FragmentImagemItemBinding
 import com.squareup.picasso.Picasso
 

@@ -33,7 +33,6 @@ class MainViewModel : ViewModel()  {
         return results;
     }
     val peneiraNotaPorTexto={txt:String->
-         //todo
         if(txt.isBlank()){
             _notasImgs.postValue(NoteImagens.imgs)
         }else{
