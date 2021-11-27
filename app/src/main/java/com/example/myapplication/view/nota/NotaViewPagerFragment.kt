@@ -57,7 +57,7 @@ class NotaViewPagerFragment : Fragment() {
 
         mainViewModel =
             ViewModelProvider(requireActivity(),
-                MainViewModelFactory())[MainViewModel::class.java]
+                MainViewModelFactory()).get(MainViewModel::class.java)
 
 
         if(args!=null){

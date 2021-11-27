@@ -22,15 +22,12 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
 ) : RecyclerView.Adapter<ListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val imagemItemViewHolder = ViewHolder(
-            FragmentImagemItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        ){ posicao->
-            funcaoParaClic(posicao)
-        }
+        val minhaBindingView = FragmentImagemItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
+
+        val imagemItemViewHolder = ViewHolder(minhaBindingView,funcaoParaClic )
 
         return imagemItemViewHolder
 

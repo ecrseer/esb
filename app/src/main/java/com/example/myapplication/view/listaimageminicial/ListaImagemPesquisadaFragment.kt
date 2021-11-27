@@ -33,7 +33,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
         }
 
         mainViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
+            ViewModelProvider(requireActivity(), MainViewModelFactory())
+                .get(MainViewModel::class.java)
 
         mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
 

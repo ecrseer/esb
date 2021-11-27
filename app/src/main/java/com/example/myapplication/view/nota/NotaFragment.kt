@@ -49,7 +49,8 @@ class NotaFragment : Fragment() {
         _binding = FragmentNotaBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         mainViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())[MainViewModel::class.java]
+            ViewModelProvider(requireActivity(), MainViewModelFactory())
+                .get(MainViewModel::class.java)
         notaViewModel = ViewModelProvider(this).get(NotaViewModel::class.java)
 
 
@@ -117,7 +118,7 @@ class NotaFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.menuItemSelva -> salvaAlteracoesNota()
-            else -> super.onOptionsItemSelected(item)
+            else -> salvaAlteracoesNota()
         }
     }
 
