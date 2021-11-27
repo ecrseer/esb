@@ -79,7 +79,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
 
 
-
                 //todo:delay on observer
                 mainViewModel.notasImgs.observe(viewLifecycleOwner,Observer{
                     adapter = ListaImagemPesquisadaRecyclerViewAdapter(it){

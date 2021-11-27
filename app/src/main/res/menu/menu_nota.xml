@@ -7,4 +7,8 @@
             app:showAsAction="ifRoom|withText"
             android:icon="@android:drawable/ic_menu_delete"
             android:id="@+id/btndeletar" />
+    <item
+            android:title="@string/btnsalva"
+            android:id="@+id/menuItemSelva"
+            app:showAsAction="ifRoom" />
 </menu>

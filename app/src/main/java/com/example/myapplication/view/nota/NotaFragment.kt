@@ -68,10 +68,19 @@ class NotaFragment : Fragment() {
         })
 
 
+        setHasOptionsMenu(true);
         return binding.root
     }
 
+    fun salvaAlteracoesNota():Boolean{
+        val titulo: String = binding.txtTitulo.text.toString()
+        val conteudo: String = binding.txtConteudoNota.text.toString()
+        val img: String = "${notaViewModel.fundoImagem.value}"
+        notaViewModel.editaNotaAtual(titulo,conteudo,img)
 
+        findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
+        return true
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,12 +95,7 @@ class NotaFragment : Fragment() {
 
         }//pegar agua guardar panela
         binding.btnSalvar.setOnClickListener {
-
-            val titulo: String = binding.txtTitulo.text.toString()
-            val conteudo: String = binding.txtConteudoNota.text.toString()
-            val img: String = "${notaViewModel.fundoImagem.value}"
-            notaViewModel.editaNotaAtual(titulo,conteudo,img)
-            findNavController().popBackStack()
+            salvaAlteracoesNota()
         }
 
         binding.txtTitulo.setOnKeyListener { v, keyCode, event ->
@@ -110,5 +114,11 @@ class NotaFragment : Fragment() {
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.menuItemSelva -> salvaAlteracoesNota()
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }
