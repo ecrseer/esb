@@ -6,10 +6,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
 import com.example.myapplication.model.NoteImagens
@@ -52,22 +52,24 @@ class NotaViewPagerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
         mainViewModel =
             ViewModelProvider(requireActivity(),
                 MainViewModelFactory()).get(MainViewModel::class.java)
 
-
         if(args!=null){
              inicializaArgs()
         }
 
-        val adaptr = SliderAdapter(requireActivity(),
-            mainViewModel.notasImgs.value?.size)
-        binding.pager.adapter =  adaptr
-        binding.pager.currentItem = posicao
+        val adaptr = SliderAdapter(childFragmentManager,lifecycle,
+            mainViewModel.notasImgs.value?.size,false)
+
+        with(binding.pager as ViewPager2){
+            adapter =  adaptr
+            currentItem = posicao
+        }
+
 
         return binding.root
 
@@ -76,15 +78,16 @@ class NotaViewPagerFragment : Fragment() {
 
 
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.clear()
-        requireActivity().menuInflater.inflate(R.menu.menu_nota,menu)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        requireActivity().invalidateOptionsMenu()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
 }

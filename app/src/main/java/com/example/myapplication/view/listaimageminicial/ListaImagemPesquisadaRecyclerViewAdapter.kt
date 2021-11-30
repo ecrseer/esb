@@ -27,7 +27,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
             parent,
             false)
 
-        val imagemItemViewHolder = ViewHolder(minhaBindingView,funcaoParaClic )
+        val imagemItemViewHolder = ViewHolder(minhaBindingView,funcaoParaClic)
 
         return imagemItemViewHolder
 
@@ -63,7 +63,6 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
 
         init{
             fundoDaNota.setOnClickListener {
-                //val l = bindingAdapterPosition
                 funcaoDeClic(bindingAdapterPosition)
             }
         }

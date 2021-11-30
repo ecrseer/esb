@@ -45,10 +45,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             val fabDeveSumir = destination.id == R.id.NotaViewPagerFragment
             if (fabDeveSumir) {
-                //binding.fabDeletarNota?.visibility = View.VISIBLE
                 binding.fab?.visibility = View.GONE
             } else {
-                //  binding.fabDeletarNota?.visibility = View.GONE
                 binding.fab?.visibility = View.VISIBLE
 
             }

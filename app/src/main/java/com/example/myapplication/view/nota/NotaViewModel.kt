@@ -35,6 +35,7 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
 
     fun editaNotaAtual(cabecalho:String, conteudo:String, img:String){
         if(_notaImg.value!=null){
+
             _notaImg.value?.apply {
                 titulo = cabecalho
                 texto = conteudo

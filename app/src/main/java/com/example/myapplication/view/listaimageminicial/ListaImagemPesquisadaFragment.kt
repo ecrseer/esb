@@ -26,7 +26,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     private var columnCount = 1
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var mh: MainHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,21 +33,34 @@ class ListaImagemPesquisadaFragment : Fragment() {
             ViewModelProvider(requireActivity(), MainViewModelFactory())
                 .get(MainViewModel::class.java)
 
-        mh = MainHandler(mainViewModel.peneiraNotaPorTexto)
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        //requireActivity().invalidateOptionsMenu()
         super.onCreateOptionsMenu(menu, inflater)
+
         menu.clear()
+        if(findNavController().currentDestination?.id == R.id.NotaViewPagerFragment){
+            inflater.inflate(R.menu.menu_nota,menu)
+        }
+        else{
+            inflater.inflate(R.menu.menu_main,menu)
 
-        inflater.inflate(R.menu.menu_main, menu)
-        val searchWdgt = menu.findItem(R.id.app_bar_search)
-        val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
+            val searchWdgt = menu.findItem(R.id.app_bar_search)
+            val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
 
-        actionViewPesquisa.setOnQueryTextListener(mh)
+            actionViewPesquisa.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    //TODO("Not yet implemented")
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return mainViewModel.peneiraNotaPorTexto("$newText")
+                }
+            })
+        }
+
 
 
     }
@@ -82,8 +94,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
             val listaNotas= mainViewModel.notasImgs.value
             if(listaNotas!=null) {
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(
-                    listaNotas, clicarNoItemAbreNota
-                )
+                    listaNotas, clicarNoItemAbreNota  )
             }
         }//fim do with
         inscreverObserver()
@@ -108,6 +119,10 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 //requireActivity().invalidateOptionsMenu()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
 

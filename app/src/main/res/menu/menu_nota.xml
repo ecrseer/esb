@@ -9,6 +9,6 @@
             android:id="@+id/btndeletar" />
     <item
             android:title="@string/btnsalva"
-            android:id="@+id/menuItemSelva"
+            android:id="@+id/menuItemSalva"
             app:showAsAction="ifRoom" />
 </menu>
