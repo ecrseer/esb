@@ -48,10 +48,8 @@ class MainActivity : AppCompatActivity() {
                 binding.fab?.visibility = View.GONE
             } else {
                 binding.fab?.visibility = View.VISIBLE
-
             }
 
-            //    if(destination.id=="com.example.myapplication:id/NotaViewPagerFragment")
         }
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;

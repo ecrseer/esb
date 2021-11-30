@@ -15,13 +15,4 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@android:drawable/ic_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/floatingActionButton"
-            android:layout_gravity="bottom|left"
-            android:layout_margin="16dp" />
-
 </FrameLayout>
