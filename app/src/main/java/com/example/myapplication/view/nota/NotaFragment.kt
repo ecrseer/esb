@@ -104,8 +104,13 @@ class NotaFragment : Fragment() {
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
                 true
             }
+            R.id.menu_itemDeletar -> {
+                val id = notaViewModel.notaImg.value?.id
+                mainViewModel.deletaNota(id!!)
+            }
             else -> false
         }
+
     }
 
 

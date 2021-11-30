@@ -32,27 +32,7 @@ class SliderAdapter (fa: FragmentManager,lifecycl:Lifecycle,
         return frag;
     }
 
-    override fun onBindViewHolder(
-        holder: FragmentViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        super.onBindViewHolder(holder, position, payloads)
 
-        val nsei = holder
-        val tt = nsei.itemView?.findViewById<EditText>(R.id.txtTitulo)
-        val tx = tt?.text.toString()
-        val btn = nsei.itemView?.findViewById<Button>(R.id.btnSalvar)
-    btn?.setOnClickListener {
-
-    }
-    }
-
-
-
-    /*override fun getItem(position: Int): Fragment {
-        return notaSegundoPosicao(position);
-    }*/
     override fun createFragment(position: Int): Fragment {
         return notaSegundoPosicao(position);
     }

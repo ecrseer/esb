@@ -6,9 +6,10 @@
             android:title="@string/btndeleta"
             app:showAsAction="ifRoom|withText"
             android:icon="@android:drawable/ic_menu_delete"
-            android:id="@+id/btndeletar" />
+            android:id="@+id/menu_itemDeletar" />
     <item
             android:title="@string/btnsalva"
             android:id="@+id/menuItemSalva"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_menu_save" />
 </menu>

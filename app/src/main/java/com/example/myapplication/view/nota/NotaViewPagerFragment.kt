@@ -39,11 +39,8 @@ class NotaViewPagerFragment : Fragment() {
         if(args.isNotaNova){
             isNotaNovaDeveSerCriada = args.isNotaNova
             val imagemPlaceholdr = getString(R.string.imagemTeste)
-            val notaImgTemporaria = ImagemPesquisada(
-                "$imagemPlaceholdr","","","")
-            mainViewModel.notasImgs.value?.add(notaImgTemporaria)
-
-            posicao = mainViewModel.notasImgs.value?.size?.minus(1) ?: posicao
+            posicao = mainViewModel.criaNota(imagemPlaceholdr)
+                ?.minus(1) ?: posicao
 
         }
     }
