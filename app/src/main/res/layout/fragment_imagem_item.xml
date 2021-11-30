@@ -14,7 +14,9 @@
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            style="@style/ImagemDaNota" />
+            style="@style/ImagemDaNota"
+            android:rotation="0"
+            android:maxHeight="78dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
