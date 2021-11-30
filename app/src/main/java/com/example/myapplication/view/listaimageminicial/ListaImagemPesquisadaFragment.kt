@@ -36,6 +36,19 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
+    fun estabelecePesquisaPorNotas(searchView: SearchView){
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                //TODO("Not yet implemented")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return mainViewModel.peneiraNotaPorTexto("$newText")
+            }
+        })
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
@@ -45,24 +58,33 @@ class ListaImagemPesquisadaFragment : Fragment() {
         }
         else{
             inflater.inflate(R.menu.menu_main,menu)
-
             val searchWdgt = menu.findItem(R.id.app_bar_search)
             val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
-
-            actionViewPesquisa.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    //TODO("Not yet implemented")
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return mainViewModel.peneiraNotaPorTexto("$newText")
-                }
-            })
+            estabelecePesquisaPorNotas(actionViewPesquisa)
         }
 
+    }
 
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    private fun inscreverObserver() {
+        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
+          mainViewModel.notasImgs.observe(viewLifecycleOwner, Observer {
+                this.mudarLista(it)
+                //Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
+            })
+
+        }
     }
 
     val clicarNoItemAbreNota={posicao: Int->
@@ -70,15 +92,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         findNavController().navigate(acao)
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true);
-        _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
-
-        // Set the adapter
+    private fun desenhaListaNotas(){
 
         with(binding.list) {
             layoutManager = when {
@@ -96,24 +110,17 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(
                     listaNotas, clicarNoItemAbreNota  )
             }
-        }//fim do with
-        inscreverObserver()
-
-        return binding.root
-    }
-
-    private fun inscreverObserver() {
-        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
-          mainViewModel.notasImgs.observe(viewLifecycleOwner, Observer {
-                this.mudarLista(it)
-                //Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
-            })
-
         }
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        desenhaListaNotas()
+        inscreverObserver()
+        setHasOptionsMenu(true);
+
         findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.tabFragment2) {
                 //requireActivity().invalidateOptionsMenu()

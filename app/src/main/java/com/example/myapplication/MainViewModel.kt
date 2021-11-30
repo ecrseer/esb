@@ -41,7 +41,6 @@ class MainViewModel : ViewModel()  {
                 if(resultadoPesquisa.size>=1)
                     _notasImgs.postValue(resultadoPesquisa)
 
-
             }
 
             }

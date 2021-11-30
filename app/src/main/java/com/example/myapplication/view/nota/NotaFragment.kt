@@ -118,6 +118,7 @@ class NotaFragment : Fragment() {
         super.onPause()
         println("")
         setHasOptionsMenu(false)
+        requireActivity().invalidateOptionsMenu()
         //finish()
     }
 
@@ -141,16 +142,6 @@ class NotaFragment : Fragment() {
 
         if(isVisible){
             carregaDados()
-        }
-
-        binding.btnSalvar.setOnClickListener {
-            val titulo: String = binding.txtTitulo.text.toString()
-            val conteudo: String = binding.txtConteudoNota.text.toString()
-            val img: String = "${notaViewModel.fundoImagem.value}"
-            notaViewModel.editaNotaAtual(titulo,conteudo,img)
-
-            findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
-
         }
 
     }
