@@ -47,8 +47,6 @@ class NotaFragment : Fragment() {
     ): View? {
 
         _binding = FragmentNotaBinding.inflate(inflater,container,false)
-        // Inflate the layout for this fragment
-
         return binding.root
     }
 
@@ -69,7 +67,14 @@ class NotaFragment : Fragment() {
                 //.centerInside()
                 .centerCrop().resize(580, 700)
                 .into(binding.idImgFirst)
+            notaViewModel.carregando.value=false
         })
+        notaViewModel.carregando.observe(viewLifecycleOwner, Observer {isCarregando->
+            if(isCarregando) binding.progressBar.visibility=View.VISIBLE
+            else binding.progressBar.visibility=View.GONE
+
+        })
+
 
 
 
@@ -82,6 +87,7 @@ class NotaFragment : Fragment() {
             if ((keyCode == KeyEvent.KEYCODE_SPACE) &&
                 (event.action == KeyEvent.ACTION_DOWN)
             ) {
+                notaViewModel.carregando.value = true
                 notaViewModel
                     .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
             }

@@ -1,12 +1,20 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="nota_view_pager_label">Imaginote</string>
-    <string name="btnsalva">Save</string>
-    <string name="btndeleta">Delete</string>
+
     <string name="previous">Previous</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="app_name">Imaginote</string>
+    <string name="nota_view_pager_label">Book of notes</string>
+    
+    <string name="menu_btnsalva">Save</string>
+    <string name="menu_btndeleta">Delete</string>
     <string name="tituloNotaCriar">Title</string>
+    <string name="conteudoNotaCriar">Type something</string>
+
+    <string name="descricaoImagemNotaCriar">background image relative to title</string>
+
     <string name="imagemTeste">https://i.imgur.com/nkQ675o.png</string>
+
     <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
+    <string name="titulo_item_lista_notas">titulo</string>
 </resources>

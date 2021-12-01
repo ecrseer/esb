@@ -3,12 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:title="@string/btndeleta"
+            android:title="@string/menu_btndeleta"
             app:showAsAction="ifRoom|withText"
             android:icon="@android:drawable/ic_menu_delete"
             android:id="@+id/menu_itemDeletar" />
     <item
-            android:title="@string/btnsalva"
+            android:title="@string/menu_btnsalva"
             android:id="@+id/menuItemSalva"
             app:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_save" />

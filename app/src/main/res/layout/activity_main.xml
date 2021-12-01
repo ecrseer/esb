@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/appBarLayout" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -44,15 +44,9 @@
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_input_add"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
             android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guideline"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.7414501" />
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
+            android:layout_marginBottom="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.example.myapplication.model
 
 object NoteImagens {
-    var imgs  = mutableListOf(
+    var imgs  = mutableListOf<ImagemPesquisada>(
         ImagemPesquisada(0,"_","_","olha eu    ","titulo2"),
         ImagemPesquisada(1,"_","_","olha eu com  ","titulo3"),
         ImagemPesquisada(2,"_","_","olha eu com bone","titulo4"),
@@ -12,7 +12,7 @@ object NoteImagens {
         ImagemPesquisada(7,"_","_","olha eu com bone","titulo9"),
         ImagemPesquisada(8,"_","_","olha eu com bone","titulo10"),
 
-    )
+        )
     var imgsPeneiradas = mutableListOf<ImagemPesquisada>()
 
     val getNotaImgs =

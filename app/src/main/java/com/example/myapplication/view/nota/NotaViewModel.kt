@@ -33,6 +33,9 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
 
     val notaImg: LiveData<ImagemPesquisada> = _notaImg
 
+    val carregando = MutableLiveData<Boolean>().apply { value=false }
+
+
     fun editaNotaAtual(cabecalho:String, conteudo:String, img:String){
         if(_notaImg.value!=null){
             _notaImg.value?.apply {

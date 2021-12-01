@@ -21,11 +21,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var navController: NavController
+
+    private lateinit var mainViewModel:MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mainViewModel=ViewModelProvider(this,MainViewModelFactory())
+            .get(MainViewModel::class.java)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         populaImgs()
@@ -53,19 +58,22 @@ class MainActivity : AppCompatActivity() {
         }
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;
-            val action = TabFragmentDirections
-                .actionTabFragmentToNotaViewPagerFragment(0, isNotaNova)
-            navController.navigate(action)
+            val imagemPlaceholdr = getString(R.string.imagemTeste)
+            val tamanhoDaLista = mainViewModel.criaNota(imagemPlaceholdr)
+            if(tamanhoDaLista!=null){
+                val action = TabFragmentDirections
+                    .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista, isNotaNova)
+                navController.navigate(action)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         setSupportActionBar(binding.toolbar)
         setupNavegacao()
 
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        //supportActionBar?.setDisplayShowTitleEnabled(false)
 
     }
 
