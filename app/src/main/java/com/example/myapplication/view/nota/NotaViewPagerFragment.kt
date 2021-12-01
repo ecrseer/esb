@@ -36,12 +36,12 @@ class NotaViewPagerFragment : Fragment() {
         if( args.posicao!=null){
             posicao = args.posicao
         }
-        if(args.isNotaNova){
+        if(args.isNotaNova){/*
             isNotaNovaDeveSerCriada = args.isNotaNova
             val imagemPlaceholdr = getString(R.string.imagemTeste)
-            posicao = mainViewModel.criaNota(imagemPlaceholdr)
-                ?.minus(1) ?: posicao
-
+            val tamanhoDaLista = mainViewModel.criaNota(imagemPlaceholdr)
+            if(tamanhoDaLista!=null)
+                posicao = tamanhoDaLista-1*/
         }
     }
 

@@ -58,7 +58,6 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
 
     }
     override fun obterImagemTerminou(imagem: ImagemPesquisada?) {
-
         if(imagem!=null){
             _fundoImagem.postValue(imagem.big)
         }

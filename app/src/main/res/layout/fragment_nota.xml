@@ -21,7 +21,8 @@
                 tools:visibility="visible"
                 android:src="@drawable/ic_search_black_24dp"
                 android:layout_gravity="center"
-                android:theme="@style/ImagemDaNota" />
+                android:theme="@style/ImagemDaNota"
+                android:contentDescription="@string/descricaoImagemNotaCriar" />
 
     </FrameLayout>
 

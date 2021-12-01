@@ -23,7 +23,7 @@
     <fragment
             android:id="@+id/tabFragment2"
             android:name="com.example.myapplication.view.tabs.TabFragment"
-            android:label="fragment_tab"
+            android:label="@string/app_name"
             tools:layout="@layout/fragment_tab" >
         <action
                 android:id="@+id/action_tabFragment_to_NotaViewPagerFragment"

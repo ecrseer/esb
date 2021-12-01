@@ -20,11 +20,11 @@ class MainViewModel : ViewModel()  {
 
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
-    val setNotaEditadaOuNova={posicao:Int,imagemP:ImagemPesquisada->
+    val setNotaEditadaOuNova={posicao:Int,imagemP:ImagemPesquisada ->
         _notasImgs.value?.set(posicao,imagemP)
     }
     fun deletaNota(id:Int):Boolean{
-        val todasNotas = _notasImgs.value
+        val todasNotas = _notasImgs?.value
         var deletouAlgo = false
 
         if(id==null) return deletouAlgo
@@ -43,15 +43,18 @@ class MainViewModel : ViewModel()  {
         return deletouAlgo
     }
     fun criaNota(imagemPlaceholdr:String):Int?{
-        val ultimaNota=_notasImgs.value?.last()
-        val ultimoIdNota = ultimaNota?.id
-        if (ultimoIdNota!=null){
-            val notaImgTemporaria = ImagemPesquisada(ultimoIdNota+1,
-                "$imagemPlaceholdr","","","")
-            _notasImgs.value?.add(notaImgTemporaria)
-            return _notasImgs.value?.size
+        var lista =_notasImgs?.value
+        var novoId=0
+        if(lista!=null && lista.size>0){
+            novoId= lista?.last()?.id+1
         }
-        return null
+
+        val notaImgTemporaria = ImagemPesquisada(novoId,
+            "$imagemPlaceholdr","","","")
+        _notasImgs.value?.add(notaImgTemporaria)
+        return _notasImgs.value?.size
+
+
 
     }
     private fun getNotasPesquisadas(txt:String):MutableList<ImagemPesquisada>{
