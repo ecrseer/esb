@@ -81,7 +81,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
           mainViewModel.notasImgs.observe(viewLifecycleOwner, Observer {
                 this.mudarLista(it)
-                //Toast.makeText(activity,"Mudei recyc",Toast.LENGTH_LONG+4242).show()
             })
 
         }
@@ -121,15 +120,14 @@ class ListaImagemPesquisadaFragment : Fragment() {
         inscreverObserver()
         setHasOptionsMenu(true);
 
-        findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.tabFragment2) {
-                //requireActivity().invalidateOptionsMenu()
-            }
-        }
     }
 
     override fun onResume() {
         super.onResume()
+        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
+            this.notifyDataSetChanged()
+        }
+
     }
 
 

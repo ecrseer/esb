@@ -1,5 +1,6 @@
 package com.example.myapplication.view.nota
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -97,16 +98,17 @@ class NotaFragment : Fragment() {
 
 
     }
+    private fun salvaNotaNaLista(){
+        val titulo: String = binding.txtTitulo.text.toString()
+        val conteudo: String = binding.txtConteudoNota.text.toString()
+        val img: String = "${notaViewModel.fundoImagem.value}"
 
+        notaViewModel.editaNotaAtual(titulo, conteudo, img)
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
-                val titulo: String = binding.txtTitulo.text.toString()
-                val conteudo: String = binding.txtConteudoNota.text.toString()
-                val img: String = "${notaViewModel.fundoImagem.value}"
-
-                notaViewModel.editaNotaAtual(titulo, conteudo, img)
-
+                salvaNotaNaLista()
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
                 true
             }
@@ -114,6 +116,24 @@ class NotaFragment : Fragment() {
                 val id = notaViewModel.notaImg.value?.id
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
                 mainViewModel.deletaNota(id!!)
+            }
+            R.id.menu_itemCompartilhar->{
+                val intentDeCompartilhar: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+
+                    putExtra(Intent.EXTRA_TITLE, "${binding.txtTitulo.text.toString()}")
+                    putExtra(Intent.EXTRA_TEXT, "${binding.txtConteudoNota.text.toString()}")
+                    type = "text/plain"
+                }
+                salvaNotaNaLista()
+                val pm = requireActivity().packageManager
+                val existeAplicativoQuePossaCompartilhar = intentDeCompartilhar.resolveActivity(pm)!=null
+                if(existeAplicativoQuePossaCompartilhar){
+                    val shareIntent = Intent.createChooser(intentDeCompartilhar, null)
+                    startActivity(shareIntent)
+                    true
+                }
+                false
             }
             else -> false
         }

@@ -3,6 +3,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+            android:title="compartilhar"
+            android:id="@+id/menu_itemCompartilhar"
+            android:icon="?attr/actionModeShareDrawable"
+            app:showAsAction="always" />
+    <item
             android:title="@string/menu_btndeleta"
             app:showAsAction="ifRoom|withText"
             android:icon="@android:drawable/ic_menu_delete"
@@ -12,9 +17,4 @@
             android:id="@+id/menuItemSalva"
             app:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_save" />
-    <item
-            android:title="compartilhar"
-            android:id="@+id/menu_itemCompartilhar"
-            android:icon="?attr/actionModeShareDrawable"
-            app:showAsAction="always" />
 </menu>
