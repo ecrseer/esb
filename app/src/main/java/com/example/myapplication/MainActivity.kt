@@ -6,16 +6,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.NoteImagens
 
-import com.example.myapplication.view.tabs.TabFragmentDirections
+import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 

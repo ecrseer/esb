@@ -1,10 +1,8 @@
-package com.example.myapplication.view.tabs
+package com.example.myapplication.ui.tabs
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
 import com.google.android.material.tabs.TabLayoutMediator

@@ -1,12 +1,10 @@
-package com.example.myapplication.view.listaimageminicial
+package com.example.myapplication.ui.listaimageminicial
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
-import com.example.myapplication.view.tabs.TabFragmentDirections
+import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 /**
  * A fragment representing a list of Items.

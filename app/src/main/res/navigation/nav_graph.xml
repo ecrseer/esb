@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/NotaViewPagerFragment"
-        android:name="com.example.myapplication.view.nota.NotaViewPagerFragment"
+        android:name="com.example.myapplication.ui.nota.NotaViewPagerFragment"
         android:label="@string/nota_view_pager_label"
         tools:layout="@layout/fragment_nota_view_pager" >
         <argument
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
             android:id="@+id/tabFragment2"
-            android:name="com.example.myapplication.view.tabs.TabFragment"
+            android:name="com.example.myapplication.ui.tabs.TabFragment"
             android:label="@string/app_name"
             tools:layout="@layout/fragment_tab" >
         <action

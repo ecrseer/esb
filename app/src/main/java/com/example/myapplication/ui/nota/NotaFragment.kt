@@ -1,4 +1,4 @@
-package com.example.myapplication.view.nota
+package com.example.myapplication.ui.nota
 
 import android.content.Intent
 import android.os.Bundle
@@ -122,6 +122,7 @@ class NotaFragment : Fragment() {
                     action = Intent.ACTION_SEND
 
                     putExtra(Intent.EXTRA_TITLE, "${binding.txtTitulo.text.toString()}")
+                    putExtra(Intent.EXTRA_SUBJECT, "${binding.txtTitulo.text.toString()}")
                     putExtra(Intent.EXTRA_TEXT, "${binding.txtConteudoNota.text.toString()}")
                     type = "text/plain"
                 }

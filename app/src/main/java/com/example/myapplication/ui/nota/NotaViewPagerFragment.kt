@@ -1,19 +1,13 @@
-package com.example.myapplication.view.nota
+package com.example.myapplication.ui.nota
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
-import com.example.myapplication.model.NoteImagens
-import com.example.myapplication.model.ImagemPesquisada
 
 
 /**

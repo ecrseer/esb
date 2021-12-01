@@ -1,4 +1,4 @@
-package com.example.myapplication.view.listaimageminicial
+package com.example.myapplication.ui.listaimageminicial
 
 import com.example.myapplication.model.ImagemPesquisada
 import androidx.recyclerview.widget.RecyclerView
@@ -48,9 +48,6 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
 
             holder.titulo.text = item.titulo
             holder.contentView.text = item.texto
-
-
-    //holder.fundoDaNota.setOnClickListener {  }
 
     }
 

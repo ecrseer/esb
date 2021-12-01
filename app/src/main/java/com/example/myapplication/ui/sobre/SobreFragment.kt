@@ -1,4 +1,4 @@
-package com.example.myapplication.view.sobre
+package com.example.myapplication.ui.sobre
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
