@@ -21,13 +21,13 @@
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Um"
-                android:background="#4AFFFFFF" />
+                android:background="#4AFFFFFF"
+                android:text="1" />
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dois" />
+                android:text="2" />
 
     </com.google.android.material.tabs.TabLayout>
 
