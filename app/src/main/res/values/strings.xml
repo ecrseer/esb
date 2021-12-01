@@ -17,4 +17,5 @@
 
     <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
     <string name="titulo_item_lista_notas">titulo</string>
+    <string name="btn_criar_nota_descricao">botao para criar anotaçao</string>
 </resources>

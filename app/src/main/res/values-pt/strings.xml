@@ -18,5 +18,6 @@
 
     <string name="imagemTeste">https://i.imgur.com/nkQ675o.png</string>
     <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
+    <string name="btn_criar_nota_descricao">botao para criar anotaçao</string>
 
 </resources>

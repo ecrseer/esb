@@ -4,5 +4,6 @@ relacionadas ao titulo criado com fins de aprender sobre
 recycler view, viewpager2, gson, OkHttp e databinding viewModel  
 em kotlin android
 
-## Demonstração
-![demonstracao gif](https://raw.githubusercontent.com/ecrseer/note-completion-kotlin/main/assets/demo.gif)
+<h2> Demonstração</h2>
+<img src="https://raw.githubusercontent.com/ecrseer/note-completion-kotlin/main/assets/demo.gif" width="30%"/>
+

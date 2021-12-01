@@ -43,6 +43,8 @@
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_input_add"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/btn_criar_nota_descricao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
