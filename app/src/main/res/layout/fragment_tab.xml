@@ -13,12 +13,16 @@
             android:id="@+id/tabLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicatorGravity="top"
+            app:tabMode="scrollable"
+            android:background="#3EFFFFFF">
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Um" />
+                android:text="Um"
+                android:background="#4AFFFFFF" />
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
@@ -33,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/viewpager"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

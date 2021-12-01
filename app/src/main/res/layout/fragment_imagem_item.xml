@@ -16,7 +16,8 @@
             android:adjustViewBounds="true"
             style="@style/ImagemDaNota"
             android:rotation="0"
-            android:maxHeight="78dp" />
+            android:maxHeight="78dp"
+            android:contentDescription="@string/descricaoImagemNotaCriar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="t"
+                android:text="@string/titulo_item_lista_notas"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="20sp"
                 android:textStyle="bold"
