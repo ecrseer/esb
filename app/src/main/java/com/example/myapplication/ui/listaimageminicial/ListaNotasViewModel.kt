@@ -18,6 +18,7 @@ class ListaNotasViewModel : ViewModel()  {
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
+    //refatorar
     fun verificaSeNotaEhFavorita(id:Int): Boolean {
         val listaFavoritas = PersistenciaDadosNotas.todasAbas[1].lista
         var isNotaFavorita =false
