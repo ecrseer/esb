@@ -4,6 +4,10 @@ plugins {
     //safeargs
     id 'androidx.navigation.safeargs'
 
+    //anotacoes
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+
 }
 
 android {

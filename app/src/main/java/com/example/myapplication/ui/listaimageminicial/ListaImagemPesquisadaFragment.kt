@@ -110,12 +110,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
-            this.addItemDecoration(
-                DividerItemDecoration(
-                    requireActivity().baseContext,
-                    DividerItemDecoration.VERTICAL
-                ),
-            )
+
 
             val listaNotasInicial=listaNotasViewModel.notasImgs.value
             if(listaNotasInicial!=null) {
@@ -135,11 +130,16 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onPause() {
+        super.onPause()
         with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
             this.notifyDataSetChanged()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
 
     }
 

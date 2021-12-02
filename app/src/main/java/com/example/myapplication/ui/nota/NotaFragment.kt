@@ -48,11 +48,16 @@ class NotaFragment : Fragment() {
     ): View? {
 
         _binding = FragmentNotaBinding.inflate(inflater,container,false)
+        inscreverObservers()
         return binding.root
     }
 
 
     fun inscreverObservers(){
+        listaNotasViewModel =
+            ViewModelProvider(requireActivity(), MainViewModelFactory())
+                .get(ListaNotasViewModel::class.java)
+
         notaViewModel = ViewModelProvider(this).get( NotaViewModel::class.java)
         val titulo = notaViewModel.tituloNota.value
 
@@ -78,26 +83,24 @@ class NotaFragment : Fragment() {
 
     }
     fun carregaDadosDaNota(){
-        listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())
-                .get(ListaNotasViewModel::class.java)
+
         if(posicaoNotaImagemArmazenada!=null){
             val todasNotaImgs = listaNotasViewModel.notasImgs.value
             if(todasNotaImgs!=null){
-                inscreverObservers()
                 notaViewModel.carregaNotaSalva(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)
-                setHasOptionsMenu(true)
+
             }
 
         }
     }
+
     override fun onResume() {
         super.onResume()
+        setHasOptionsMenu(true)
         if(isVisible){
             carregaDadosDaNota()
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
