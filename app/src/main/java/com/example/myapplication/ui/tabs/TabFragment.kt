@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -47,9 +48,30 @@ class TabFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
             viewpagr.setCurrentItem(tab.position,true)
-            if(position==0) tab.text="anotacoes"
-            if(position==1) tab.text="sobre"
+            if(position==0) tab.text="todas"
+            if(position==1) tab.text="favoritas"
+
         }.attach()
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val posicaoAtual=tab?.position
+                if(posicaoAtual!=null){
+                    mainViewModel.notasImgs
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
+
 
     }
 

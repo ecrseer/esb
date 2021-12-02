@@ -10,7 +10,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.model.NoteImagens
+import com.example.myapplication.domain.PersistenciaDadosNotas
 
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun populaImgs() {
-        NoteImagens.imgs.forEach { img ->
+        PersistenciaDadosNotas.imgs.forEach { img ->
             img.big = getString(R.string.imagemTeste)
         }
     }

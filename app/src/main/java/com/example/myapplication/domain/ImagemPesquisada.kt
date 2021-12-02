@@ -1,4 +1,4 @@
-package com.example.myapplication.model
+package com.example.myapplication.domain
 data class ImagemPesquisada constructor(
     var id:Int,
     var big: String,

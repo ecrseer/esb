@@ -1,6 +1,6 @@
 package com.example.myapplication.ui.listaimageminicial
 
-import com.example.myapplication.model.ImagemPesquisada
+import com.example.myapplication.domain.ImagemPesquisada
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,6 +21,11 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
     val funcaoParaClic:(Int)->Unit
 ) : RecyclerView.Adapter<ListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
 
+    fun mudarLista(listaNotasImgNova: List<ImagemPesquisada>){
+        listaNotasImg = listaNotasImgNova
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val minhaBindingView = FragmentImagemItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -32,10 +37,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
         return imagemItemViewHolder
 
     }
-    fun mudarLista(listaNotasImgNova: List<ImagemPesquisada>){
-        listaNotasImg = listaNotasImgNova
-        notifyDataSetChanged()
-    }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 

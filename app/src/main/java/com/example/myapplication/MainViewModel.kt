@@ -1,28 +1,26 @@
 package com.example.myapplication
 
-import com.example.myapplication.model.ImagemPesquisada
+import com.example.myapplication.domain.ImagemPesquisada
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.api.ImagensService
-import com.example.myapplication.api.ImagensServiceListener
-import com.example.myapplication.model.NoteImagens
-import com.google.gson.Gson
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.jetbrains.anko.doAsync
+import com.example.myapplication.domain.PersistenciaDadosNotas
 
 class MainViewModel : ViewModel()  {
 
     private val _notasImgs = MutableLiveData<MutableList<ImagemPesquisada> >().apply {
-        value = NoteImagens.imgs
+        value = PersistenciaDadosNotas.imgs
     }
 
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
 
-    val setNotaEditadaOuNova={posicao:Int,imagemP:ImagemPesquisada ->
-        _notasImgs.value?.set(posicao,imagemP)
+    fun trocaAbaDaListaAtual(posicao:Int){
+        val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
+        if(listaPretendida!=null){
+            _notasImgs.postValue(listaPretendida.lista)
+        }
     }
+
     fun deletaNota(id:Int):Boolean{
         val todasNotas = _notasImgs?.value
         var deletouAlgo = false
@@ -36,7 +34,6 @@ class MainViewModel : ViewModel()  {
                     deletouAlgo=true
                     return@apply
                 }
-
 
             } }
         }
@@ -67,20 +64,25 @@ class MainViewModel : ViewModel()  {
         return results;
     }
 
-    val peneiraNotaPorTexto={txt:String->
+
+
+    fun peneiraNotaPorTexto(txt:String):Boolean{
         if(txt.isBlank()){
-            _notasImgs.postValue(NoteImagens.imgs)
+            _notasImgs.postValue(PersistenciaDadosNotas.imgs)
         }else{
             if(_notasImgs.value!=null){
-                val resultadoPesquisa=getNotasPesquisadas(txt)
-                if(resultadoPesquisa.size>=1)
+               val resultadoPesquisa=getNotasPesquisadas(txt)
+                if(resultadoPesquisa.size>=1) {
                     _notasImgs.postValue(resultadoPesquisa)
+                    return true
+                }
+
+                    }
 
             }
-
-            }
-         false
+         return false
         }
+
 
 
 }

@@ -1,6 +1,6 @@
-package com.example.myapplication.api
+package com.example.myapplication.services
 
-import com.example.myapplication.model.ImagemPesquisada
+import com.example.myapplication.domain.ImagemPesquisada
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 

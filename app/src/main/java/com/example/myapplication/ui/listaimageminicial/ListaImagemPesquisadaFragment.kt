@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
+import com.example.myapplication.domain.ImagemPesquisada
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 /**
@@ -22,11 +23,16 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private var _binding: FragmentImagemItemListBinding? = null
     private val binding get() = _binding!!
 
-    private var columnCount = 1
     private lateinit var mainViewModel: MainViewModel
+
+    private var columnCount = 1
+    private var isListaFavoritos = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            isListaFavoritos = it.getBoolean("isListaFavoritos")
+        }
         mainViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
                 .get(MainViewModel::class.java)
@@ -34,9 +40,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    fun estabelecePesquisaPorNotas(searchView: SearchView){
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+    fun estabelecePesquisaPorNotas(searchView: SearchView) {
+        //NoteImagens.etata = 2
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 //TODO("Not yet implemented")
                 return true
@@ -45,24 +51,27 @@ class ListaImagemPesquisadaFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return mainViewModel.peneiraNotaPorTexto("$newText")
             }
+
+
+
+
         })
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
         menu.clear()
-        if(findNavController().currentDestination?.id == R.id.NotaViewPagerFragment){
-            inflater.inflate(R.menu.menu_nota,menu)
-        }
-        else{
-            inflater.inflate(R.menu.menu_main,menu)
+        if (findNavController().currentDestination?.id == R.id.NotaViewPagerFragment) {
+            inflater.inflate(R.menu.menu_nota, menu)
+        } else {
+            inflater.inflate(R.menu.menu_main, menu)
             val searchWdgt = menu.findItem(R.id.app_bar_search)
             val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
             estabelecePesquisaPorNotas(actionViewPesquisa)
         }
 
     }
-
 
 
     override fun onCreateView(
@@ -76,18 +85,23 @@ class ListaImagemPesquisadaFragment : Fragment() {
     }
 
     private fun inscreverObserver() {
-        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
-          mainViewModel.notasImgs.observe(viewLifecycleOwner, Observer {
-                this.mudarLista(it)
-            })
+        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter) {
+            val observaEmudaLista =
+                Observer { listaImgs: MutableList<ImagemPesquisada>
+                    -> this.mudarLista(listaImgs) }
+
+              mainViewModel.notasImgs.observe(viewLifecycleOwner, observaEmudaLista)
 
         }
     }
 
-    val clicarNoItemAbreNota={posicao: Int->
+    val clicarNoItemAbreNota = { posicao: Int ->
+
         val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
         findNavController().navigate(acao)
     }
+
+
 
     private fun desenhaListaNotas(){
 
@@ -102,10 +116,11 @@ class ListaImagemPesquisadaFragment : Fragment() {
                     DividerItemDecoration.VERTICAL
                 ),
             )
-            val listaNotas= mainViewModel.notasImgs.value
-            if(listaNotas!=null) {
+
+            val listaNotasInicial=mainViewModel.notasImgs.value
+            if(listaNotasInicial!=null) {
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(
-                    listaNotas, clicarNoItemAbreNota  )
+                    listaNotasInicial, clicarNoItemAbreNota  )
             }
         }
     }
