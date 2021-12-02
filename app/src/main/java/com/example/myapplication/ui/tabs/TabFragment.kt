@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
+import com.example.myapplication.domain.AbaDeNotas
 import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -21,7 +23,8 @@ class TabFragment : Fragment() {
     private val binding get()= _binding!!
 
     private var param1: String? = null
-    private lateinit var mainViewModel: MainViewModel
+    private val listaDeAbas:MutableList<AbaDeNotas> = PersistenciaDadosNotas.todasAbas
+    private lateinit var listaNotasViewModel: ListaNotasViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +32,9 @@ class TabFragment : Fragment() {
             //param1 = it.getString("ARG_PARAM1")
         }
 
-        mainViewModel =
+        listaNotasViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
-                .get(MainViewModel::class.java)
+                .get(ListaNotasViewModel::class.java)
 
     }
 
@@ -49,21 +52,20 @@ class TabFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val tabLayout = binding.tabLayout
         val viewpagr = binding.viewpager
-        viewpagr.adapter = TabAdapter(requireActivity())
+
+        viewpagr.adapter = TabAdapter(requireActivity(),listaDeAbas.size)
 
         TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
             viewpagr.setCurrentItem(tab.position,true)
-            tab.text = "${PersistenciaDadosNotas.todasAbas[position].nome}"
-
-
+            tab.text = "${listaDeAbas[position].nome}"
         }.attach()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val posicaoAtual=tab?.position
                 if(posicaoAtual!=null){
-                    mainViewModel.trocaAbaDaListaAtual(posicaoAtual)
+                    listaNotasViewModel.trocaAbaDaListaAtual(posicaoAtual)
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {            }

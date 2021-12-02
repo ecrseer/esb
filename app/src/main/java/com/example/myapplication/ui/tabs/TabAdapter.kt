@@ -7,8 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myapplication.ui.listaimageminicial.ListaImagemPesquisadaFragment
 import com.example.myapplication.ui.sobre.SobreFragment
 
-class TabAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-    override fun getItemCount(): Int = 2
+class TabAdapter(fa: FragmentActivity,var tamanho:Int) : FragmentStateAdapter(fa) {
+    override fun getItemCount(): Int = tamanho
 
     override fun createFragment(position: Int): Fragment {
 

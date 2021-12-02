@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
@@ -20,13 +21,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    private lateinit var mainViewModel:MainViewModel
+    private lateinit var listaNotasViewModel: ListaNotasViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel=ViewModelProvider(this,MainViewModelFactory())
-            .get(MainViewModel::class.java)
+        listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory())
+            .get(ListaNotasViewModel::class.java)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;
             val imagemPlaceholdr = getString(R.string.imagemTeste)
-            val tamanhoDaLista = mainViewModel.criaNota(imagemPlaceholdr)
+            val tamanhoDaLista = listaNotasViewModel.criaNota(imagemPlaceholdr)
             if(tamanhoDaLista!=null){
                 val action = TabFragmentDirections
                     .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista, isNotaNova)

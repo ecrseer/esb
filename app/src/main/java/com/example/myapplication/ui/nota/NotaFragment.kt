@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.myapplication.MainViewModel
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.example.myapplication.MainViewModelFactory
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNotaBinding
@@ -27,7 +27,7 @@ class NotaFragment : Fragment() {
     private var _binding: FragmentNotaBinding?=null
     private val binding get() = _binding!!
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var listaNotasViewModel: ListaNotasViewModel
     private lateinit var notaViewModel: NotaViewModel
 
     private var  posicaoNotaImagemArmazenada:Int?=null
@@ -78,11 +78,11 @@ class NotaFragment : Fragment() {
 
     }
     fun carregaDadosDaNota(){
-        mainViewModel =
+        listaNotasViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
-                .get(MainViewModel::class.java)
+                .get(ListaNotasViewModel::class.java)
         if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = mainViewModel.notasImgs.value
+            val todasNotaImgs = listaNotasViewModel.notasImgs.value
             if(todasNotaImgs!=null){
                 inscreverObservers()
                 notaViewModel.carregaNotaSalva(todasNotaImgs,
@@ -145,7 +145,7 @@ class NotaFragment : Fragment() {
             R.id.menu_itemDeletar -> {
                 val id = notaViewModel.notaImg.value?.id
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
-                mainViewModel.deletaNota(id!!)
+                listaNotasViewModel.deletaNota(id!!)
             }
             R.id.menu_itemCompartilhar->{
                 val intentDeCompartilhar: Intent = Intent().apply {

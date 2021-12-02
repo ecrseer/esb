@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 
 
 /**
@@ -21,7 +22,7 @@ class NotaViewPagerFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var listaNotasViewModel: ListaNotasViewModel
     private var posicao:Int=0
     private var isNotaNovaDeveSerCriada = false
     val args: NotaViewPagerFragmentArgs by navArgs()
@@ -45,16 +46,16 @@ class NotaViewPagerFragment : Fragment() {
     ): View? {
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
-        mainViewModel =
+        listaNotasViewModel =
             ViewModelProvider(requireActivity(),
-                MainViewModelFactory()).get(MainViewModel::class.java)
+                MainViewModelFactory()).get(ListaNotasViewModel::class.java)
 
         if(args!=null){
              inicializaArgs()
         }
 
         val adaptr = SliderAdapter(childFragmentManager,lifecycle,
-            mainViewModel.notasImgs.value?.size,false)
+            listaNotasViewModel.notasImgs.value?.size,false)
 
         with(binding.pager as ViewPager2){
             adapter =  adaptr

@@ -23,7 +23,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private var _binding: FragmentImagemItemListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var listaNotasViewModel: ListaNotasViewModel
 
     private var columnCount = 1
     private var isListaFavoritos = false
@@ -33,9 +33,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
         arguments?.let {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
-        mainViewModel =
+        listaNotasViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory())
-                .get(MainViewModel::class.java)
+                .get(ListaNotasViewModel::class.java)
 
 
     }
@@ -49,7 +49,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return mainViewModel.peneiraNotaPorTexto("$newText")
+                return listaNotasViewModel.peneiraNotaPorTexto("$newText")
             }
 
 
@@ -90,7 +90,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 Observer { listaImgs: MutableList<ImagemPesquisada>
                     -> this.mudarLista(listaImgs) }
 
-              mainViewModel.notasImgs.observe(viewLifecycleOwner, observaEmudaLista)
+              listaNotasViewModel.notasImgs.observe(viewLifecycleOwner, observaEmudaLista)
 
         }
     }
@@ -117,7 +117,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
                 ),
             )
 
-            val listaNotasInicial=mainViewModel.notasImgs.value
+            val listaNotasInicial=listaNotasViewModel.notasImgs.value
             if(listaNotasInicial!=null) {
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(
                     listaNotasInicial, clicarNoItemAbreNota  )

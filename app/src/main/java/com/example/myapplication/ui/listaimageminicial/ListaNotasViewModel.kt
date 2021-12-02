@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.listaimageminicial
 
 import com.example.myapplication.domain.ImagemPesquisada
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.domain.PersistenciaDadosNotas
 
-class MainViewModel : ViewModel()  {
+class ListaNotasViewModel : ViewModel()  {
 
     private val _notasImgs = MutableLiveData<MutableList<ImagemPesquisada> >().apply {
         value = PersistenciaDadosNotas.imgs
