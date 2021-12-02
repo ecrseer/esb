@@ -11,12 +11,18 @@ class MainViewModel : ViewModel()  {
     private val _notasImgs = MutableLiveData<MutableList<ImagemPesquisada> >().apply {
         value = PersistenciaDadosNotas.imgs
     }
-
     val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
+
+    private val _posicaoAbaLista = MutableLiveData<Int>().apply {
+        value=0
+    }
+    val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
+
 
     fun trocaAbaDaListaAtual(posicao:Int){
         val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
         if(listaPretendida!=null){
+            _posicaoAbaLista.postValue(posicao)
             _notasImgs.postValue(listaPretendida.lista)
         }
     }

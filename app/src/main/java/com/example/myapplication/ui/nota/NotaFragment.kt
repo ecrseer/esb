@@ -76,8 +76,27 @@ class NotaFragment : Fragment() {
 
         })
 
+    }
+    fun carregaDadosDaNota(){
+        mainViewModel =
+            ViewModelProvider(requireActivity(), MainViewModelFactory())
+                .get(MainViewModel::class.java)
+        if(posicaoNotaImagemArmazenada!=null){
+            val todasNotaImgs = mainViewModel.notasImgs.value
+            if(todasNotaImgs!=null){
+                inscreverObservers()
+                notaViewModel.carregaNotaSalva(todasNotaImgs,
+                    posicaoNotaImagemArmazenada!!)
+                setHasOptionsMenu(true)
+            }
 
-
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if(isVisible){
+            carregaDadosDaNota()
+        }
 
     }
 
@@ -105,11 +124,22 @@ class NotaFragment : Fragment() {
 
         notaViewModel.editaNotaAtual(titulo, conteudo, img)
     }
+
+    override fun onPause() {
+        super.onPause()
+        println("")
+        setHasOptionsMenu(false)
+        requireActivity().invalidateOptionsMenu()
+        //finish()
+    }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
                 salvaNotaNaLista()
-                findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
+                //findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
+                findNavController().popBackStack()
                 true
             }
             R.id.menu_itemDeletar -> {
@@ -120,7 +150,6 @@ class NotaFragment : Fragment() {
             R.id.menu_itemCompartilhar->{
                 val intentDeCompartilhar: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-
                     putExtra(Intent.EXTRA_TITLE, "${binding.txtTitulo.text.toString()}")
                     putExtra(Intent.EXTRA_SUBJECT, "${binding.txtTitulo.text.toString()}")
                     putExtra(Intent.EXTRA_TEXT, "${binding.txtConteudoNota.text.toString()}")
@@ -140,46 +169,5 @@ class NotaFragment : Fragment() {
         }
 
     }
-
-
-
-
-
-
-
-    override fun onPause() {
-        super.onPause()
-        println("")
-        setHasOptionsMenu(false)
-        requireActivity().invalidateOptionsMenu()
-        //finish()
-    }
-
-    fun carregaDados(){
-        mainViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())
-                .get(MainViewModel::class.java)
-        if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = mainViewModel.notasImgs.value
-            if(todasNotaImgs!=null){
-                inscreverObservers()
-                notaViewModel.carregaNotaSalva(todasNotaImgs,
-                    posicaoNotaImagemArmazenada!!)
-                setHasOptionsMenu(true)
-            }
-
-        }
-    }
-    override fun onResume() {
-        super.onResume()
-
-        if(isVisible){
-            carregaDados()
-        }
-
-    }
-
-
-
 
 }

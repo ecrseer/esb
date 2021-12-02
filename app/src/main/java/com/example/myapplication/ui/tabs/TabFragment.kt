@@ -3,8 +3,10 @@ package com.example.myapplication.ui.tabs
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
+import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -27,6 +29,10 @@ class TabFragment : Fragment() {
             //param1 = it.getString("ARG_PARAM1")
         }
 
+        mainViewModel =
+            ViewModelProvider(requireActivity(), MainViewModelFactory())
+                .get(MainViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -48,8 +54,8 @@ class TabFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
             viewpagr.setCurrentItem(tab.position,true)
-            if(position==0) tab.text="todas"
-            if(position==1) tab.text="favoritas"
+            tab.text = "${PersistenciaDadosNotas.todasAbas[position].nome}"
+
 
         }.attach()
 
@@ -57,17 +63,11 @@ class TabFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val posicaoAtual=tab?.position
                 if(posicaoAtual!=null){
-                    mainViewModel.notasImgs
+                    mainViewModel.trocaAbaDaListaAtual(posicaoAtual)
                 }
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {            }
 
         })
 
