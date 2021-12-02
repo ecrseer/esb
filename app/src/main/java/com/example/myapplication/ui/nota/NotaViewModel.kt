@@ -7,11 +7,17 @@ import com.example.myapplication.services.ImagensService
 import com.example.myapplication.services.ImagensServiceListener
 import com.example.myapplication.domain.ImagemPesquisada
 
-class NotaViewModel: ViewModel(), ImagensServiceListener {
+class NotaViewModel : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()
-    init{
+
+    init {
         servico.setImagensServiceListener(this)
     }
+
+    private val _isFavoritada = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+    val isFavoritada: LiveData<Boolean> = _isFavoritada
 
     private val _tituloNota = MutableLiveData<String>().apply {
         value = ""
@@ -33,11 +39,11 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
 
     val notaImg: LiveData<ImagemPesquisada> = _notaImg
 
-    val carregando = MutableLiveData<Boolean>().apply { value=false }
+    val carregando = MutableLiveData<Boolean>().apply { value = false }
 
 
-    fun editaNotaAtual(cabecalho:String, conteudo:String, img:String){
-        if(_notaImg.value!=null){
+    fun editaNotaAtual(cabecalho: String, conteudo: String, img: String) {
+        if (_notaImg.value != null) {
             _notaImg.value?.apply {
                 titulo = cabecalho
                 texto = conteudo
@@ -48,17 +54,18 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
     }
 
 
-    fun carregaNotaSalva(listaNotaImgs:MutableList<ImagemPesquisada>, posicao: Int){
+    fun carregaNotaSalva(listaNotaImgs: MutableList<ImagemPesquisada>, posicao: Int) {
 
         val imagemEncontrada = listaNotaImgs[posicao]
         _notaImg.postValue(imagemEncontrada)
-            _fundoImagem.value = imagemEncontrada.big
-            _tituloNota.value = imagemEncontrada.titulo
-            _textoNota.value = imagemEncontrada.texto
+        _fundoImagem.value = imagemEncontrada.big
+        _tituloNota.value = imagemEncontrada.titulo
+        _textoNota.value = imagemEncontrada.texto
 
     }
+
     override fun obterImagemTerminou(imagem: ImagemPesquisada?) {
-        if(imagem!=null){
+        if (imagem != null) {
             _fundoImagem.postValue(imagem.big)
         }
     }
@@ -67,7 +74,7 @@ class NotaViewModel: ViewModel(), ImagensServiceListener {
         println("deu ruim retrofit:\n$erro")
     }
 
-    fun pesquisaImagemRetrofit(palavrachave:String){
+    fun pesquisaImagemRetrofit(palavrachave: String) {
         servico.obterImagem(palavrachave)
     }
 }

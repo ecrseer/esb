@@ -40,6 +40,15 @@
             android:textSize="20sp"
             android:layout_marginTop="32dp" />
 
+    <ImageButton
+            android:src="@android:drawable/btn_star_big_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtn_favorito"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTitulo"
+            app:layout_constraintStart_toEndOf="@+id/txtTitulo" />
+
     <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"

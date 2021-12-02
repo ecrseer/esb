@@ -18,6 +18,16 @@ class ListaNotasViewModel : ViewModel()  {
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
+    fun verificaSeNotaEhFavorita(id:Int): Boolean {
+        val listaFavoritas = PersistenciaDadosNotas.todasAbas[1].lista
+        var isNotaFavorita =false
+        listaFavoritas.forEachIndexed { index, imagemPesquisada ->
+            if(imagemPesquisada.id==id){
+                isNotaFavorita= true
+            }
+        }
+        return isNotaFavorita
+    }
 
     fun trocaAbaDaListaAtual(posicao:Int){
         val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
