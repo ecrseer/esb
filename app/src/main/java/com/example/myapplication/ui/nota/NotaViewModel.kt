@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.services.ImagensService
 import com.example.myapplication.services.ImagensServiceListener
-import com.example.myapplication.domain.ImagemPesquisada
+import com.example.myapplication.domain.ImagemNota
 
 class NotaViewModel : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()
@@ -35,9 +35,9 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
 
     val fundoImagem: LiveData<String> = _fundoImagem
 
-    private val _notaImg = MutableLiveData<ImagemPesquisada>()
+    private val _notaImg = MutableLiveData<ImagemNota>()
 
-    val notaImg: LiveData<ImagemPesquisada> = _notaImg
+    val notaImg: LiveData<ImagemNota> = _notaImg
 
     val carregando = MutableLiveData<Boolean>().apply { value = false }
 
@@ -54,7 +54,7 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
     }
 
 
-    fun carregaNotaSalva(listaNotaImgs: MutableList<ImagemPesquisada>, posicao: Int) {
+    fun carregaNotaSalva(listaNotaImgs: MutableList<ImagemNota>, posicao: Int) {
 
         val imagemEncontrada = listaNotaImgs[posicao]
         _notaImg.postValue(imagemEncontrada)
@@ -64,7 +64,7 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
 
     }
 
-    override fun obterImagemTerminou(imagem: ImagemPesquisada?) {
+    override fun obterImagemTerminou(imagem: ImagemNota?) {
         if (imagem != null) {
             _fundoImagem.postValue(imagem.big)
         }

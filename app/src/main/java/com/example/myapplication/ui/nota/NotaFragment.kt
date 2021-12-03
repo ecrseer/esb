@@ -141,8 +141,8 @@ class NotaFragment : Fragment() {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
                 salvaNotaNaLista()
-                //findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
+                //todo findNavController().popBackStack()
                 true
             }
             R.id.menu_itemDeletar -> {

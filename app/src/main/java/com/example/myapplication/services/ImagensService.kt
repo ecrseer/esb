@@ -1,6 +1,6 @@
 package com.example.myapplication.services
 
-import com.example.myapplication.domain.ImagemPesquisada
+import com.example.myapplication.domain.ImagemNota
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,17 +21,17 @@ class ImagensService {
     }
     fun obterImagem(titulo:String){
         val call = api.obterImagem(titulo)
-        call!!.enqueue(object : Callback<ImagemPesquisada?>{
+        call!!.enqueue(object : Callback<ImagemNota?>{
             override fun onResponse(
-                call: Call<ImagemPesquisada?>,
-                response: Response<ImagemPesquisada?>
+                call: Call<ImagemNota?>,
+                response: Response<ImagemNota?>
             ) {
                 if(response.isSuccessful){
                     listenerImgService.obterImagemTerminou(response.body() )
                 }
             }
 
-            override fun onFailure(call: Call<ImagemPesquisada?>, t: Throwable) {
+            override fun onFailure(call: Call<ImagemNota?>, t: Throwable) {
                 listenerImgService.deuRuim("${t.message}")
             }
 

@@ -1,6 +1,6 @@
 package com.example.myapplication.ui.listaimageminicial
 
-import com.example.myapplication.domain.ImagemPesquisada
+import com.example.myapplication.domain.ImagemNota
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,11 +17,11 @@ import com.squareup.picasso.Picasso
  * TODO: Replace the implementation with code for your data type.
  */
 class ListaImagemPesquisadaRecyclerViewAdapter(
-    private var listaNotasImg: List<ImagemPesquisada>,
+    private var listaNotasImg: List<ImagemNota>,
     val funcaoParaClic:(Int)->Unit
 ) : RecyclerView.Adapter<ListaImagemPesquisadaRecyclerViewAdapter.ViewHolder>() {
 
-    fun mudarLista(listaNotasImgNova: List<ImagemPesquisada>){
+    fun mudarLista(listaNotasImgNova: List<ImagemNota>){
         listaNotasImg = listaNotasImgNova
         notifyDataSetChanged()
     }

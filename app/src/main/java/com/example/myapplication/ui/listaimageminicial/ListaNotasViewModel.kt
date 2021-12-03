@@ -1,6 +1,6 @@
 package com.example.myapplication.ui.listaimageminicial
 
-import com.example.myapplication.domain.ImagemPesquisada
+import com.example.myapplication.domain.ImagemNota
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +8,10 @@ import com.example.myapplication.domain.PersistenciaDadosNotas
 
 class ListaNotasViewModel : ViewModel()  {
 
-    private val _notasImgs = MutableLiveData<MutableList<ImagemPesquisada> >().apply {
+    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply {
         value = PersistenciaDadosNotas.imgs
     }
-    val notasImgs: LiveData<MutableList<ImagemPesquisada> > = _notasImgs
+    val notasImgs: LiveData<MutableList<ImagemNota> > = _notasImgs
 
     private val _posicaoAbaLista = MutableLiveData<Int>().apply {
         value=0
@@ -63,7 +63,7 @@ class ListaNotasViewModel : ViewModel()  {
             novoId= lista?.last()?.id+1
         }
 
-        val notaImgTemporaria = ImagemPesquisada(novoId,
+        val notaImgTemporaria = ImagemNota(novoId,
             "$imagemPlaceholdr","","","")
         _notasImgs.value?.add(notaImgTemporaria)
         return _notasImgs.value?.size
@@ -71,8 +71,8 @@ class ListaNotasViewModel : ViewModel()  {
 
 
     }
-    private fun getNotasPesquisadas(txt:String):MutableList<ImagemPesquisada>{
-        val results= mutableListOf<ImagemPesquisada>()
+    private fun getNotasPesquisadas(txt:String):MutableList<ImagemNota>{
+        val results= mutableListOf<ImagemNota>()
         for(notaimg in _notasImgs.value!!){
             if (notaimg.titulo.contains(txt)){
                 results.add(notaimg)

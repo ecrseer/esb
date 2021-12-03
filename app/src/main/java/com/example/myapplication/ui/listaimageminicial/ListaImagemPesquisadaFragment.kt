@@ -9,10 +9,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
-import com.example.myapplication.domain.ImagemPesquisada
+import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 /**
@@ -87,7 +86,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private fun inscreverObserver() {
         with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter) {
             val observaEmudaLista =
-                Observer { listaImgs: MutableList<ImagemPesquisada>
+                Observer { listaImgs: MutableList<ImagemNota>
                     -> this.mudarLista(listaImgs) }
 
               listaNotasViewModel.notasImgs.observe(viewLifecycleOwner, observaEmudaLista)
