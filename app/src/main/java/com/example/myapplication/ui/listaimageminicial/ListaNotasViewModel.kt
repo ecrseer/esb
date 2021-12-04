@@ -17,23 +17,11 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         value = PersistenciaDadosNotas.imgs    }
     val notasImgs: LiveData<MutableList<ImagemNota> > = _notasImgs
 
-    fun enviaDatabaseParaViewModel(){
-        val mutavel=mutableListOf<ImagemNota>()
-        val temItem = notaImgsDoRoom.value!=null
-        if(temItem){
-            for (nota in notaImgsDoRoom.value!!){
-                mutavel.add(nota)
-            }
-            PersistenciaDadosNotas.todasAbas[0].lista=mutavel
-            _notasImgs.postValue(mutavel)
 
-        }
-    }
     init {
         imageNotaRepository = ImagemNotaRepository(application)
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
 
-        enviaDatabaseParaViewModel()
         //PersistenciaDadosNotas.imgs = mutableListOf<ImagemNota>()
     }
 
@@ -43,7 +31,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
-    //refatorar
+    //todo refatorar
     fun verificaSeNotaEhFavorita(id:Int): Boolean {
         val listaFavoritas = PersistenciaDadosNotas.todasAbas[1].lista
         var isNotaFavorita =false
@@ -61,6 +49,9 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
             _posicaoAbaLista.postValue(posicao)
             _notasImgs.postValue(listaPretendida.lista)
         }
+    }
+    fun editaNotaAtual(nota:ImagemNota){
+        imageNotaRepository.editarAnotacao(nota)
     }
 
     fun deletaNota(id:Int):Boolean{
@@ -92,8 +83,9 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
         val l = notaImgsDoRoom.value?.size
+
         _notasImgs.value?.add(notaImgTemporaria)
-        imageNotaRepository.salvarAnotacao(notaImgTemporaria)
+        imageNotaRepository.inserirAnotacao(notaImgTemporaria)
         return _notasImgs.value?.size
 
 

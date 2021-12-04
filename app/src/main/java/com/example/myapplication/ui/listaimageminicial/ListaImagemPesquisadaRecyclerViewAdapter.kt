@@ -26,6 +26,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val minhaBindingView = FragmentImagemItemBinding.inflate(
             LayoutInflater.from(parent.context),

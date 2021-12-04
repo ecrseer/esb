@@ -83,11 +83,10 @@ class NotaFragment : Fragment() {
 
     }
     fun carregaDadosDaNota(){
-
         if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = listaNotasViewModel.notasImgs.value
+            val todasNotaImgs = listaNotasViewModel.notaImgsDoRoom.value
             if(todasNotaImgs!=null){
-                notaViewModel.carregaNotaSalva(todasNotaImgs,
+                notaViewModel.carregaNotaSalvaRoom(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)
 
             }
@@ -120,12 +119,16 @@ class NotaFragment : Fragment() {
 
 
     }
-    private fun salvaNotaNaLista(){
+    private fun editaNotaNaLista(){
         val titulo: String = binding.txtTitulo.text.toString()
         val conteudo: String = binding.txtConteudoNota.text.toString()
         val img: String = "${notaViewModel.fundoImagem.value}"
 
         notaViewModel.editaNotaAtual(titulo, conteudo, img)
+        val notaEditada= notaViewModel.notaImg.value
+        if (notaEditada!=null){
+            listaNotasViewModel.editaNotaAtual(notaEditada)
+        }
     }
 
     override fun onPause() {
@@ -140,7 +143,7 @@ class NotaFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
-                salvaNotaNaLista()
+                editaNotaNaLista()
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
                 //todo findNavController().popBackStack()
                 true
@@ -158,7 +161,7 @@ class NotaFragment : Fragment() {
                     putExtra(Intent.EXTRA_TEXT, "${binding.txtConteudoNota.text.toString()}")
                     type = "text/plain"
                 }
-                salvaNotaNaLista()
+                editaNotaNaLista()
                 val pm = requireActivity().packageManager
                 val existeAplicativoQuePossaCompartilhar = intentDeCompartilhar.resolveActivity(pm)!=null
                 if(existeAplicativoQuePossaCompartilhar){

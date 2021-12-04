@@ -51,10 +51,20 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
                 thumb = img
             }
         }
+
     }
 
 
     fun carregaNotaSalva(listaNotaImgs: MutableList<ImagemNota>, posicao: Int) {
+
+        val imagemEncontrada = listaNotaImgs[posicao]
+        _notaImg.postValue(imagemEncontrada)
+        _fundoImagem.value = imagemEncontrada.big
+        _tituloNota.value = imagemEncontrada.titulo
+        _textoNota.value = imagemEncontrada.texto
+
+    }
+    fun carregaNotaSalvaRoom(listaNotaImgs: List<ImagemNota>, posicao: Int) {
 
         val imagemEncontrada = listaNotaImgs[posicao]
         _notaImg.postValue(imagemEncontrada)

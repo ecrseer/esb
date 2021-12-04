@@ -3,15 +3,16 @@ package com.example.myapplication.ui.listaimageminicial
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
-import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 /**
@@ -36,9 +37,16 @@ class ListaImagemPesquisadaFragment : Fragment() {
             ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
 
-
     }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
+        _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
     fun estabelecePesquisaPorNotas(searchView: SearchView) {
         //NoteImagens.etata = 2
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -73,49 +81,60 @@ class ListaImagemPesquisadaFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
 
-        return binding.root
-    }
 
-    private fun inscreverObserver() {
-        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter) {
-            val observaEmudaLista =
-                Observer { listaImgs: MutableList<ImagemNota>
-                    -> this.mudarLista(listaImgs) }
 
-              listaNotasViewModel.notasImgs.observe(viewLifecycleOwner, observaEmudaLista)
 
+
+
+
+    private fun renovaListaAdapter(){
+        val clicarNoItemAbreNota = { posicao: Int ->
+
+            val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
+            findNavController().navigate(acao)
+        }
+        with(binding.list) {
+
+            val listaNotasInicial=listaNotasViewModel.notaImgsDoRoom.value
+            if(listaNotasInicial!=null) {
+                adapter = ListaImagemPesquisadaRecyclerViewAdapter(
+                    listaNotasInicial, clicarNoItemAbreNota  )
+
+            }
         }
     }
+    fun newDeslizarProLadoEfeito(): ItemTouchHelper {
+        return ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return true
+                }
 
-    val clicarNoItemAbreNota = { posicao: Int ->
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    println("epaepa")
+                }
 
-        val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
-        findNavController().navigate(acao)
+            }
+        )
     }
 
-
-
-    private fun desenhaListaNotas(){
-
+    private fun defineRecyclerView() {
         with(binding.list) {
+            val deslizarItemHelp = newDeslizarProLadoEfeito()
+            deslizarItemHelp.attachToRecyclerView(binding.list)
+
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
 
-
-            val listaNotasInicial=listaNotasViewModel.notasImgs.value
-            if(listaNotasInicial!=null) {
-                adapter = ListaImagemPesquisadaRecyclerViewAdapter(
-                    listaNotasInicial, clicarNoItemAbreNota  )
-            }
         }
     }
 
@@ -123,21 +142,30 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        desenhaListaNotas()
-        inscreverObserver()
-        setHasOptionsMenu(true);
+        defineRecyclerView()
+
+        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
+            renovaListaAdapter()
+            setHasOptionsMenu(true);
+        })
 
     }
 
-    override fun onPause() {
+    /*override fun onPause() {
         super.onPause()
         with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
             this.notifyDataSetChanged()
         }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
+
+        with(binding.list) {
+            if(listaNotasViewModel.notasImgs.value!=null)
+                this.scrollToPosition(listaNotasViewModel
+                    .notasImgs.value!!.size)
+        }
 
 
     }
