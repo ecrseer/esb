@@ -1,11 +1,14 @@
 package com.example.myapplication.ui.listaimageminicial
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -28,6 +31,27 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private var columnCount = 1
     private var isListaFavoritos = false
 
+    private val listenerAtualizaScroll = object : NavController.OnDestinationChangedListener{
+        override fun onDestinationChanged(
+            controller: NavController,
+            destination: NavDestination,
+            arguments: Bundle?
+        ) {
+            with(binding.list) {
+                if(listaNotasViewModel.notasImgs.value!=null)
+                    this.scrollToPosition(listaNotasViewModel
+                        .notasImgs.value!!.size)
+            }
+        }
+
+    }
+    private val listenerPesquisaNotas = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {return true}
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return listaNotasViewModel.peneiraNotaPorTexto("$newText")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,23 +71,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
         return binding.root
     }
-    fun estabelecePesquisaPorNotas(searchView: SearchView) {
-        //NoteImagens.etata = 2
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                //TODO("Not yet implemented")
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return listaNotasViewModel.peneiraNotaPorTexto("$newText")
-            }
-
-
-
-
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -75,19 +83,10 @@ class ListaImagemPesquisadaFragment : Fragment() {
             inflater.inflate(R.menu.menu_main, menu)
             val searchWdgt = menu.findItem(R.id.app_bar_search)
             val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
-            estabelecePesquisaPorNotas(actionViewPesquisa)
+            actionViewPesquisa.setOnQueryTextListener(listenerPesquisaNotas)
         }
 
     }
-
-
-
-
-
-
-
-
-
 
     private fun renovaListaAdapter(){
         val clicarNoItemAbreNota = { posicao: Int ->
@@ -117,9 +116,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
                     return true
                 }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    println("epaepa")
-                }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+            }
 
             }
         )
@@ -142,6 +141,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
         defineRecyclerView()
 
         listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
@@ -151,24 +151,13 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    /*override fun onPause() {
+    override fun onPause() {
         super.onPause()
-        with(binding.list.adapter as ListaImagemPesquisadaRecyclerViewAdapter){
-            this.notifyDataSetChanged()
-        }
-    }*/
-
-    override fun onResume() {
-        super.onResume()
-
-        with(binding.list) {
-            if(listaNotasViewModel.notasImgs.value!=null)
-                this.scrollToPosition(listaNotasViewModel
-                    .notasImgs.value!!.size)
-        }
-
+        findNavController().removeOnDestinationChangedListener(listenerAtualizaScroll)
 
     }
+
+
 
 
 }

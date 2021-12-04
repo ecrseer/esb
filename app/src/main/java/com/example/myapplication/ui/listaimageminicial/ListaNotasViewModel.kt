@@ -21,8 +21,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     init {
         imageNotaRepository = ImagemNotaRepository(application)
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
-
-        //PersistenciaDadosNotas.imgs = mutableListOf<ImagemNota>()
     }
 
 
@@ -64,7 +62,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
             todasNotas.apply { forEachIndexed { index, imagemPesquisada ->
                 if(imagemPesquisada.id==id){
                     _notasImgs.value?.removeAt(index)
-                    deletouAlgo=true
+                    deletouAlgo = true
                     return@apply
                 }
 
@@ -82,11 +80,9 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
         val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
-        val l = notaImgsDoRoom.value?.size
 
-        _notasImgs.value?.add(notaImgTemporaria)
         imageNotaRepository.inserirAnotacao(notaImgTemporaria)
-        return _notasImgs.value?.size
+        return notaImgsDoRoom.value?.size
 
 
 

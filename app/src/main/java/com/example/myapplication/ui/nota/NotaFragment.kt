@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.nota
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -86,7 +87,7 @@ class NotaFragment : Fragment() {
         if(posicaoNotaImagemArmazenada!=null){
             val todasNotaImgs = listaNotasViewModel.notaImgsDoRoom.value
             if(todasNotaImgs!=null){
-                notaViewModel.carregaNotaSalvaRoom(todasNotaImgs,
+                notaViewModel.carregaNotaRoom(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)
 
             }
@@ -138,6 +139,7 @@ class NotaFragment : Fragment() {
         requireActivity().invalidateOptionsMenu()
         //finish()
     }
+
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
