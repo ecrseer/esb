@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.services.ImagensService
 import com.example.myapplication.services.ImagensServiceListener
 import com.example.myapplication.domain.ImagemNota
+import kotlinx.coroutines.runBlocking
 
 class NotaViewModel : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()
@@ -67,11 +68,14 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
     fun carregaNotaRoom(listaNotaImgs: List<ImagemNota>, posicao: Int) {
 
         val imagemEncontrada = listaNotaImgs[posicao]
-        _notaImg.postValue(imagemEncontrada)
-        _fundoImagem.value = imagemEncontrada.big
-        _tituloNota.value = imagemEncontrada.titulo
-        _textoNota.value = imagemEncontrada.texto
-
+        if(imagemEncontrada==null){
+            _tituloNota.value = "carregando"
+        }else {
+            _notaImg.postValue(imagemEncontrada)
+            _fundoImagem.value = imagemEncontrada.big
+            _tituloNota.value = imagemEncontrada.titulo
+            _textoNota.value = imagemEncontrada.texto
+        }
     }
 
     override fun obterImagemTerminou(imagem: ImagemNota?) {

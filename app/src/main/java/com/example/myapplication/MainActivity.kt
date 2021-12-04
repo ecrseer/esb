@@ -14,6 +14,7 @@ import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 
 import com.example.myapplication.ui.tabs.TabFragmentDirections
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,12 +58,26 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;
             val imagemPlaceholdr = getString(R.string.imagemTeste)
-            val tamanhoDaLista = listaNotasViewModel.criaNota(imagemPlaceholdr)
-            if(tamanhoDaLista!=null){
-                val action = TabFragmentDirections
-                    .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista, isNotaNova)
-                navController.navigate(action)
+
+                val tamanhoDaLista = GlobalScope.async {
+                    listaNotasViewModel.criaNota(imagemPlaceholdr)
+                }
+            GlobalScope.launch(Dispatchers.Main){
+                if(tamanhoDaLista.await()!=null){
+                    val action = TabFragmentDirections
+                        .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista
+                            .await()?.plus(1)!!, isNotaNova)
+                    navController.navigate(action)
+                }
+
             }
+
+
+
+
+
+
+
         }
     }
 

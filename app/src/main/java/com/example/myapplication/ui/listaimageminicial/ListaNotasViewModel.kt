@@ -5,6 +5,8 @@ import androidx.lifecycle.*
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.services.ImagemNotaRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
@@ -15,7 +17,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
     private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
         value = PersistenciaDadosNotas.imgs    }
-    val notasImgs: LiveData<MutableList<ImagemNota> > = _notasImgs
 
 
     init {
@@ -69,21 +70,14 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         }
         return deletouAlgo
     }
-    fun criaNota(imagemPlaceholdr:String):Int?{
-        var lista =_notasImgs?.value
-        var novoId=0
-        if(lista!=null && lista.size>0){
-            novoId= lista?.last()?.id+1
-        }
-
+    suspend fun criaNota(imagemPlaceholdr:String):Int? {
 
         val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
-
-        imageNotaRepository.inserirAnotacao(notaImgTemporaria)
-        return notaImgsDoRoom.value?.size
-
-
+        return withContext(Dispatchers.Main){
+            imageNotaRepository.inserirAnotacao(notaImgTemporaria)
+             notaImgsDoRoom.value?.size
+        }
 
     }
     private fun getNotasPesquisadas(txt:String):MutableList<ImagemNota>{
@@ -93,6 +87,20 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
                 results.add(notaimg)
             }
         }
+        return results;
+    }
+      fun getListaNotasPesquisadas(txt:String?):List<ImagemNota>{
+        var listaNaDb =  notaImgsDoRoom.value
+        val results= mutableListOf<ImagemNota>()
+          if(txt==null) return results
+
+          if (listaNaDb != null) {
+              for(notaimg in listaNaDb){
+                  if (notaimg.titulo.contains(txt)){
+                      results.add(notaimg)
+                  }
+              }
+          }
         return results;
     }
 

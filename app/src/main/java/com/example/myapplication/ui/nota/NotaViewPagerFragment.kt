@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
+import kotlinx.coroutines.runBlocking
 
 
 /**
@@ -27,18 +28,7 @@ class NotaViewPagerFragment : Fragment() {
     private var isNotaNovaDeveSerCriada = false
     val args: NotaViewPagerFragmentArgs by navArgs()
 
-    private fun inicializaArgs(){
-        if( args.posicao!=null){
-            posicao = args.posicao
-        }
-        if(args.isNotaNova){/*
-            isNotaNovaDeveSerCriada = args.isNotaNova
-            val imagemPlaceholdr = getString(R.string.imagemTeste)
-            val tamanhoDaLista = mainViewModel.criaNota(imagemPlaceholdr)
-            if(tamanhoDaLista!=null)
-                posicao = tamanhoDaLista-1*/
-        }
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +39,17 @@ class NotaViewPagerFragment : Fragment() {
         //todo trocar por safe args
         listaNotasViewModel =
             ViewModelProvider(requireActivity(),
-                MainViewModelFactory(requireActivity().application)).get(ListaNotasViewModel::class.java)
+                MainViewModelFactory(requireActivity().application))
+                .get(ListaNotasViewModel::class.java)
 
         if(args!=null){
-             inicializaArgs()
+            if( args.posicao!=null){
+                posicao = args.posicao
+            }
         }
 
         val adaptr = SliderAdapter(childFragmentManager,lifecycle,
-            listaNotasViewModel.notasImgs.value?.size,false)
+            listaNotasViewModel.notaImgsDoRoom.value?.size,false)
 
         with(binding.pager as ViewPager2){
             adapter =  adaptr
@@ -77,9 +70,19 @@ class NotaViewPagerFragment : Fragment() {
         requireActivity().invalidateOptionsMenu()
         _binding = null
     }
+    fun avan(){
+        if(args.isNotaNova){
+            runBlocking {
+                with(binding.pager as ViewPager2){
 
+                    currentItem = posicao+1
+                }
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
+
 
     }
 

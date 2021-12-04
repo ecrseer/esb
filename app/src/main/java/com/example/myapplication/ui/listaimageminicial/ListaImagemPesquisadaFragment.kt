@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
+import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
 /**
@@ -31,6 +32,20 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private var columnCount = 1
     private var isListaFavoritos = false
 
+    private fun renovaListaAdapter(listaNotasInicial:List<ImagemNota>?){
+        val clicarNoItemAbreNota = { posicao: Int ->
+
+            val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
+            findNavController().navigate(acao)
+        }
+        with(binding.list) {
+            if(listaNotasInicial!=null) {
+                adapter = ListaImagemPesquisadaRecyclerViewAdapter(
+                    listaNotasInicial, clicarNoItemAbreNota  )
+            }
+        }
+    }
+
     private val listenerAtualizaScroll = object : NavController.OnDestinationChangedListener{
         override fun onDestinationChanged(
             controller: NavController,
@@ -38,9 +53,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
             arguments: Bundle?
         ) {
             with(binding.list) {
-                if(listaNotasViewModel.notasImgs.value!=null)
+                if(listaNotasViewModel.notaImgsDoRoom.value!=null)
                     this.scrollToPosition(listaNotasViewModel
-                        .notasImgs.value!!.size)
+                        .notaImgsDoRoom.value!!.size)
             }
         }
 
@@ -48,7 +63,14 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private val listenerPesquisaNotas = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {return true}
         override fun onQueryTextChange(newText: String?): Boolean {
-            return listaNotasViewModel.peneiraNotaPorTexto("$newText")
+            if(newText?.isBlank() == true){
+                renovaListaAdapter(listaNotasViewModel.notaImgsDoRoom.value)
+                return false
+            }else{
+                val resultadoPesquisa = listaNotasViewModel.getListaNotasPesquisadas(newText)
+                renovaListaAdapter(resultadoPesquisa)
+                return true
+            }
         }
     }
 
@@ -88,22 +110,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-    private fun renovaListaAdapter(){
-        val clicarNoItemAbreNota = { posicao: Int ->
 
-            val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
-            findNavController().navigate(acao)
-        }
-        with(binding.list) {
-
-            val listaNotasInicial=listaNotasViewModel.notaImgsDoRoom.value
-            if(listaNotasInicial!=null) {
-                adapter = ListaImagemPesquisadaRecyclerViewAdapter(
-                    listaNotasInicial, clicarNoItemAbreNota  )
-
-            }
-        }
-    }
     fun newDeslizarProLadoEfeito(): ItemTouchHelper {
         return ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(0,
@@ -145,7 +152,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         defineRecyclerView()
 
         listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
-            renovaListaAdapter()
+            renovaListaAdapter(listaNotasViewModel.notaImgsDoRoom.value)
             setHasOptionsMenu(true);
         })
 
