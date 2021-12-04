@@ -20,8 +20,8 @@ object PersistenciaDadosNotas {
     )
 
     var todasAbas = mutableListOf<AbaDeNotas>(
-        AbaDeNotas("todass", imgs),
-        AbaDeNotas("favoritas", imgsFavoritas)
+        AbaDeNotas(0,"todass", imgs),
+        AbaDeNotas(0,"favoritas", imgsFavoritas)
     )
 
 
