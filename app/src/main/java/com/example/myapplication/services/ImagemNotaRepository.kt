@@ -28,6 +28,11 @@ class ImagemNotaRepository(applicationContext:Application) {
             return@runBlocking dao.listarLiveData()
         }
     }
+    fun listaImagemNotaAbaAtualLiveData(nomeAba:String): Flow<List<ImagemNota>> {
+        return runBlocking {
+            return@runBlocking dao.listarAbaLiveData(nomeAba)
+        }
+    }
     fun inserirAnotacao(nota:ImagemNota){
         return runBlocking {
             return@runBlocking dao.inserir(nota)

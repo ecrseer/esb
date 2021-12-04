@@ -15,6 +15,10 @@ interface ImagemNotaDao {
     @Query(value = "SELECT * FROM imagemnota")
     fun listarLiveData(): Flow<List<ImagemNota>>
 
+    @Query(value = "SELECT * FROM imagemnota WHERE nomeDaAba = :nomeAba")
+    fun listarAbaLiveData(nomeAba:String): Flow<List<ImagemNota>>
+
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun inserir(nota:ImagemNota)
 

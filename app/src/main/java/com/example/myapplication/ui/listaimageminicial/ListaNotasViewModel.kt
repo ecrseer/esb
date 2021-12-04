@@ -19,10 +19,22 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
         value = PersistenciaDadosNotas.imgs    }
 
+    lateinit var notaImgsAbaAtual:LiveData<List<ImagemNota>>
+
+    private val _nomeAbaAtual = MutableLiveData<String>().apply {
+        value="todas"
+    }
+    val nomeAbaAtual: LiveData<String> = _nomeAbaAtual
+
 
     init {
         imageNotaRepository = ImagemNotaRepository(application)
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
+        notaImgsAbaAtual = nomeAbaAtual.value?.let { nomeAba->
+            imageNotaRepository
+                .listaImagemNotaAbaAtualLiveData(
+                    nomeAba    ).asLiveData()
+        }!!
     }
 
 
@@ -30,6 +42,8 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         value=0
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
+
+
 
     //todo refatorar
     fun verificaSeNotaEhFavorita(id:Int): Boolean {
@@ -74,10 +88,11 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     suspend fun criaNota(imagemPlaceholdr:String):Int? {
 
         val notaImgTemporaria = ImagemNota(0,
-            "$imagemPlaceholdr","","","")
+            "$imagemPlaceholdr","","","","favoritas")
         return withContext(Dispatchers.Main){
             imageNotaRepository.inserirAnotacao(notaImgTemporaria)
              delay(1000)
+            val ll = notaImgsAbaAtual.value
              notaImgsDoRoom.value?.size
         }
 

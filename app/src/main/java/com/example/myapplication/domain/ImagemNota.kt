@@ -22,4 +22,7 @@ data class ImagemNota constructor(
     @ColumnInfo(name = "titulo")
     var titulo:String,
 
+    @ColumnInfo(name = "nomeDaAba")
+    var nomeDaAba:String
+
 )
