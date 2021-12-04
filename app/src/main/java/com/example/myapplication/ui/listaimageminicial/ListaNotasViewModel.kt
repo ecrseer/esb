@@ -1,17 +1,42 @@
 package com.example.myapplication.ui.listaimageminicial
 
+import android.app.Application
+import androidx.lifecycle.*
 import com.example.myapplication.domain.ImagemNota
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.services.ImagemNotaRepository
 
-class ListaNotasViewModel : ViewModel()  {
+class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
-    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply {
-        value = PersistenciaDadosNotas.imgs
-    }
+    private lateinit var imageNotaRepository:ImagemNotaRepository
+
+
+    lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
+
+    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
+        value = PersistenciaDadosNotas.imgs    }
     val notasImgs: LiveData<MutableList<ImagemNota> > = _notasImgs
+
+    fun enviaDatabaseParaViewModel(){
+        val mutavel=mutableListOf<ImagemNota>()
+        val temItem = notaImgsDoRoom.value!=null
+        if(temItem){
+            for (nota in notaImgsDoRoom.value!!){
+                mutavel.add(nota)
+            }
+            PersistenciaDadosNotas.todasAbas[0].lista=mutavel
+            _notasImgs.postValue(mutavel)
+
+        }
+    }
+    init {
+        imageNotaRepository = ImagemNotaRepository(application)
+        notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
+
+        enviaDatabaseParaViewModel()
+        //PersistenciaDadosNotas.imgs = mutableListOf<ImagemNota>()
+    }
+
 
     private val _posicaoAbaLista = MutableLiveData<Int>().apply {
         value=0
@@ -63,9 +88,12 @@ class ListaNotasViewModel : ViewModel()  {
             novoId= lista?.last()?.id+1
         }
 
-        val notaImgTemporaria = ImagemNota(novoId,
+
+        val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
+        val l = notaImgsDoRoom.value?.size
         _notasImgs.value?.add(notaImgTemporaria)
+        imageNotaRepository.salvarAnotacao(notaImgTemporaria)
         return _notasImgs.value?.size
 
 

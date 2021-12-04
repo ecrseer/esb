@@ -55,7 +55,7 @@ class NotaFragment : Fragment() {
 
     fun inscreverObservers(){
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())
+            ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
 
         notaViewModel = ViewModelProvider(this).get( NotaViewModel::class.java)

@@ -46,9 +46,10 @@ class NotaViewPagerFragment : Fragment() {
     ): View? {
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
+        //todo trocar por safe args
         listaNotasViewModel =
             ViewModelProvider(requireActivity(),
-                MainViewModelFactory()).get(ListaNotasViewModel::class.java)
+                MainViewModelFactory(requireActivity().application)).get(ListaNotasViewModel::class.java)
 
         if(args!=null){
              inicializaArgs()

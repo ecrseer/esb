@@ -12,7 +12,8 @@ class ImagemNotaRepository(applicationContext:Application) {
     private lateinit var dao: ImagemNotaDao
 
     init {
-        val db = Room.databaseBuilder(applicationContext,AppDatabase::class.java, "db_imagemnota")
+        val db = Room.databaseBuilder(applicationContext,
+            AppDatabase::class.java, "db_imagemnota")
             .build()
         dao = db.getImagemNotaDAO()
     }
@@ -22,8 +23,15 @@ class ImagemNotaRepository(applicationContext:Application) {
              return@runBlocking dao.obter(id)
         }
     }
-    /*fun listaImagemNotaLiveData(): Flow<List<ImagemNota>> {
-
-    }*/
+   fun listaImagemNotaLiveData(): Flow<List<ImagemNota>> {
+        return runBlocking {
+            return@runBlocking dao.listarLiveData()
+        }
+    }
+    fun salvarAnotacao(nota:ImagemNota){
+        return runBlocking {
+            return@runBlocking dao.inserir(nota)
+        }
+    }
 
 }

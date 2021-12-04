@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory())
+        listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory(application))
             .get(ListaNotasViewModel::class.java)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

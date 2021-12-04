@@ -33,7 +33,7 @@ class TabFragment : Fragment() {
         }
 
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory())
+            ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
 
     }
