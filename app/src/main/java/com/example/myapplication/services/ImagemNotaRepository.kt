@@ -38,5 +38,10 @@ class ImagemNotaRepository(applicationContext:Application) {
             return@runBlocking dao.editar(nota)
         }
     }
+    fun removerAnotacao(nota:ImagemNota){
+        return runBlocking {
+            return@runBlocking dao.excluir(nota)
+        }
+    }
 
 }

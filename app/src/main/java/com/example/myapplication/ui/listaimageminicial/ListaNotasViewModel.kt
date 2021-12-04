@@ -52,21 +52,20 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         imageNotaRepository.editarAnotacao(nota)
     }
 
-    fun deletaNota(id:Int):Boolean{
-        val todasNotas = _notasImgs?.value
+    fun deletaNota(id: Int): Boolean {
         var deletouAlgo = false
 
-        if(id==null) return deletouAlgo
+        if (id == null) return deletouAlgo
 
-        if (todasNotas!=null){
-            todasNotas.apply { forEachIndexed { index, imagemPesquisada ->
-                if(imagemPesquisada.id==id){
-                    _notasImgs.value?.removeAt(index)
+        notaImgsDoRoom?.value?.apply {
+            forEachIndexed { index, imagemPesquisada ->
+                if (imagemPesquisada.id == id) {
+                    imageNotaRepository.removerAnotacao(imagemPesquisada)
                     deletouAlgo = true
                     return@apply
                 }
 
-            } }
+            }
         }
         return deletouAlgo
     }
