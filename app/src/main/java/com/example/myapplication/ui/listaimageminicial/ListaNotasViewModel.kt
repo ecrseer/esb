@@ -6,6 +6,7 @@ import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.services.ImagemNotaRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
@@ -76,6 +77,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
             "$imagemPlaceholdr","","","")
         return withContext(Dispatchers.Main){
             imageNotaRepository.inserirAnotacao(notaImgTemporaria)
+             delay(1000)
              notaImgsDoRoom.value?.size
         }
 

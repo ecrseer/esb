@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
@@ -24,6 +25,21 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var listaNotasViewModel: ListaNotasViewModel
 
+    private var listenerEscondeFab = object : NavController.OnDestinationChangedListener {
+        override fun onDestinationChanged(
+            controller: NavController,
+            destination: NavDestination,
+            arguments: Bundle?
+        ) {
+            val fabDeveSumir = destination.id == R.id.NotaViewPagerFragment
+            if (fabDeveSumir) {
+                binding.fab?.visibility = View.GONE
+            } else {
+                binding.fab?.visibility = View.VISIBLE
+            }
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,15 +62,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            val fabDeveSumir = destination.id == R.id.NotaViewPagerFragment
-            if (fabDeveSumir) {
-                binding.fab?.visibility = View.GONE
-            } else {
-                binding.fab?.visibility = View.VISIBLE
-            }
+        navController.addOnDestinationChangedListener (listenerEscondeFab)
 
-        }
         binding.fab.setOnClickListener { view ->
             val isNotaNova = true;
             val imagemPlaceholdr = getString(R.string.imagemTeste)
@@ -62,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             GlobalScope.launch(Dispatchers.Main){
                 val tamanhoDaLista = GlobalScope.async {
+
                     listaNotasViewModel.criaNota(imagemPlaceholdr)
                 }
                 if(tamanhoDaLista.await()!=null){
