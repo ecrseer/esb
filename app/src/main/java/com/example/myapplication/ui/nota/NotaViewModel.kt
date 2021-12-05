@@ -50,6 +50,7 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
                 texto = conteudo
                 big = img
                 thumb = img
+                nomeDaAba = "todas"
             }
         }
 

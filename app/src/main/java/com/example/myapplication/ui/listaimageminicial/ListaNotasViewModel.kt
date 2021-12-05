@@ -22,7 +22,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     lateinit var notaImgsAbaAtual:LiveData<List<ImagemNota>>
 
     private val _nomeAbaAtual = MutableLiveData<String>().apply {
-        value="todas"
+        value="favoritas"
     }
     val nomeAbaAtual: LiveData<String> = _nomeAbaAtual
 
@@ -123,22 +123,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
 
 
-    fun peneiraNotaPorTexto(txt:String):Boolean{
-        if(txt.isBlank()){
-            _notasImgs.postValue(PersistenciaDadosNotas.imgs)
-        }else{
-            if(_notasImgs.value!=null){
-               val resultadoPesquisa=getNotasPesquisadas(txt)
-                if(resultadoPesquisa.size>=1) {
-                    _notasImgs.postValue(resultadoPesquisa)
-                    return true
-                }
-
-                    }
-
-            }
-         return false
-        }
 
 
 

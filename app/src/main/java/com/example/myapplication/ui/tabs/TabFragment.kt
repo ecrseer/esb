@@ -26,6 +26,17 @@ class TabFragment : Fragment() {
     private val listaDeAbas:MutableList<AbaDeNotas> = PersistenciaDadosNotas.todasAbas
     private lateinit var listaNotasViewModel: ListaNotasViewModel
 
+    private val listenerMudarListaAba = object : TabLayout.OnTabSelectedListener{
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            val posicaoAtual=tab?.position
+            if(posicaoAtual!=null){
+                listaNotasViewModel.trocaAbaDaListaAtual(posicaoAtual)
+            }
+        }
+        override fun onTabUnselected(tab: TabLayout.Tab?) {            }
+        override fun onTabReselected(tab: TabLayout.Tab?) {            }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -61,17 +72,7 @@ class TabFragment : Fragment() {
             tab.text = "${listaDeAbas[position].nome}"
         }.attach()
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val posicaoAtual=tab?.position
-                if(posicaoAtual!=null){
-                    listaNotasViewModel.trocaAbaDaListaAtual(posicaoAtual)
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {            }
-            override fun onTabReselected(tab: TabLayout.Tab?) {            }
-
-        })
+        tabLayout.addOnTabSelectedListener(listenerMudarListaAba)
 
 
 
