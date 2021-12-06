@@ -12,11 +12,7 @@ data class AbaDeNotas constructor(
     var idAba:Int,
 
     @ColumnInfo(name = "nome")
-    var nome:String,
+    var nome:String
 
-    @Relation(
-        parentColumn = "idAba",
-        entity = ImagemNota::class,
-        entityColumn = "id"    )
-    var listaDeNotas:List<ImagemNota>
+
 ) {}

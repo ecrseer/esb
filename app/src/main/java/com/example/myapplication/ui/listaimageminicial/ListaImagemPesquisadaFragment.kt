@@ -134,7 +134,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private fun defineRecyclerView() {
         with(binding.list) {
             val deslizarItemHelp = newDeslizarProLadoEfeito()
-            deslizarItemHelp.attachToRecyclerView(binding.list)
+          //  deslizarItemHelp.attachToRecyclerView(binding.list)
 
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)

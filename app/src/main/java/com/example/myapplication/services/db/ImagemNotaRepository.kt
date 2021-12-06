@@ -1,4 +1,4 @@
-package com.example.myapplication.services
+package com.example.myapplication.services.db
 
 import android.app.Application
 import androidx.room.Room

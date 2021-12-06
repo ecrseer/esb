@@ -1,4 +1,4 @@
-package com.example.myapplication.services
+package com.example.myapplication.services.db
 
 import androidx.room.*
 import com.example.myapplication.domain.ImagemNota
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ImagemNotaDao {
-    @Query(value = "SELECT * FROM imagemnota WHERE id = :id")
+    @Query(value = "SELECT * FROM imagemnota WHERE idNota = :id")
     suspend fun obter(id:Int):ImagemNota
 
     @Query(value = "SELECT * FROM imagemnota")

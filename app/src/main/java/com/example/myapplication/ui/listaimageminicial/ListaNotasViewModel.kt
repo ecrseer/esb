@@ -4,14 +4,14 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.domain.PersistenciaDadosNotas
-import com.example.myapplication.services.ImagemNotaRepository
+import com.example.myapplication.services.db.ImagemNotaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
-    private lateinit var imageNotaRepository:ImagemNotaRepository
+    private lateinit var imageNotaRepository: ImagemNotaRepository
 
 
     lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
@@ -31,24 +31,13 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
-    //todo refatorar
-    fun verificaSeNotaEhFavorita(id:Int): Boolean {
-        val listaFavoritas = PersistenciaDadosNotas.todasAbas[1].listaDeNotas
-        var isNotaFavorita =false
-        listaFavoritas.forEachIndexed { index, imagemPesquisada ->
-            if(imagemPesquisada.id==id){
-                isNotaFavorita= true
-            }
-        }
-        return isNotaFavorita
-    }
 
     fun trocaAbaDaListaAtual(posicao:Int){
-        val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
+       /* val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
         if(listaPretendida!=null){
             _posicaoAbaLista.postValue(posicao)
-            _notasImgs.postValue(listaPretendida.listaDeNotas.toMutableList())
-        }
+           // _notasImgs.postValue(listaPretendida.listaDeNotas.toMutableList())
+        }*/
     }
     fun editaNotaAtual(nota:ImagemNota){
         imageNotaRepository.editarAnotacao(nota)
@@ -61,7 +50,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
         notaImgsDoRoom?.value?.apply {
             forEachIndexed { index, imagemPesquisada ->
-                if (imagemPesquisada.id == id) {
+                if (imagemPesquisada.idNota == id) {
                     imageNotaRepository.removerAnotacao(imagemPesquisada)
                     deletouAlgo = true
                     return@apply

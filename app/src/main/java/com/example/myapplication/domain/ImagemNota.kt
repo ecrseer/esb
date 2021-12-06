@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class ImagemNota constructor(
 
     @PrimaryKey(autoGenerate = true)
-    var id:Int,
+    var idNota:Int,
 
     @ColumnInfo(name = "big")
     var big: String,
