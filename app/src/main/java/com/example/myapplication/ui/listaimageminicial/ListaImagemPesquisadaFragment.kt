@@ -151,9 +151,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
         defineRecyclerView()
 
-        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
-            renovaListaAdapter(listaNotasViewModel.notaImgsDoRoom.value)
-            setHasOptionsMenu(true);
+        listaNotasViewModel.notaImgsAbaAtual.observe(viewLifecycleOwner, Observer {
+            println("aa $it")
         })
 
     }

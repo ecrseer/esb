@@ -2,8 +2,10 @@ package com.example.myapplication.ui.listaimageminicial
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasWithImagemNotasRepository
 import com.example.myapplication.services.db.ImagemNotaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,17 +14,21 @@ import kotlinx.coroutines.withContext
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
     private lateinit var imageNotaRepository: ImagemNotaRepository
-
+    private lateinit var abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository
 
     lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
 
     private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
         value = PersistenciaDadosNotas.imgs    }
 
+    lateinit var notaImgsAbaAtual:LiveData<List<AbaDeNotasWithImagemNotas>>;
 
     init {
         imageNotaRepository = ImagemNotaRepository(application)
+        abaDeNotasWithImagemNotasRepository = AbaDeNotasWithImagemNotasRepository(application)
+
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
+        notaImgsAbaAtual = abaDeNotasWithImagemNotasRepository.listaAbaDeNotasComImagemNotas().asLiveData()
     }
 
 

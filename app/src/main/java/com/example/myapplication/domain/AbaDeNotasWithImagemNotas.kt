@@ -4,7 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-/*
 data class AbaDeNotasWithImagemNotas(
     @Embedded
     val abaDeNotas: AbaDeNotas,
@@ -22,4 +21,4 @@ data class AbaDeNotasWithImagemNotas(
     var listaDeNotas:List<ImagemNota>
 ) {
 
-}*/
+}

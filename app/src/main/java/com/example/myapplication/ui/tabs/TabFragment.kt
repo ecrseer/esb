@@ -58,7 +58,7 @@ class TabFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
             viewpagr.setCurrentItem(tab.position,true)
-            tab.text = "${listaDeAbas[position].nome}"
+            tab.text = "{listaDeAbas[position].nome}"
         }.attach()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
