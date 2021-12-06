@@ -3,10 +3,9 @@ package com.example.myapplication.ui.nota
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.services.ImagensService
-import com.example.myapplication.services.ImagensServiceListener
+import com.example.myapplication.services.retrofit.ImagensService
+import com.example.myapplication.services.retrofit.ImagensServiceListener
 import com.example.myapplication.domain.ImagemNota
-import kotlinx.coroutines.runBlocking
 
 class NotaViewModel : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()

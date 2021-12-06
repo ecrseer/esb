@@ -1,4 +1,4 @@
-package com.example.myapplication.services
+package com.example.myapplication.services.retrofit
 
 import com.example.myapplication.domain.ImagemNota
 import retrofit2.Call

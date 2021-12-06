@@ -1,4 +1,4 @@
-package com.example.myapplication.services
+package com.example.myapplication.services.retrofit
 
 import com.example.myapplication.domain.ImagemNota
 import retrofit2.*
@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ImagensService {
     private lateinit var api: ImagensApi
-    private lateinit var listenerImgService:ImagensServiceListener
+    private lateinit var listenerImgService: ImagensServiceListener
 
     init{
         val retr = Retrofit.Builder()
@@ -16,7 +16,7 @@ class ImagensService {
      api = retr.create(ImagensApi::class.java)
 
     }
-    fun setImagensServiceListener(listener:ImagensServiceListener){
+    fun setImagensServiceListener(listener: ImagensServiceListener){
          listenerImgService = listener
     }
     fun obterImagem(titulo:String){

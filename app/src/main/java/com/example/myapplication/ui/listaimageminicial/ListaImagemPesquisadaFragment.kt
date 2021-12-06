@@ -155,9 +155,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
             renovaListaAdapter(listaNotasViewModel.notaImgsDoRoom.value)
             setHasOptionsMenu(true);
         })
-        listaNotasViewModel.notaImgsAbaAtual.observe(viewLifecycleOwner, Observer {
+        /*listaNotasViewModel.notaImgsAbaAtual.observe(viewLifecycleOwner, Observer {
             println("$it")
-        })
+        })*/
 
     }
 

@@ -46,22 +46,13 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
 
     //todo refatorar
-    fun verificaSeNotaEhFavorita(id:Int): Boolean {
-        val listaFavoritas = PersistenciaDadosNotas.todasAbas[1].lista
-        var isNotaFavorita =false
-        listaFavoritas.forEachIndexed { index, imagemPesquisada ->
-            if(imagemPesquisada.id==id){
-                isNotaFavorita= true
-            }
-        }
-        return isNotaFavorita
-    }
+
 
     fun trocaAbaDaListaAtual(posicao:Int){
         val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
         if(listaPretendida!=null){
             _posicaoAbaLista.postValue(posicao)
-            _notasImgs.postValue(listaPretendida.lista)
+            //_notasImgs.postValue(listaPretendida.lista)
         }
     }
     fun editaNotaAtual(nota:ImagemNota){
