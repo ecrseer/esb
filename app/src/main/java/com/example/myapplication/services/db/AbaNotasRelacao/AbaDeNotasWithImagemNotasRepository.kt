@@ -24,4 +24,5 @@ class AbaDeNotasWithImagemNotasRepository(applicationContext: Application) {
             return@runBlocking dao.getAbaDeNotasWithImagemNotas()
         }
     }
+
 }

@@ -5,6 +5,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
 import com.example.myapplication.domain.AbaDeNotas
@@ -12,6 +14,10 @@ import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 /**
@@ -43,10 +49,9 @@ class TabFragment : Fragment() {
             .get(TabViewModel::class.java)
 
     }
-    fun verificaSeNaoExisteAba(abasDeNotas: List<AbaDeNotas>){
-        if(abasDeNotas.size==0){
-            tabViewModel.criaAba(null)
-        }
+    private fun carregaDadosAba(abasDeNotas: List<AbaDeNotas>){
+        if(abasDeNotas.size==0)  tabViewModel.criaAba(null)
+        else listaNotasViewModel.abaAtual.postValue(abasDeNotas.first())
 
     }
     override fun onCreateView(
@@ -58,7 +63,17 @@ class TabFragment : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
+    private fun recriaTabMediator(tabLayout: TabLayout, viewpagr:ViewPager2,
+                                  listaAbas:List<AbaDeNotas>){
 
+        tabLayoutMediator = TabLayoutMediator(tabLayout, viewpagr){
+                tab,position->
+            viewpagr.setCurrentItem(tab.position,true)
+            tab.text = listaAbas[position].nome
+        }
+
+        tabLayoutMediator.attach()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,26 +82,20 @@ class TabFragment : Fragment() {
 
         tabViewModel.abasDeNotas.observe(viewLifecycleOwner, Observer {
             val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1
-            verificaSeNaoExisteAba(it)
+            carregaDadosAba(it)
             viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
-            if(::tabLayoutMediator.isInitialized)
-                tabLayoutMediator?.detach()
+            recriaTabMediator(tabLayout,viewpagr,it)
 
-            tabLayoutMediator = TabLayoutMediator(tabLayout, viewpagr){
-                tab,position->
-                    viewpagr.setCurrentItem(tab.position,true)
-                tab.text = it[position].nome
-            }
-
-            tabLayoutMediator.attach()
         })
+
 
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val posicaoAtual=tab?.position
-                if(posicaoAtual!=null){
-                    listaNotasViewModel.trocaAbaDaListaAtual(posicaoAtual)
+                val abaAtual = tabViewModel.abaNaPosicao(posicaoAtual)
+                if(abaAtual!=null){
+                    listaNotasViewModel.trocaAbaDaListaAtual(abaAtual)
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {            }
@@ -96,6 +105,31 @@ class TabFragment : Fragment() {
 
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.fabAdicionaNota.setOnClickListener {
+            val isNotaNova = true;
+            val imagemPlaceholdr = getString(R.string.imagemTeste)
+
+
+            GlobalScope.launch(Dispatchers.Main){
+                val tamanhoDaLista = GlobalScope.async {
+
+                    listaNotasViewModel.criaNota(imagemPlaceholdr)
+                }
+                if(tamanhoDaLista.await()!=null){
+
+                    val action = TabFragmentDirections
+                        .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista
+                            .await()?.plus(1)!!, isNotaNova)
+                    findNavController().navigate(action)
+                }
+
+            }
+
+        }
     }
 
 }

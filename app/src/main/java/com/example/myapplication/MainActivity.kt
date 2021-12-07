@@ -64,33 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener (listenerEscondeFab)
 
-        binding.fab.setOnClickListener { view ->
-            val isNotaNova = true;
-            val imagemPlaceholdr = getString(R.string.imagemTeste)
 
-
-            GlobalScope.launch(Dispatchers.Main){
-                val tamanhoDaLista = GlobalScope.async {
-
-                    listaNotasViewModel.criaNota(imagemPlaceholdr)
-                }
-                if(tamanhoDaLista.await()!=null){
-
-                    val action = TabFragmentDirections
-                        .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista
-                            .await()?.plus(1)!!, isNotaNova)
-                    navController.navigate(action)
-                }
-
-            }
-
-
-
-
-
-
-
-        }
     }
 
     override fun onResume() {

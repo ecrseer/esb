@@ -81,8 +81,10 @@ class ListaImagemPesquisadaFragment : Fragment() {
         arguments?.let {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
+
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
+            ViewModelProvider(requireActivity(), MainViewModelFactory(
+                requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
 
     }
@@ -112,31 +114,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-
-    fun newDeslizarProLadoEfeito(): ItemTouchHelper {
-        return ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return true
-                }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-            }
-
-            }
-        )
-    }
-
-    private fun defineRecyclerView() {
+     private fun defineRecyclerView() {
         with(binding.list) {
-            val deslizarItemHelp = newDeslizarProLadoEfeito()
-          //  deslizarItemHelp.attachToRecyclerView(binding.list)
 
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)
@@ -152,11 +131,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-        defineRecyclerView()
-
-        listaNotasViewModel.notaImgsAbaAtual.observe(viewLifecycleOwner, Observer {
-            println("aa $it")
-        })
 
     }
 
@@ -164,6 +138,15 @@ class ListaImagemPesquisadaFragment : Fragment() {
         super.onPause()
         findNavController().removeOnDestinationChangedListener(listenerAtualizaScroll)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        defineRecyclerView()
+        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
+            println("$it")
+            renovaListaAdapter(it)
+        })
     }
 
 

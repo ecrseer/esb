@@ -3,6 +3,7 @@ package com.example.myapplication.ui.tabs
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.example.myapplication.domain.AbaDeNotas
 import com.example.myapplication.services.db.AbaDeNotasRepository
@@ -24,4 +25,9 @@ class TabViewModel(application: Application): AndroidViewModel(application)  {
 
         abaDeNotasRepository.criarAbaNova(aba)
     }
+    fun abaNaPosicao(posicao:Int?): AbaDeNotas? {
+        return if(posicao!=null) abasDeNotas.value?.get(posicao)
+        else null
+    }
+
 }

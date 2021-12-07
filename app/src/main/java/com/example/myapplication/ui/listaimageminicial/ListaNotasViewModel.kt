@@ -2,22 +2,19 @@ package com.example.myapplication.ui.listaimageminicial
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.myapplication.domain.AbaDeNotas
-import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
-import com.example.myapplication.domain.ImagemNota
-import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.domain.*
 import com.example.myapplication.services.db.AbaDeNotasRepository
+import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasImagemNotaRepository
 import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasWithImagemNotasRepository
 import com.example.myapplication.services.db.ImagemNotaRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
     private lateinit var imageNotaRepository: ImagemNotaRepository
     private lateinit var abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository
     private lateinit var abaDeNotasRepository: AbaDeNotasRepository
+    private lateinit var abaDeNotasImagemNotaRepository: AbaDeNotasImagemNotaRepository
 
     lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
     lateinit var abasDeNotas: LiveData<List<AbaDeNotas>>;
@@ -27,6 +24,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         imageNotaRepository = ImagemNotaRepository(application)
         abaDeNotasWithImagemNotasRepository = AbaDeNotasWithImagemNotasRepository(application)
         abaDeNotasRepository = AbaDeNotasRepository(application)
+        abaDeNotasImagemNotaRepository = AbaDeNotasImagemNotaRepository(application)
 
 
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
@@ -44,12 +42,16 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
 
-    fun trocaAbaDaListaAtual(posicao:Int){
-       /* val listaPretendida = PersistenciaDadosNotas.todasAbas[posicao]
-        if(listaPretendida!=null){
-            _posicaoAbaLista.postValue(posicao)
-           // _notasImgs.postValue(listaPretendida.listaDeNotas.toMutableList())
-        }*/
+    val abaAtual = MutableLiveData<AbaDeNotas>().apply {
+        value= AbaDeNotas(0,"todas")
+    }
+
+
+
+
+
+    fun trocaAbaDaListaAtual(aba:AbaDeNotas){
+       abaAtual.postValue(aba)
     }
     fun editaNotaAtual(nota:ImagemNota){
         imageNotaRepository.editarAnotacao(nota)
@@ -74,11 +76,25 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
     suspend fun criaNota(imagemPlaceholdr:String):Int? {
 
+
+        var aba = abaAtual.value
+        if(aba==null) aba = AbaDeNotas(0,"todas")
+
         val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
+
+        GlobalScope.launch(Dispatchers.Default){
+            delay(3800)
+            val isLista = notaImgsDoRoom.value?.size?.equals(0)
+            if(notaImgsDoRoom.value!=null ) {
+                val imageNota:ImagemNota = notaImgsDoRoom.value!!.last()
+                val relacao = AbaDeNotasImagemNota(imageNota.idNota,aba.idAba)
+                abaDeNotasImagemNotaRepository.adicionarRelacaoAbaNota(relacao)
+            }
+        }
         return withContext(Dispatchers.Main){
             imageNotaRepository.inserirAnotacao(notaImgTemporaria)
-             delay(1000)
+             delay(700)
              notaImgsDoRoom.value?.size
         }
 
