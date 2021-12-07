@@ -2,9 +2,11 @@ package com.example.myapplication.ui.listaimageminicial
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.myapplication.domain.AbaDeNotas
 import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.domain.PersistenciaDadosNotas
+import com.example.myapplication.services.db.AbaDeNotasRepository
 import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasWithImagemNotasRepository
 import com.example.myapplication.services.db.ImagemNotaRepository
 import kotlinx.coroutines.Dispatchers
@@ -15,22 +17,26 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
     private lateinit var imageNotaRepository: ImagemNotaRepository
     private lateinit var abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository
+    private lateinit var abaDeNotasRepository: AbaDeNotasRepository
 
     lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
-
-    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
-        value = PersistenciaDadosNotas.imgs    }
-
+    lateinit var abasDeNotas: LiveData<List<AbaDeNotas>>;
     lateinit var notaImgsAbaAtual:LiveData<List<AbaDeNotasWithImagemNotas>>;
 
     init {
         imageNotaRepository = ImagemNotaRepository(application)
         abaDeNotasWithImagemNotasRepository = AbaDeNotasWithImagemNotasRepository(application)
+        abaDeNotasRepository = AbaDeNotasRepository(application)
+
 
         notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
         notaImgsAbaAtual = abaDeNotasWithImagemNotasRepository.listaAbaDeNotasComImagemNotas().asLiveData()
+        abasDeNotas = abaDeNotasRepository.listarTodasAbasLiveData().asLiveData()
     }
 
+
+    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
+        value = PersistenciaDadosNotas.imgs    }
 
     private val _posicaoAbaLista = MutableLiveData<Int>().apply {
         value=0

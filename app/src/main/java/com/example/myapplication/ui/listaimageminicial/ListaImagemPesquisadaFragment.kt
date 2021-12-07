@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
+import com.example.myapplication.domain.AbaDeNotas
+import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
@@ -143,6 +145,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
         }
     }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

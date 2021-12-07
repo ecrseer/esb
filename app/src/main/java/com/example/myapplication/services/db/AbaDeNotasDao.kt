@@ -6,13 +6,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myapplication.domain.AbaDeNotas
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AbaDeNotasDao {
 
     @Query("SELECT * FROM abadenotas")
-      fun listar(): LiveData<List<AbaDeNotas>>
+      fun listar(): Flow<List<AbaDeNotas>>
 
       @Insert
-      fun adicionar(aba:AbaDeNotas)
+      suspend fun adicionar(aba:AbaDeNotas)
 }

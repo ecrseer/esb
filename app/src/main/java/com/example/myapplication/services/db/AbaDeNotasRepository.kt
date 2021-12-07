@@ -1,8 +1,10 @@
 package com.example.myapplication.services.db
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.myapplication.domain.AbaDeNotas
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 
 class AbaDeNotasRepository(applicationContext:Application) {
@@ -18,6 +20,11 @@ class AbaDeNotasRepository(applicationContext:Application) {
     fun criarAbaNova(abaDeNotas:AbaDeNotas){
         return runBlocking {
             return@runBlocking dao.adicionar(abaDeNotas)
+        }
+    }
+    fun listarTodasAbasLiveData(): Flow<List<AbaDeNotas>> {
+        return runBlocking {
+            return@runBlocking dao.listar()
         }
     }
 }
