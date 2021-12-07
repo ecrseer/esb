@@ -81,7 +81,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         arguments?.let {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
-
         listaNotasViewModel =
             ViewModelProvider(requireActivity(), MainViewModelFactory(
                 requireActivity().application))
@@ -92,7 +91,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -132,6 +130,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
 
+        setHasOptionsMenu(true)
     }
 
     override fun onPause() {

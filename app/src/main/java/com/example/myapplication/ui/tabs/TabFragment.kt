@@ -68,6 +68,9 @@ class TabFragment : Fragment() {
 
         tabLayoutMediator = TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
+            if(::tabLayoutMediator.isInitialized)
+                tabLayoutMediator?.detach()
+
             viewpagr.setCurrentItem(tab.position,true)
             tab.text = listaAbas[position].nome
         }
@@ -116,7 +119,6 @@ class TabFragment : Fragment() {
 
             GlobalScope.launch(Dispatchers.Main){
                 val tamanhoDaLista = GlobalScope.async {
-
                     listaNotasViewModel.criaNota(imagemPlaceholdr)
                 }
                 if(tamanhoDaLista.await()!=null){

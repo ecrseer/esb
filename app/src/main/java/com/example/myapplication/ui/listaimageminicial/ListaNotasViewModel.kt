@@ -85,8 +85,8 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
         GlobalScope.launch(Dispatchers.Default){
             delay(3800)
-            val isLista = notaImgsDoRoom.value?.size?.equals(0)
-            if(notaImgsDoRoom.value!=null ) {
+
+            if(notaImgsDoRoom.value?.last()!=null ) {
                 val imageNota:ImagemNota = notaImgsDoRoom.value!!.last()
                 val relacao = AbaDeNotasImagemNota(imageNota.idNota,aba.idAba)
                 abaDeNotasImagemNotaRepository.adicionarRelacaoAbaNota(relacao)
