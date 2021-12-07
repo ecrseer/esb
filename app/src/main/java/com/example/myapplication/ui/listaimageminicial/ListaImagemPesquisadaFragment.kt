@@ -127,20 +127,18 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-
-        setHasOptionsMenu(true)
     }
 
     override fun onPause() {
         super.onPause()
         findNavController().removeOnDestinationChangedListener(listenerAtualizaScroll)
-
+        setHasOptionsMenu(false)
     }
 
     override fun onResume() {
         super.onResume()
+        setHasOptionsMenu(true)
         defineRecyclerView()
         listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
             println("$it")

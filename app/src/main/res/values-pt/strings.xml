@@ -20,4 +20,6 @@
     <string name="hello_blank_fragment">lorem ipsum lorem ipsum lorem ipsum lorem ipsum </string>
     <string name="btn_criar_nota_descricao">botao para criar anotaçao</string>
 
+    <string name="txt_aba_todas">Todas</string>
+    <string name="txt_aba_favoritos">Favoritos</string>
 </resources>

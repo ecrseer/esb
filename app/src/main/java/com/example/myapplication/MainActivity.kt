@@ -48,14 +48,10 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        populaImgs()
+
     }
 
-    private fun populaImgs() {
-        PersistenciaDadosNotas.imgs.forEach { img ->
-            img.big = getString(R.string.imagemTeste)
-        }
-    }
+
 
     fun setupNavegacao() {
         navController = findNavController(R.id.Nav_hostNovo)
@@ -63,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener (listenerEscondeFab)
-
-
     }
 
     override fun onResume() {

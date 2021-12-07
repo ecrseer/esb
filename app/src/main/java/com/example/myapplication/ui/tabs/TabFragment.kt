@@ -90,6 +90,11 @@ class TabFragment : Fragment() {
             recriaTabMediator(tabLayout,viewpagr,it)
 
         })
+        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
+            val listaDeAbas = tabViewModel.abasDeNotas.value
+            if(listaDeAbas!=null)
+                recriaTabMediator(tabLayout,viewpagr,listaDeAbas)
+        })
 
 
 
