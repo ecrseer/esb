@@ -68,8 +68,8 @@ class TabFragment : Fragment() {
 
         tabLayoutMediator = TabLayoutMediator(tabLayout, viewpagr){
                 tab,position->
-            if(::tabLayoutMediator.isInitialized)
-                tabLayoutMediator?.detach()
+            /*if(::tabLayoutMediator.isInitialized)
+                tabLayoutMediator?.detach()*/
 
             viewpagr.setCurrentItem(tab.position,true)
             tab.text = listaAbas[position].nome
