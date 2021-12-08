@@ -36,7 +36,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     private fun renovaListaAdapter(listaNotasInicial:List<ImagemNota>?){
         val clicarNoItemAbreNota = { posicao: Int ->
-
+            //todo pesquisaposicao no listaviewmodel e retorna um idnota ou imgnota
             val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
             findNavController().navigate(acao)
         }
@@ -55,9 +55,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
             arguments: Bundle?
         ) {
             with(binding.list) {
-                if(listaNotasViewModel.notaImgsDoRoom.value!=null)
+                if(listaNotasViewModel.listaImagemNotas.value!=null)
                     this.scrollToPosition(listaNotasViewModel
-                        .notaImgsDoRoom.value!!.size)
+                        .listaImagemNotas.value!!.size)
             }
         }
 
@@ -66,7 +66,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         override fun onQueryTextSubmit(query: String?): Boolean {return true}
         override fun onQueryTextChange(newText: String?): Boolean {
             if(newText?.isBlank() == true){
-                renovaListaAdapter(listaNotasViewModel.notaImgsDoRoom.value)
+                renovaListaAdapter(listaNotasViewModel.listaImagemNotas.value)
                 return false
             }else{
                 val resultadoPesquisa = listaNotasViewModel.getListaNotasPesquisadas(newText)
@@ -128,7 +128,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
+        listaNotasViewModel.listaImagemNotas.observe(viewLifecycleOwner, Observer {
             println("$it")
             renovaListaAdapter(it)
         })
@@ -140,7 +140,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         super.onPause()
         findNavController().removeOnDestinationChangedListener(listenerAtualizaScroll)
         setHasOptionsMenu(false)
-        println("v")
     }
 
     override fun onResume() {

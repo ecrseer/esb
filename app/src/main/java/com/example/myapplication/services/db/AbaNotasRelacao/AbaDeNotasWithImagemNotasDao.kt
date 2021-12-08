@@ -14,4 +14,8 @@ interface AbaDeNotasWithImagemNotasDao {
     @Query("SELECT * FROM abadenotas")
     fun getAbaDeNotasWithImagemNotas(): Flow<List<AbaDeNotasWithImagemNotas>>
 
+    @Transaction
+    @Query("SELECT * FROM abadenotas WHERE idAba = :idA")
+    fun getAbaDeNotasWithImagemNotasById(idA:Int): Flow<List<AbaDeNotasWithImagemNotas>>
+
 }

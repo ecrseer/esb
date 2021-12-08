@@ -33,25 +33,28 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
 
 
-    private val _notasImgs = MutableLiveData<MutableList<ImagemNota> >().apply{
-        value = PersistenciaDadosNotas.imgs    }
+    private val _listaImageNotas = MutableLiveData<MutableList<ImagemNota> >()
+    val listaImagemNotas:LiveData<MutableList<ImagemNota> > = _listaImageNotas
+
+    val abaAtual = MutableLiveData<AbaDeNotas>().apply {
+        value= AbaDeNotas(0,"todas")
+    }
+/*
 
     private val _posicaoAbaLista = MutableLiveData<Int>().apply {
         value=0
     }
     val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
 
-
-    val abaAtual = MutableLiveData<AbaDeNotas>().apply {
-        value= AbaDeNotas(0,"todas")
-    }
+*/
 
 
 
 
 
-    fun trocaAbaDaListaAtual(aba:AbaDeNotas){
-       abaAtual.postValue(aba)
+    fun trocaAbaDaListaAtual(listaAbaENotas:AbaDeNotasWithImagemNotas){
+        abaAtual.postValue(listaAbaENotas.abaDeNotas)
+       _listaImageNotas.postValue(listaAbaENotas.listaDeNotas.toMutableList())
     }
     fun editaNotaAtual(nota:ImagemNota){
         imageNotaRepository.editarAnotacao(nota)
@@ -75,7 +78,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         return deletouAlgo
     }
     suspend fun criaNota(imagemPlaceholdr:String):Int? {
-
 
         var aba = abaAtual.value
         if(aba==null) aba = AbaDeNotas(0,"todas")
@@ -101,7 +103,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
     private fun getNotasPesquisadas(txt:String):MutableList<ImagemNota>{
         val results= mutableListOf<ImagemNota>()
-        for(notaimg in _notasImgs.value!!){
+        for(notaimg in _listaImageNotas.value!!){
             if (notaimg.titulo.contains(txt)){
                 results.add(notaimg)
             }
@@ -127,12 +129,12 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
     fun peneiraNotaPorTexto(txt:String):Boolean{
         if(txt.isBlank()){
-            _notasImgs.postValue(PersistenciaDadosNotas.imgs)
+            _listaImageNotas.postValue(PersistenciaDadosNotas.imgs)
         }else{
-            if(_notasImgs.value!=null){
+            if(_listaImageNotas.value!=null){
                val resultadoPesquisa=getNotasPesquisadas(txt)
                 if(resultadoPesquisa.size>=1) {
-                    _notasImgs.postValue(resultadoPesquisa)
+                    _listaImageNotas.postValue(resultadoPesquisa)
                     return true
                 }
 

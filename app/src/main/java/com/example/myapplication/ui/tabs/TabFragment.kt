@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
 import com.example.myapplication.domain.AbaDeNotas
+import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.google.android.material.tabs.TabLayout
@@ -49,9 +50,12 @@ class TabFragment : Fragment() {
             .get(TabViewModel::class.java)
 
     }
-    private fun carregaDadosAba(abasDeNotas: List<AbaDeNotas>){
-        if(abasDeNotas.size==0)  tabViewModel.criaAba(null)
-        else listaNotasViewModel.abaAtual.postValue(abasDeNotas.first())
+    private fun carregaDadosAba(abaEnotas: AbaDeNotasWithImagemNotas){
+        var abasDeNotas = tabViewModel.abasDeNotas.value
+        if (abasDeNotas != null) {
+            if(abasDeNotas.isEmpty())  tabViewModel.criaAba(null)
+            else listaNotasViewModel.trocaAbaDaListaAtual(abaEnotas)
+        }
 
     }
     override fun onCreateView(
@@ -59,7 +63,7 @@ class TabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTabBinding.inflate(inflater,container,false)
-
+//        carregaDadosAba()
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -82,28 +86,29 @@ class TabFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val tabLayout = binding.tabLayout
         val viewpagr = binding.viewpager
+        tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
+
+            if(it.first().abaDeNotas!=null) carregaDadosAba(it.first())
+
+            tabViewModel.abasDeNotas.value?.let { lista->
+                val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1
+                viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
+                recriaTabMediator(tabLayout,viewpagr,lista)
+            }
+        })
 
         tabViewModel.abasDeNotas.observe(viewLifecycleOwner, Observer {
-            val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1
-            carregaDadosAba(it)
-            viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
-            recriaTabMediator(tabLayout,viewpagr,it)
 
         })
-        listaNotasViewModel.notaImgsDoRoom.observe(viewLifecycleOwner, Observer {
-            val listaDeAbas = tabViewModel.abasDeNotas.value
-            if(listaDeAbas!=null)
-                recriaTabMediator(tabLayout,viewpagr,listaDeAbas)
-        })
-
-
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val posicaoAtual=tab?.position
-                val abaAtual = tabViewModel.abaNaPosicao(posicaoAtual)
-                if(abaAtual!=null){
-                    listaNotasViewModel.trocaAbaDaListaAtual(abaAtual)
+                val posicaoAtual = tab?.position
+                posicaoAtual?.let {
+                    val abaEnotasAtual = tabViewModel.todasImageNotasEabas.value?.get(posicaoAtual)
+                    if(abaEnotasAtual?.abaDeNotas!=null){
+                        listaNotasViewModel.trocaAbaDaListaAtual(abaEnotasAtual)
+                    }
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {            }
@@ -117,6 +122,9 @@ class TabFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+
+
         binding.fabAdicionaNota.setOnClickListener {
             val isNotaNova = true;
             val imagemPlaceholdr = getString(R.string.imagemTeste)
