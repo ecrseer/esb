@@ -49,7 +49,7 @@ class NotaViewPagerFragment : Fragment() {
         }
 
         val adaptr = SliderAdapter(childFragmentManager,lifecycle,
-            listaNotasViewModel.notaImgsDoRoom.value?.size,false)
+            listaNotasViewModel.listaImagemNotas.value?.size,false)
 
         with(binding.pager as ViewPager2){
             adapter =  adaptr

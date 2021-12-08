@@ -14,11 +14,13 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     private lateinit var imageNotaRepository: ImagemNotaRepository
     private lateinit var abaDeNotasImagemNotaRepository: AbaDeNotasImagemNotaRepository
 
-    lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
-
+    lateinit var todasNotas:LiveData<List<ImagemNota>>;
     init {
         imageNotaRepository = ImagemNotaRepository(application)
         abaDeNotasImagemNotaRepository = AbaDeNotasImagemNotaRepository(application)
+
+
+        todasNotas = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
     }
 
 
@@ -47,7 +49,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
         if (id == null) return deletouAlgo
 
-        notaImgsDoRoom?.value?.apply {
+        _listaImageNotas?.value?.apply {
             forEachIndexed { index, imagemPesquisada ->
                 if (imagemPesquisada.idNota == id) {
                     imageNotaRepository.removerAnotacao(imagemPesquisada)
@@ -59,6 +61,16 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         }
         return deletouAlgo
     }
+    suspend fun anexaNotaNaAba(aba:AbaDeNotas){
+        GlobalScope.launch(Dispatchers.Default){
+            delay(3800)
+            todasNotas.value?.last()?.let {
+                val imageNota:ImagemNota = it
+                val relacao = AbaDeNotasImagemNota(imageNota.idNota,aba.idAba)
+                abaDeNotasImagemNotaRepository.adicionarRelacaoAbaNota(relacao)
+            }
+        }
+    }
     suspend fun criaNota(imagemPlaceholdr:String):Int? {
 
         var aba = abaAtual.value
@@ -67,25 +79,17 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         val notaImgTemporaria = ImagemNota(0,
             "$imagemPlaceholdr","","","")
 
-        GlobalScope.launch(Dispatchers.Default){
-            delay(3800)
-
-            if(notaImgsDoRoom.value?.last()!=null ) {
-                val imageNota:ImagemNota = notaImgsDoRoom.value!!.last()
-                val relacao = AbaDeNotasImagemNota(imageNota.idNota,aba.idAba)
-                abaDeNotasImagemNotaRepository.adicionarRelacaoAbaNota(relacao)
-            }
-        }
+        anexaNotaNaAba(aba)
         return withContext(Dispatchers.Main){
             imageNotaRepository.inserirAnotacao(notaImgTemporaria)
              delay(700)
-             notaImgsDoRoom.value?.size
+            _listaImageNotas.value?.size
         }
 
     }
 
       fun getListaNotasPesquisadas(txt:String?):List<ImagemNota>{
-        var listaNaDb =  notaImgsDoRoom.value
+        var listaNaDb =  _listaImageNotas.value
         val results= mutableListOf<ImagemNota>()
           if(txt==null) return results
 

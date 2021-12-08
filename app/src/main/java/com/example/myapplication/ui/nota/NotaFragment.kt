@@ -85,7 +85,7 @@ class NotaFragment : Fragment() {
     }
     fun carregaDadosDaNota(){
         if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = listaNotasViewModel.notaImgsDoRoom.value
+            val todasNotaImgs = listaNotasViewModel.listaImagemNotas.value
             if(todasNotaImgs!=null){
                 notaViewModel.carregaNotaRoom(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)

@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.services.ImagensService
 import com.example.myapplication.services.ImagensServiceListener
 import com.example.myapplication.domain.ImagemNota
+import com.example.myapplication.services.db.ImagemNotaRepository
 import kotlinx.coroutines.runBlocking
 
 class NotaViewModel : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()
 
+    //private lateinit var imageNotaRepository: ImagemNotaRepository
     init {
+        //imageNotaRepository = ImagemNotaRepository(application)
         servico.setImagensServiceListener(this)
     }
 
@@ -54,17 +57,15 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
         }
 
     }
+    fun deletaNota(): Boolean {
+        var deletouAlgo = false
 
+        //imageNotaRepository.removerAnotacao(_notaImg)
+        deletouAlgo = true
 
-    fun carregaNotaSalva(listaNotaImgs: MutableList<ImagemNota>, posicao: Int) {
-
-        val imagemEncontrada = listaNotaImgs[posicao]
-        _notaImg.postValue(imagemEncontrada)
-        _fundoImagem.value = imagemEncontrada.big
-        _tituloNota.value = imagemEncontrada.titulo
-        _textoNota.value = imagemEncontrada.texto
-
+        return deletouAlgo
     }
+
     fun carregaNotaRoom(listaNotaImgs: List<ImagemNota>, posicao: Int) {
 
         val imagemEncontrada = listaNotaImgs[posicao]

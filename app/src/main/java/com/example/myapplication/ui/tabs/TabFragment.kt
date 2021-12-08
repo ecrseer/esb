@@ -50,11 +50,12 @@ class TabFragment : Fragment() {
             .get(TabViewModel::class.java)
 
     }
-    private fun carregaDadosAba(abaEnotas: AbaDeNotasWithImagemNotas){
+    private fun carregaDadosAba(abaEnotas: AbaDeNotasWithImagemNotas?){
         var abasDeNotas = tabViewModel.abasDeNotas.value
         if (abasDeNotas != null) {
-            if(abasDeNotas.isEmpty())  tabViewModel.criaAba(null)
-            else listaNotasViewModel.trocaAbaDaListaAtual(abaEnotas)
+            listaNotasViewModel.trocaAbaDaListaAtual(abaEnotas!!)
+        }else{
+            tabViewModel.criaAba(null)
         }
 
     }
@@ -63,7 +64,7 @@ class TabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTabBinding.inflate(inflater,container,false)
-//        carregaDadosAba()
+        carregaDadosAba(null)
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -88,7 +89,11 @@ class TabFragment : Fragment() {
         val viewpagr = binding.viewpager
         tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
 
-            if(it.first().abaDeNotas!=null) carregaDadosAba(it.first())
+            it?.first()?.let {abaComNotas->
+                carregaDadosAba(abaComNotas)
+            }
+
+
 
             tabViewModel.abasDeNotas.value?.let { lista->
                 val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1

@@ -129,8 +129,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
         listaNotasViewModel.listaImagemNotas.observe(viewLifecycleOwner, Observer {
-            println("$it")
-            renovaListaAdapter(it)
+               renovaListaAdapter(it)
         })
 
 
