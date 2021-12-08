@@ -38,7 +38,10 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
 
     fun trocaAbaDaListaAtual(listaAbaENotas:AbaDeNotasWithImagemNotas){
         abaAtual.postValue(listaAbaENotas.abaDeNotas)
-       _listaImageNotas.postValue(listaAbaENotas.listaDeNotas.toMutableList())
+       renovaLista(listaAbaENotas.listaDeNotas.toMutableList())
+    }
+    fun renovaLista(list:MutableList<ImagemNota>){
+        _listaImageNotas.postValue(list)
     }
     fun editaNotaAtual(nota:ImagemNota){
         imageNotaRepository.editarAnotacao(nota)

@@ -35,6 +35,8 @@ class TabFragment : Fragment() {
     private lateinit var listaNotasViewModel: ListaNotasViewModel
     private lateinit var tabViewModel:TabViewModel
 
+    private lateinit var tabLayout:TabLayout;
+    private lateinit var viewpagr:ViewPager2;
     private lateinit var tabLayoutMediator: TabLayoutMediator;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +54,8 @@ class TabFragment : Fragment() {
     }
     private fun carregaDadosAba(abaEnotas: AbaDeNotasWithImagemNotas?){
         var abasDeNotas = tabViewModel.abasDeNotas.value
-        if (abasDeNotas != null) {
-            listaNotasViewModel.trocaAbaDaListaAtual(abaEnotas!!)
-        }else{
-            tabViewModel.criaAba(null)
-        }
+        if (abasDeNotas?.isNotEmpty() == true) listaNotasViewModel.trocaAbaDaListaAtual(abaEnotas!!)
+            else  tabViewModel.criaAba(null)
 
     }
     override fun onCreateView(
@@ -64,7 +63,7 @@ class TabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTabBinding.inflate(inflater,container,false)
-        carregaDadosAba(null)
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -85,50 +84,61 @@ class TabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val tabLayout = binding.tabLayout
-        val viewpagr = binding.viewpager
+        tabLayout = binding.tabLayout
+        viewpagr = binding.viewpager
+
         tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
 
-            it?.first()?.let {abaComNotas->
-                carregaDadosAba(abaComNotas)
-            }
+        })
 
-
-
-            tabViewModel.abasDeNotas.value?.let { lista->
+        tabViewModel.abasDeNotas.observe(viewLifecycleOwner, Observer {
+            it.let{ lista->
                 val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1
                 viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
                 recriaTabMediator(tabLayout,viewpagr,lista)
             }
         })
 
-        tabViewModel.abasDeNotas.observe(viewLifecycleOwner, Observer {
-
+        tabViewModel.todasNotas.observe(viewLifecycleOwner, Observer {
+            listaNotasViewModel.renovaLista(it.toMutableList())
         })
+
+
+    }
+
+    fun mudaListaParaAbaEm(posicaoAtual:Int){
+        val abaEnotasAtual = tabViewModel.todasImageNotasEabas.value!!.get(posicaoAtual)
+        abaEnotasAtual?.abaDeNotas?.let {
+            tabViewModel.abaAtualComNotas.postValue(abaEnotasAtual)
+            if(abaEnotasAtual.listaDeNotas.isNotEmpty())
+                listaNotasViewModel.trocaAbaDaListaAtual(abaEnotasAtual)
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        tabViewModel.todasImageNotasEabas.value?.let {
+            if(it.isEmpty()) carregaDadosAba(null)
+            else carregaDadosAba(it.first())
+        }
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val posicaoAtual = tab?.position
                 posicaoAtual?.let {
-                    val abaEnotasAtual = tabViewModel.todasImageNotasEabas.value?.get(posicaoAtual)
-                    if(abaEnotasAtual?.abaDeNotas!=null){
-                        listaNotasViewModel.trocaAbaDaListaAtual(abaEnotasAtual)
+                    val existeRelacionamentoNotaAba = tabViewModel.todasImageNotasEabas?.value?.isNotEmpty()==true
+                    if(existeRelacionamentoNotaAba){
+                        mudaListaParaAbaEm(posicaoAtual)
                     }
+
+
+
+
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {            }
             override fun onTabReselected(tab: TabLayout.Tab?) {            }
 
         })
-
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-
 
         binding.fabAdicionaNota.setOnClickListener {
             val isNotaNova = true;
@@ -137,13 +147,13 @@ class TabFragment : Fragment() {
 
             GlobalScope.launch(Dispatchers.Main){
                 val tamanhoDaLista = GlobalScope.async {
-                    listaNotasViewModel.criaNota(imagemPlaceholdr)
+                    tabViewModel.criaNota(imagemPlaceholdr)
                 }
                 if(tamanhoDaLista.await()!=null){
-
+                    val posicao=tamanhoDaLista.await()?.plus(1)!!
                     val action = TabFragmentDirections
-                        .actionTabFragmentToNotaViewPagerFragment(tamanhoDaLista
-                            .await()?.plus(1)!!, isNotaNova)
+                        .actionTabFragmentToNotaViewPagerFragment(
+                            posicao, isNotaNova)
                     findNavController().navigate(action)
                 }
 

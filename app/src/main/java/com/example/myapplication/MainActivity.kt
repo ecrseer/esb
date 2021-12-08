@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var listaNotasViewModel: ListaNotasViewModel
+    private lateinit var mainActivityViewModel:MainActivityViewModel
 
     private var listenerEscondeFab = object : NavController.OnDestinationChangedListener {
         override fun onDestinationChanged(
@@ -43,12 +44,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mainActivityViewModel=ViewModelProvider(this)
+            .get(MainActivityViewModel::class.java)
+
         listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory(application))
             .get(ListaNotasViewModel::class.java)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mainActivityViewModel.criaAbasIniciais()
     }
 
 
@@ -66,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setupNavegacao()
 
-        //supportActionBar?.setDisplayShowTitleEnabled(false)
 
     }
 

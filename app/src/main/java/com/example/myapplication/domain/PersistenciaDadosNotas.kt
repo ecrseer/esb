@@ -23,7 +23,11 @@ object PersistenciaDadosNotas {
 
         AbaDeNotas(0,"todas")
     )
-
+    val abasIniciais = listOf(
+        AbaDeNotas(0,"todas"),
+        AbaDeNotas(0,"favoritos"),
+        AbaDeNotas(0,"+")
+    )
 
 
 
