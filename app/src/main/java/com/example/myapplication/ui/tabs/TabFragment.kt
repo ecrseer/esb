@@ -15,10 +15,7 @@ import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 /**
@@ -88,10 +85,13 @@ class TabFragment : Fragment() {
         viewpagr = binding.viewpager
 
         tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
-
+            print("$it")
         })
 
         tabViewModel.abasDeNotas.observe(viewLifecycleOwner, Observer {
+            if(it.isEmpty()){
+                tabViewModel.criaAbasIniciais()
+            }
             it.let{ lista->
                 val qtdAbas = tabViewModel.abasDeNotas.value?.size?: 1
                 viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
@@ -101,6 +101,10 @@ class TabFragment : Fragment() {
 
         tabViewModel.todasNotas.observe(viewLifecycleOwner, Observer {
             listaNotasViewModel.renovaLista(it.toMutableList())
+        })
+
+        tabViewModel.abaAtualComNotas.observe(viewLifecycleOwner, Observer {
+
         })
 
 
@@ -117,47 +121,50 @@ class TabFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         tabViewModel.todasImageNotasEabas.value?.let {
-            if(it.isEmpty()) carregaDadosAba(null)
+            if (it.isEmpty()) carregaDadosAba(null)
             else carregaDadosAba(it.first())
         }
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val posicaoAtual = tab?.position
                 posicaoAtual?.let {
-                    val existeRelacionamentoNotaAba = tabViewModel.todasImageNotasEabas?.value?.isNotEmpty()==true
-                    if(existeRelacionamentoNotaAba){
+                    val existeRelacionamentoNotaAba =
+                        tabViewModel.todasImageNotasEabas?.value?.isNotEmpty() == true
+                    if (existeRelacionamentoNotaAba) {
                         mudaListaParaAbaEm(posicaoAtual)
                     }
 
-
-
-
                 }
             }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {            }
-            override fun onTabReselected(tab: TabLayout.Tab?) {            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
 
         binding.fabAdicionaNota.setOnClickListener {
+            if (tabViewModel.tamanhoDaListaCriaRelacionamento.hasObservers())
+                tabViewModel.tamanhoDaListaCriaRelacionamento
+                    .removeObservers(viewLifecycleOwner)
+
             val isNotaNova = true;
             val imagemPlaceholdr = getString(R.string.imagemTeste)
+            tabViewModel.tamanhoDaListaCriaRelacionamento.postValue(
+                tabViewModel.criaNota(imagemPlaceholdr)
+            )
 
-
-            GlobalScope.launch(Dispatchers.Main){
-                val tamanhoDaLista = GlobalScope.async {
-                    tabViewModel.criaNota(imagemPlaceholdr)
-                }
-                if(tamanhoDaLista.await()!=null){
-                    val posicao=tamanhoDaLista.await()?.plus(1)!!
+            tabViewModel.tamanhoDaListaCriaRelacionamento.observe(viewLifecycleOwner,
+                Observer {
+                    tabViewModel.anexaNotaNaAba()
+                    val posicao = it.plus(1)!!
                     val action = TabFragmentDirections
                         .actionTabFragmentToNotaViewPagerFragment(
-                            posicao, isNotaNova)
+                            posicao, isNotaNova
+                        )
                     findNavController().navigate(action)
-                }
+                })
 
-            }
 
         }
     }

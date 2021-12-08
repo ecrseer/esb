@@ -74,22 +74,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
             }
         }
     }
-    suspend fun criaNota(imagemPlaceholdr:String):Int? {
-
-        var aba = abaAtual.value
-        if(aba==null) aba = AbaDeNotas(0,"todas")
-
-        val notaImgTemporaria = ImagemNota(0,
-            "$imagemPlaceholdr","","","")
-
-        anexaNotaNaAba(aba)
-        return withContext(Dispatchers.Main){
-            imageNotaRepository.inserirAnotacao(notaImgTemporaria)
-             delay(700)
-            _listaImageNotas.value?.size
-        }
-
-    }
 
       fun getListaNotasPesquisadas(txt:String?):List<ImagemNota>{
         var listaNaDb =  _listaImageNotas.value

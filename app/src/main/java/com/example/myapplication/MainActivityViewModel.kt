@@ -26,13 +26,7 @@ class MainActivityViewModel (application: Application): AndroidViewModel(applica
 
         }
 
-        fun criaAbasIniciais(){
-            if(abasDeNotas.value?.isNotEmpty()!=true){
-                PersistenciaDadosNotas.abasIniciais.forEach {
-                        aba->abaDeNotasRepository.criarAbaNova(aba)
-                }
-            }
-        }
+
 
 
 

@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainActivityViewModel=ViewModelProvider(this)
-            .get(MainActivityViewModel::class.java)
 
         listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory(application))
             .get(ListaNotasViewModel::class.java)
@@ -57,7 +55,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mainActivityViewModel.criaAbasIniciais()
     }
 
 
