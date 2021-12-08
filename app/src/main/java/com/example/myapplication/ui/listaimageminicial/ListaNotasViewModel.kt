@@ -12,24 +12,13 @@ import kotlinx.coroutines.*
 class ListaNotasViewModel(application: Application): AndroidViewModel(application)  {
 
     private lateinit var imageNotaRepository: ImagemNotaRepository
-    private lateinit var abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository
-    private lateinit var abaDeNotasRepository: AbaDeNotasRepository
     private lateinit var abaDeNotasImagemNotaRepository: AbaDeNotasImagemNotaRepository
 
     lateinit var notaImgsDoRoom:LiveData<List<ImagemNota>>;
-    lateinit var abasDeNotas: LiveData<List<AbaDeNotas>>;
-    lateinit var notaImgsAbaAtual:LiveData<List<AbaDeNotasWithImagemNotas>>;
 
     init {
         imageNotaRepository = ImagemNotaRepository(application)
-        abaDeNotasWithImagemNotasRepository = AbaDeNotasWithImagemNotasRepository(application)
-        abaDeNotasRepository = AbaDeNotasRepository(application)
         abaDeNotasImagemNotaRepository = AbaDeNotasImagemNotaRepository(application)
-
-
-        notaImgsDoRoom = imageNotaRepository.listaImagemNotaLiveData().asLiveData()
-        notaImgsAbaAtual = abaDeNotasWithImagemNotasRepository.listaAbaDeNotasComImagemNotas().asLiveData()
-        abasDeNotas = abaDeNotasRepository.listarTodasAbasLiveData().asLiveData()
     }
 
 
@@ -39,14 +28,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     val abaAtual = MutableLiveData<AbaDeNotas>().apply {
         value= AbaDeNotas(0,"todas")
     }
-/*
 
-    private val _posicaoAbaLista = MutableLiveData<Int>().apply {
-        value=0
-    }
-    val posicaoAbaLista: LiveData<Int> = _posicaoAbaLista
-
-*/
 
 
 
@@ -101,15 +83,7 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
         }
 
     }
-    private fun getNotasPesquisadas(txt:String):MutableList<ImagemNota>{
-        val results= mutableListOf<ImagemNota>()
-        for(notaimg in _listaImageNotas.value!!){
-            if (notaimg.titulo.contains(txt)){
-                results.add(notaimg)
-            }
-        }
-        return results;
-    }
+
       fun getListaNotasPesquisadas(txt:String?):List<ImagemNota>{
         var listaNaDb =  notaImgsDoRoom.value
         val results= mutableListOf<ImagemNota>()
@@ -126,23 +100,6 @@ class ListaNotasViewModel(application: Application): AndroidViewModel(applicatio
     }
 
 
-
-    fun peneiraNotaPorTexto(txt:String):Boolean{
-        if(txt.isBlank()){
-            _listaImageNotas.postValue(PersistenciaDadosNotas.imgs)
-        }else{
-            if(_listaImageNotas.value!=null){
-               val resultadoPesquisa=getNotasPesquisadas(txt)
-                if(resultadoPesquisa.size>=1) {
-                    _listaImageNotas.postValue(resultadoPesquisa)
-                    return true
-                }
-
-                    }
-
-            }
-         return false
-        }
 
 
 
