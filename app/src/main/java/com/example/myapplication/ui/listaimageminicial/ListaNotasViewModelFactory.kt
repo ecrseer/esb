@@ -1,12 +1,11 @@
-package com.example.myapplication
+package com.example.myapplication.ui.listaimageminicial
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import java.lang.IllegalArgumentException
 
-class MainViewModelFactory(private val application: Application):ViewModelProvider.Factory {
+class ListaNotasViewModelFactory(private val application: Application):ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ListaNotasViewModel::class.java)){
 

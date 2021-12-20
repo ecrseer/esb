@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.nota
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -9,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
-import com.example.myapplication.MainViewModelFactory
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNotaBinding
 import com.squareup.picasso.Picasso
@@ -56,7 +55,7 @@ class NotaFragment : Fragment() {
 
     fun inscreverObservers(){
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
+            ViewModelProvider(requireActivity(), ListaNotasViewModelFactory(requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
 
         notaViewModel = ViewModelProvider(this).get( NotaViewModel::class.java)

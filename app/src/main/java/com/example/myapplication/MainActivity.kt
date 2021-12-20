@@ -11,11 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
-
-import com.example.myapplication.ui.tabs.TabFragmentDirections
-import kotlinx.coroutines.*
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        listaNotasViewModel=ViewModelProvider(this,MainViewModelFactory(application))
+        listaNotasViewModel=ViewModelProvider(this, ListaNotasViewModelFactory(application))
             .get(ListaNotasViewModel::class.java)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

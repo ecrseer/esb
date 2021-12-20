@@ -13,6 +13,7 @@ import com.example.myapplication.domain.AbaDeNotas
 import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.*
@@ -43,7 +44,7 @@ class TabFragment : Fragment() {
         }
 
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory(requireActivity().application))
+            ViewModelProvider(requireActivity(), ListaNotasViewModelFactory(requireActivity().application))
                 .get(ListaNotasViewModel::class.java)
         tabViewModel = ViewModelProvider(this)
             .get(TabViewModel::class.java)

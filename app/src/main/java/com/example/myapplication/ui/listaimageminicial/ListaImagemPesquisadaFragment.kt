@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.listaimageminicial
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -11,13 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
-import com.example.myapplication.domain.AbaDeNotas
-import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
 
@@ -82,8 +77,9 @@ class ListaImagemPesquisadaFragment : Fragment() {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), MainViewModelFactory(
-                requireActivity().application))
+            ViewModelProvider(requireActivity(), ListaNotasViewModelFactory(
+                requireActivity().application)
+            )
                 .get(ListaNotasViewModel::class.java)
 
     }

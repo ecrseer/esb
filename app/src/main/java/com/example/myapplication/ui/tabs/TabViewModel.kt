@@ -1,10 +1,7 @@
 package com.example.myapplication.ui.tabs
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.example.myapplication.domain.*
 import com.example.myapplication.services.db.AbaDeNotasRepository
 import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasImagemNotaRepository
@@ -13,18 +10,10 @@ import com.example.myapplication.services.db.ImagemNotaRepository
 import kotlinx.coroutines.*
 import okhttp3.Dispatcher
 
-class TabViewModel(application: Application): AndroidViewModel(application)  {
-    private lateinit var abaDeNotasRepository: AbaDeNotasRepository
-    lateinit var abasDeNotas: LiveData<List<AbaDeNotas>>;
+class TabViewModel(abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository): ViewModel()  {
 
-
-    private lateinit var abaDeNotasWithImagemNotasRepository: AbaDeNotasWithImagemNotasRepository
     lateinit var todasImageNotasEabas:LiveData<List<AbaDeNotasWithImagemNotas>>;
 
-    private lateinit var imageNotaRepository: ImagemNotaRepository
-    lateinit var todasNotas:LiveData<List<ImagemNota>>;
-
-    private lateinit var abaDeNotasImagemNotaRepository: AbaDeNotasImagemNotaRepository
 
     init {
         abaDeNotasRepository = AbaDeNotasRepository(application)

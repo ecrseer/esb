@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
-import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
+import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 import kotlinx.coroutines.runBlocking
 
 
@@ -39,7 +39,8 @@ class NotaViewPagerFragment : Fragment() {
         //todo trocar por safe args
         listaNotasViewModel =
             ViewModelProvider(requireActivity(),
-                MainViewModelFactory(requireActivity().application))
+                ListaNotasViewModelFactory(requireActivity().application)
+            )
                 .get(ListaNotasViewModel::class.java)
 
         if(args!=null){
