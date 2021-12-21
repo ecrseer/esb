@@ -7,46 +7,42 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 
 
-class ImagemNotaRepository(applicationContext:Application) {
+class ImagemNotaRepository(
+    private val dao: ImagemNotaDao
+) {
 
-    private lateinit var dao: ImagemNotaDao
+    suspend fun obterPorId(id: Int): ImagemNota {
+        return dao.obter(id)
+    }
 
-    init {
-        val db = Room.databaseBuilder(applicationContext,
-            AppDatabase::class.java, "db_imagemnota")
-            .build()
-        dao = db.getImagemNotaDAO()
-    }
-    fun obterPorId(id:Int):ImagemNota{
+      fun listaImagemNotaLiveData(): Flow<List<ImagemNota>> {
+        
+        return dao.listarLiveData()
 
-        return runBlocking {
-             return@runBlocking dao.obter(id)
-        }
     }
-   fun listaImagemNotaLiveData(): Flow<List<ImagemNota>> {
-        return runBlocking {
-            return@runBlocking dao.listarLiveData()
-        }
+
+    suspend fun listarImagemNota(): List<ImagemNota> {
+
+        return dao.listar()
+
     }
-    fun listarImagemNota():List<ImagemNota>{
-        return runBlocking {
-            return@runBlocking dao.listar()
-        }
+
+    suspend fun inserirAnotacao(nota: ImagemNota) {
+
+        return dao.inserir(nota)
+
     }
-    fun inserirAnotacao(nota:ImagemNota){
-        return runBlocking {
-            return@runBlocking dao.inserir(nota)
-        }
+
+    suspend fun editarAnotacao(nota: ImagemNota) {
+
+        return dao.editar(nota)
+
     }
-    fun editarAnotacao(nota:ImagemNota){
-        return runBlocking {
-            return@runBlocking dao.editar(nota)
-        }
-    }
-    fun removerAnotacao(nota:ImagemNota){
-        return runBlocking {
-            return@runBlocking dao.excluir(nota)
-        }
+
+    suspend fun removerAnotacao(nota: ImagemNota) {
+
+        return dao.excluir(nota)
+
     }
 
 }

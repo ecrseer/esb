@@ -24,7 +24,7 @@ abstract class AppDatabase : RoomDatabase(){
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context:Context,scope: CoroutineScope){
+        fun getDatabase(context:Context,scope: CoroutineScope):AppDatabase{
             val instance = Room.databaseBuilder(context.applicationContext,
             AppDatabase::class.java,"db_imagemnota")
                 .fallbackToDestructiveMigration()
@@ -32,8 +32,7 @@ abstract class AppDatabase : RoomDatabase(){
                 .build()
             INSTANCE = instance;
 
-            instance
-
+            return instance
         }
     }
 

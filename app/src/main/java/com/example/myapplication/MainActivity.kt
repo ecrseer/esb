@@ -7,12 +7,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    private lateinit var listaNotasViewModel: ListaNotasViewModel
-    private lateinit var mainActivityViewModel:MainActivityViewModel
+
 
     private var listenerEscondeFab = object : NavController.OnDestinationChangedListener {
         override fun onDestinationChanged(
@@ -42,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        listaNotasViewModel=ViewModelProvider(this, ListaNotasViewModelFactory(application))
-            .get(ListaNotasViewModel::class.java)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -15,6 +16,8 @@ import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentImagemItemListBinding
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.ui.tabs.TabFragmentDirections
+import com.example.myapplication.ui.tabs.TabViewModel
+import com.example.myapplication.ui.tabs.TabViewModelFactory
 
 /**
  * A fragment representing a list of Items.
@@ -25,46 +28,62 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var listaNotasViewModel: ListaNotasViewModel
+    private val tabViewModel: TabViewModel by viewModels {
+        TabViewModelFactory(
+            (requireActivity().application as NoteCompletionApplication)
+                .abaNotasRepository,
+            (requireActivity().application as NoteCompletionApplication)
+                .imgNotasRepository
+        )
+    }
 
     private var columnCount = 1
     private var isListaFavoritos = false
 
-    private fun renovaListaAdapter(listaNotasInicial:List<ImagemNota>?){
+
+    private fun renovaListaAdapter(listaNotasInicial: List<ImagemNota>?) {
         val clicarNoItemAbreNota = { posicao: Int ->
             //todo pesquisaposicao no listaviewmodel e retorna um idnota ou imgnota
-            val acao = TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
+            val idNota: Int = 0;
+            val acao =
+                TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
             findNavController().navigate(acao)
         }
         with(binding.list) {
-            if(listaNotasInicial!=null) {
+            if (listaNotasInicial != null) {
                 adapter = ListaImagemPesquisadaRecyclerViewAdapter(
-                    listaNotasInicial, clicarNoItemAbreNota  )
+                    listaNotasInicial, clicarNoItemAbreNota
+                )
             }
         }
     }
 
-    private val listenerAtualizaScroll = object : NavController.OnDestinationChangedListener{
+    private val listenerAtualizaScroll = object : NavController.OnDestinationChangedListener {
         override fun onDestinationChanged(
             controller: NavController,
             destination: NavDestination,
             arguments: Bundle?
         ) {
             with(binding.list) {
-                if(listaNotasViewModel.listaImagemNotas.value!=null)
-                    this.scrollToPosition(listaNotasViewModel
-                        .listaImagemNotas.value!!.size)
+                if (tabViewModel.abaAtualComNotas.value != null)
+                    this.scrollToPosition(tabViewModel.abaAtualComNotas.value!!.listaDeNotas.size)
             }
         }
 
     }
     private val listenerPesquisaNotas = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {return true}
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
         override fun onQueryTextChange(newText: String?): Boolean {
-            if(newText?.isBlank() == true){
-                renovaListaAdapter(listaNotasViewModel.listaImagemNotas.value)
+            val lista = tabViewModel.abaAtualComNotas.value
+            if (newText?.isBlank() == true) {
+                renovaListaAdapter(lista?.listaDeNotas)
                 return false
-            }else{
-                val resultadoPesquisa = listaNotasViewModel.getListaNotasPesquisadas(newText)
+            } else {
+                val resultadoPesquisa =
+                    listaNotasViewModel.getListaNotasPesquisadas(newText, lista!!)
                 renovaListaAdapter(resultadoPesquisa)
                 return true
             }
@@ -77,12 +96,10 @@ class ListaImagemPesquisadaFragment : Fragment() {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
         listaNotasViewModel =
-            ViewModelProvider(requireActivity(), ListaNotasViewModelFactory(
-                requireActivity().application)
-            )
-                .get(ListaNotasViewModel::class.java)
+            ViewModelProvider(this).get(ListaNotasViewModel::class.java)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,8 +112,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
         menu.clear()
+
         if (findNavController().currentDestination?.id == R.id.NotaViewPagerFragment) {
             inflater.inflate(R.menu.menu_nota, menu)
         } else {
@@ -108,7 +125,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     }
 
-     private fun defineRecyclerView() {
+    private fun defineRecyclerView() {
         with(binding.list) {
 
             layoutManager = when {
@@ -120,12 +137,12 @@ class ListaImagemPesquisadaFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-        listaNotasViewModel.listaImagemNotas.observe(viewLifecycleOwner, Observer {
-               renovaListaAdapter(it)
+        tabViewModel.abaAtualComNotas.observe(viewLifecycleOwner, Observer {
+            if(it!=null)
+                renovaListaAdapter(it.listaDeNotas)
         })
 
 
@@ -143,8 +160,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
         defineRecyclerView()
 
     }
-
-
 
 
 }

@@ -14,20 +14,6 @@ import kotlinx.coroutines.*
 
 class MainActivityViewModel (application: Application): AndroidViewModel(application)  {
 
-        private lateinit var abaDeNotasRepository: AbaDeNotasRepository
-        lateinit var abasDeNotas: LiveData<List<AbaDeNotas>>;
-
-
-
-        init {
-            abaDeNotasRepository = AbaDeNotasRepository(application)
-            abasDeNotas = abaDeNotasRepository
-                .listarTodasAbasLiveData().asLiveData()
-
-        }
-
-
-
 
 
 }

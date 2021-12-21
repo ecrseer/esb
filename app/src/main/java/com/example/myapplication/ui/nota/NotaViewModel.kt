@@ -3,18 +3,18 @@ package com.example.myapplication.ui.nota
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myapplication.services.ImagensService
 import com.example.myapplication.services.ImagensServiceListener
 import com.example.myapplication.domain.ImagemNota
 import com.example.myapplication.services.db.ImagemNotaRepository
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class NotaViewModel : ViewModel(), ImagensServiceListener {
+class NotaViewModel(private val repository: ImagemNotaRepository ) : ViewModel(), ImagensServiceListener {
     private val servico = ImagensService()
 
-    //private lateinit var imageNotaRepository: ImagemNotaRepository
     init {
-        //imageNotaRepository = ImagemNotaRepository(application)
         servico.setImagensServiceListener(this)
     }
 
@@ -47,12 +47,16 @@ class NotaViewModel : ViewModel(), ImagensServiceListener {
 
 
     fun editaNotaAtual(cabecalho: String, conteudo: String, img: String) {
+
         if (_notaImg.value != null) {
             _notaImg.value?.apply {
                 titulo = cabecalho
                 texto = conteudo
                 big = img
                 thumb = img
+            }
+            viewModelScope.launch {
+                repository.editarAnotacao(_notaImg.value!!)
             }
         }
 

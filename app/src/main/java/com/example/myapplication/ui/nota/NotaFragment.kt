@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.NoteCompletionApplication
 import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNotaBinding
+import com.example.myapplication.ui.tabs.TabViewModel
+import com.example.myapplication.ui.tabs.TabViewModelFactory
 import com.squareup.picasso.Picasso
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,9 +29,19 @@ class NotaFragment : Fragment() {
     }
     private var _binding: FragmentNotaBinding?=null
     private val binding get() = _binding!!
-
-    private lateinit var listaNotasViewModel: ListaNotasViewModel
-    private lateinit var notaViewModel: NotaViewModel
+    private val tabViewModel: TabViewModel by viewModels {
+        TabViewModelFactory(
+            (requireActivity().application as NoteCompletionApplication)
+                .abaNotasRepository ,
+            (requireActivity().application as NoteCompletionApplication)
+                .imgNotasRepository
+        )
+    }
+    private val notaViewModel: NotaViewModel by viewModels {
+        NotaViewModelFactory(
+            (requireActivity().application as NoteCompletionApplication).imgNotasRepository
+        )
+    }
 
     private var  posicaoNotaImagemArmazenada:Int?=null
 
@@ -54,11 +67,8 @@ class NotaFragment : Fragment() {
 
 
     fun inscreverObservers(){
-        listaNotasViewModel =
-            ViewModelProvider(requireActivity(), ListaNotasViewModelFactory(requireActivity().application))
-                .get(ListaNotasViewModel::class.java)
 
-        notaViewModel = ViewModelProvider(this).get( NotaViewModel::class.java)
+
         val titulo = notaViewModel.tituloNota.value
 
         notaViewModel.tituloNota.observe(viewLifecycleOwner, Observer { it ->
@@ -84,7 +94,7 @@ class NotaFragment : Fragment() {
     }
     fun carregaDadosDaNota(){
         if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = listaNotasViewModel.listaImagemNotas.value
+            val todasNotaImgs = tabViewModel.abaAtualComNotas.value?.listaDeNotas
             if(todasNotaImgs!=null){
                 notaViewModel.carregaNotaRoom(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)
@@ -125,10 +135,7 @@ class NotaFragment : Fragment() {
         val img: String = "${notaViewModel.fundoImagem.value}"
 
         notaViewModel.editaNotaAtual(titulo, conteudo, img)
-        val notaEditada= notaViewModel.notaImg.value
-        if (notaEditada!=null){
-            listaNotasViewModel.editaNotaAtual(notaEditada)
-        }
+
     }
 
     override fun onPause() {
@@ -152,7 +159,8 @@ class NotaFragment : Fragment() {
             R.id.menu_itemDeletar -> {
                 val id = notaViewModel.notaImg.value?.idNota
                 findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
-                listaNotasViewModel.deletaNota(id!!)
+                //todo listaNotasViewModel.deletaNota(id!!)
+                true
             }
             R.id.menu_itemCompartilhar->{
                 val intentDeCompartilhar: Intent = Intent().apply {

@@ -3,13 +3,13 @@ package com.example.myapplication.ui.nota
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.example.myapplication.NoteCompletionApplication
 import com.example.myapplication.databinding.FragmentNotaViewPagerBinding
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModelFactory
-import kotlinx.coroutines.runBlocking
+import com.example.myapplication.ui.tabs.TabViewModel
+import com.example.myapplication.ui.tabs.TabViewModelFactory
 
 
 /**
@@ -23,8 +23,15 @@ class NotaViewPagerFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var listaNotasViewModel: ListaNotasViewModel
-    private var posicao:Int=0
+    private val tabViewModel: TabViewModel by viewModels {
+        TabViewModelFactory(
+            (requireActivity().application as NoteCompletionApplication)
+                .abaNotasRepository ,
+            (requireActivity().application as NoteCompletionApplication)
+                .imgNotasRepository
+        )
+    }
+    private var idNota:Int=0
     private var isNotaNovaDeveSerCriada = false
     val args: NotaViewPagerFragmentArgs by navArgs()
 
@@ -37,24 +44,19 @@ class NotaViewPagerFragment : Fragment() {
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
         //todo trocar por safe args
-        listaNotasViewModel =
-            ViewModelProvider(requireActivity(),
-                ListaNotasViewModelFactory(requireActivity().application)
-            )
-                .get(ListaNotasViewModel::class.java)
 
         if(args!=null){
-            if( args.posicao!=null){
-                posicao = args.posicao
+            if( args.idNota!=null){
+                idNota = args.idNota
             }
         }
 
-        val adaptr = SliderAdapter(childFragmentManager,lifecycle,
-            listaNotasViewModel.listaImagemNotas.value?.size,false)
-
-        with(binding.pager as ViewPager2){
-            adapter =  adaptr
-            currentItem = posicao
+        tabViewModel.abaAtualComNotas.value.let {
+            with(binding.pager as ViewPager2){
+                adapter =  SliderAdapter(childFragmentManager,lifecycle,
+                it?.listaDeNotas?.size)
+                currentItem = idNota
+            }
         }
 
 
@@ -71,20 +73,6 @@ class NotaViewPagerFragment : Fragment() {
         requireActivity().invalidateOptionsMenu()
         _binding = null
     }
-    fun avan(){
-        if(args.isNotaNova){
-            runBlocking {
-                with(binding.pager as ViewPager2){
 
-                    currentItem = posicao+1
-                }
-            }
-        }
-    }
-    override fun onResume() {
-        super.onResume()
-
-
-    }
 
 }
