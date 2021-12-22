@@ -5,10 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "imagemnota")
-data class ImagemNota constructor(
+data class ImagemNota(
 
     @PrimaryKey(autoGenerate = true)
-    var idNota:Int,
+    var idNota: Long,
 
     @ColumnInfo(name = "big")
     var big: String,
@@ -22,4 +22,4 @@ data class ImagemNota constructor(
     @ColumnInfo(name = "titulo")
     var titulo:String,
 
-)
+    )

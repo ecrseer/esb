@@ -31,7 +31,7 @@ class NotaViewPagerFragment : Fragment() {
                 .imgNotasRepository
         )
     }
-    private var idNota:Int=0
+    private var posicao:Int=0
     private var isNotaNovaDeveSerCriada = false
     val args: NotaViewPagerFragmentArgs by navArgs()
 
@@ -44,18 +44,13 @@ class NotaViewPagerFragment : Fragment() {
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
         //todo trocar por safe args
-
-        if(args!=null){
-            if( args.idNota!=null){
-                idNota = args.idNota
-            }
-        }
+        posicao = args?.posicao?: 0
 
         tabViewModel.abaAtualComNotas.value.let {
             with(binding.pager as ViewPager2){
                 adapter =  SliderAdapter(childFragmentManager,lifecycle,
                 it?.listaDeNotas?.size)
-                currentItem = idNota
+                currentItem = posicao
             }
         }
 

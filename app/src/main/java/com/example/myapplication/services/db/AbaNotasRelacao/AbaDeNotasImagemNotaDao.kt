@@ -10,5 +10,5 @@ interface AbaDeNotasImagemNotaDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(abaComNotas: AbaDeNotasImagemNota)
+    suspend fun insert(abaComNotas: AbaDeNotasImagemNota):Long
 }

@@ -16,7 +16,7 @@ interface ImagemNotaDao {
     fun listarLiveData(): Flow<List<ImagemNota>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun inserir(nota:ImagemNota)
+    suspend fun inserir(nota:ImagemNota):Long
 
     @Delete
     suspend fun excluir(nota:ImagemNota)

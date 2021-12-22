@@ -3,6 +3,7 @@ package com.example.myapplication.ui.tabs
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -27,10 +28,8 @@ class TabFragment : Fragment() {
     private val binding get()= _binding!!
 
     private var param1: String? = null
-    private val listaDeAbas:MutableList<AbaDeNotas> = PersistenciaDadosNotas.todasAbas
-//    private lateinit var listaNotasViewModel: ListaNotasViewModel
 
-    private val tabViewModel:TabViewModel by viewModels {
+    private val tabViewModel:TabViewModel by activityViewModels {
         TabViewModelFactory(
             (requireActivity().application as NoteCompletionApplication)
                 .abaNotasRepository ,
@@ -88,6 +87,9 @@ class TabFragment : Fragment() {
         tabLayout = binding.tabLayout
         viewpagr = binding.viewpager
 
+        tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
+            tabViewModel.atualizaAbaAtual()
+        })
         tabViewModel.todasAbas.observe(viewLifecycleOwner, Observer {
 
             it.let{ lista->
@@ -97,26 +99,29 @@ class TabFragment : Fragment() {
             }
         })
 
-        tabViewModel.temNotaNova.observe(viewLifecycleOwner, Observer {
-            if (it==true){
-                tabViewModel.todasNotas.value.let { listaNotas->
-                    val posicao = listaNotas!!.size.plus(1)!!
-                    val action = TabFragmentDirections
-                        .actionTabFragmentToNotaViewPagerFragment(
-                            posicao, it)
-                    findNavController().navigate(action)
-
-                }
-                tabViewModel.temNotaNova.postValue(false)
-            }
+        tabViewModel.abaAtualById.observe(viewLifecycleOwner, Observer {
+            print(it)
         })
         tabViewModel.todasNotas.observe(viewLifecycleOwner, Observer {
+            tabViewModel.atualizaAbaAtual()
 
+        })
+        tabViewModel.idNotaNova.observe(viewLifecycleOwner, Observer {
+            tabViewModel.abaAtualComNotas?.value
+                ?.let { abaAtual->
+                    abaAtual?.listaDeNotas.let {
+                        val posicao = abaAtual?.listaDeNotas!!.size.minus(1)
+                        val action = TabFragmentDirections
+                            .actionTabFragmentToNotaViewPagerFragment(
+                                posicao, true)
+                        findNavController().navigate(action)
 
+                    }
+                }
         })
 
         tabViewModel.abaAtualComNotas.observe(viewLifecycleOwner, Observer {
-
+            print("$it")
         })
 
 

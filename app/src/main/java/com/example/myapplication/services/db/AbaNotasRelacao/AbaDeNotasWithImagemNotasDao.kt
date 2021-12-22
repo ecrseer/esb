@@ -16,6 +16,6 @@ interface AbaDeNotasWithImagemNotasDao {
 
     @Transaction
     @Query("SELECT * FROM abadenotas WHERE idAba = :idA")
-    fun getAbaDeNotasWithImagemNotasById(idA:Int): Flow<AbaDeNotasWithImagemNotas>
+    fun getAbaDeNotasWithImagemNotasById(idA:Int): LiveData<List<AbaDeNotasWithImagemNotas>>
 
 }

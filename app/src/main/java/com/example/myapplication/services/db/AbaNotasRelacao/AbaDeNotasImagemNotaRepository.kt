@@ -14,9 +14,5 @@ class AbaDeNotasImagemNotaRepository(applicationContext:Application) {
             .build()
         dao = db.getAbaDeNotasImagemNotasDAO()
     }
-    fun adicionarRelacaoAbaNota(abaEnota: AbaDeNotasImagemNota){
-        return runBlocking {
-            return@runBlocking dao.insert(abaEnota)
-        }
-    }
+
 }

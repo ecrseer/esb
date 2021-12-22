@@ -17,25 +17,33 @@ class TabViewModel(private val abaDeNotasRepository: AbaDeNotasRepository,
 
 
     var abaAtualComNotas= MutableLiveData<AbaDeNotasWithImagemNotas>().apply {
-        value = abaDeNotasRepository.abaDeNotasComImagemNotasByIdAba(0).asLiveData().value
+        value = todasImageNotasEabas.value?.get(0)
     }
     val temNotaNova = MutableLiveData<Boolean>().apply { value=false }
+    val idNotaNova = MutableLiveData<Long>().apply { value=0 }
+    val posicaoAbaAtual = MutableLiveData<Int>().apply { value=0 }
      var tamanhoDaListaCriaRelacionamento= MutableLiveData<Int>().apply { value=0 }
 
-    fun abaAtual(idAba:Int): AbaDeNotasWithImagemNotas? {
-        return abaDeNotasRepository
-            .abaDeNotasComImagemNotasByIdAba(idAba)
-            .asLiveData().value
-    }
+    val abaAtualById = abaDeNotasRepository
+        .abaDeNotasComImagemNotasByIdAba(posicaoAbaAtual.value!!)
+
+
     fun mudaListaParaAbaEm(posicaoAtual:Int){
         val existeRelacionamentoNotaAba =
             todasImageNotasEabas?.value?.isNotEmpty() == true
         if (existeRelacionamentoNotaAba) {
-            val abaEnotasAtual = todasImageNotasEabas.value!![posicaoAtual]
+            posicaoAbaAtual.postValue(posicaoAtual)
+            atualizaAbaAtual()
+        }
+
+    }
+    fun atualizaAbaAtual(){
+        todasImageNotasEabas.value.let {
+            val posicao = abaAtualComNotas.value?.abaDeNotas?.idAba?.minus(1)?: 0
+            val abaEnotasAtual = it?.get(posicao)
             abaAtualComNotas.postValue(abaEnotasAtual)
 
         }
-
     }
     fun criaAbasIniciais(){
         if(todasImageNotasEabas.value?.isNotEmpty()!=true){
@@ -65,7 +73,10 @@ class TabViewModel(private val abaDeNotasRepository: AbaDeNotasRepository,
             viewModelScope.launch {
                 abaAtualComNotas.value.let {
                     if(it?.abaDeNotas?.idAba!=null){
-                        abaDeNotasRepository.criarNotaNova(it.abaDeNotas.idAba,notaImgTemporaria)
+                        idNotaNova.postValue(
+                            abaDeNotasRepository.criarNotaNova(it.abaDeNotas.idAba,notaImgTemporaria)
+                        )
+
                         tamanhoDaListaCriaRelacionamento.postValue(todasNotas.value?.size)
                         temNotaNova.postValue(true)
                     }

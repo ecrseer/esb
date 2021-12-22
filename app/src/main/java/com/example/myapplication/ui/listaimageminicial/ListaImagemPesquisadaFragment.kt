@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,7 +29,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var listaNotasViewModel: ListaNotasViewModel
-    private val tabViewModel: TabViewModel by viewModels {
+    private val tabViewModel: TabViewModel by activityViewModels {
         TabViewModelFactory(
             (requireActivity().application as NoteCompletionApplication)
                 .abaNotasRepository,
@@ -44,7 +45,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
     private fun renovaListaAdapter(listaNotasInicial: List<ImagemNota>?) {
         val clicarNoItemAbreNota = { posicao: Int ->
             //todo pesquisaposicao no listaviewmodel e retorna um idnota ou imgnota
-            val idNota: Int = 0;
+
             val acao =
                 TabFragmentDirections.actionTabFragmentToNotaViewPagerFragment(posicao, false)
             findNavController().navigate(acao)

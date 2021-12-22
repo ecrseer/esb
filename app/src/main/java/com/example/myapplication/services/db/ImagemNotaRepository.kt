@@ -27,7 +27,7 @@ class ImagemNotaRepository(
 
     }
 
-    suspend fun inserirAnotacao(nota: ImagemNota) {
+    suspend fun inserirAnotacao(nota: ImagemNota):Long {
 
         return dao.inserir(nota)
 
