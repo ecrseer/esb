@@ -10,45 +10,47 @@ import com.example.myapplication.services.db.AbaNotasRelacao.AbaDeNotasWithImage
 import kotlinx.coroutines.flow.Flow
 
 class AbaDeNotasRepository(
-     private val daoAbaDeNotas: AbaDeNotasDao,
-     private val daoAbaDeNotasWithImagemNotasDao: AbaDeNotasWithImagemNotasDao,
-     private val daoAbaDeNotasImagemNotaDao: AbaDeNotasImagemNotaDao,
-     private val daoImageNota:ImagemNotaDao
-    ) {
+    private val daoAbaDeNotas: AbaDeNotasDao,
+    private val daoAbaDeNotasWithImagemNotasDao: AbaDeNotasWithImagemNotasDao,
+    private val daoAbaDeNotasImagemNotaDao: AbaDeNotasImagemNotaDao,
+    private val daoImageNota: ImagemNotaDao
+) {
 
 
-        suspend fun criarAbaNova(abaDeNotas: AbaDeNotas) {
-            return daoAbaDeNotas.adicionar(abaDeNotas)
-
-        }
-
-        fun listarTodasAbasLiveData(): Flow<List<AbaDeNotas>> {
-            return daoAbaDeNotas.listar()
-
-        }
-
-
-         fun listaAbaDeNotasComImagemNotas(): Flow<List<AbaDeNotasWithImagemNotas>> {
-             return daoAbaDeNotasWithImagemNotasDao.getAbaDeNotasWithImagemNotas()
-         }
-            fun abaDeNotasComImagemNotasByIdAba(idAba: Int): LiveData<List<AbaDeNotasWithImagemNotas>> {
-            return daoAbaDeNotasWithImagemNotasDao.getAbaDeNotasWithImagemNotasById(idAba);
-        }
-
-
-         suspend fun adicionarRelacaoAbaNota(abaEnota: AbaDeNotasImagemNota): Long {
-               return daoAbaDeNotasImagemNotaDao.insert(abaEnota)
-
-         }
-
-
-        suspend fun criarNotaNova(idAba:Int,imagemNota: ImagemNota): Long {
-            val notanova = daoImageNota.inserir(imagemNota)
-            val abaEnota = AbaDeNotasImagemNota(notanova,idAba)
-            return daoAbaDeNotasImagemNotaDao.insert(abaEnota)
-        }
-
-
+    suspend fun criarAbaNova(abaDeNotas: AbaDeNotas) {
+        return daoAbaDeNotas.adicionar(abaDeNotas)
 
     }
+
+    fun listarTodasAbasLiveData(): Flow<List<AbaDeNotas>> {
+        return daoAbaDeNotas.listar()
+
+    }
+
+
+    fun listaAbaDeNotasComImagemNotas(): Flow<List<AbaDeNotasWithImagemNotas>> {
+        return daoAbaDeNotasWithImagemNotasDao.getAbaDeNotasWithImagemNotas()
+    }
+
+    fun abaDeNotasComImagemNotasByIdAba(idAba: Int): LiveData<List<AbaDeNotasWithImagemNotas>> {
+        return daoAbaDeNotasWithImagemNotasDao.getAbaDeNotasWithImagemNotasById(idAba);
+    }
+    fun listaDaAbaByIdAba(idAba: Int): LiveData<List<ImagemNota>> {
+        return daoAbaDeNotasWithImagemNotasDao.listaDaAbaById(idAba);
+    }
+
+    suspend fun adicionarRelacaoAbaNota(abaEnota: AbaDeNotasImagemNota): Long {
+        return daoAbaDeNotasImagemNotaDao.insert(abaEnota)
+
+    }
+
+
+    suspend fun criarNotaNova(idAba: Int, imagemNota: ImagemNota): Long {
+        val notanova = daoImageNota.inserir(imagemNota)
+        val abaEnota = AbaDeNotasImagemNota(notanova, idAba)
+        return daoAbaDeNotasImagemNotaDao.insert(abaEnota)
+    }
+
+
+}
 

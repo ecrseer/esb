@@ -102,9 +102,13 @@ class TabFragment : Fragment() {
         tabViewModel.abaAtualById.observe(viewLifecycleOwner, Observer {
             print(it)
         })
+
+        tabViewModel.posicaoAbaAtual.observe(viewLifecycleOwner, Observer {
+            print(it)
+
+        })
         tabViewModel.todasNotas.observe(viewLifecycleOwner, Observer {
             tabViewModel.atualizaAbaAtual()
-
         })
         tabViewModel.idNotaNova.observe(viewLifecycleOwner, Observer {
             tabViewModel.abaAtualComNotas?.value

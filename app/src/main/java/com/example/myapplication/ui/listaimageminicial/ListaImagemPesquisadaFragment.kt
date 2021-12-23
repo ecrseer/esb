@@ -141,9 +141,12 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-        tabViewModel.abaAtualComNotas.observe(viewLifecycleOwner, Observer {
+
+        tabViewModel.listaAtualById.observe(viewLifecycleOwner, Observer {
+            print(it)
             if(it!=null)
-                renovaListaAdapter(it.listaDeNotas)
+                renovaListaAdapter(it)
+
         })
 
 

@@ -25,8 +25,11 @@ class TabViewModel(private val abaDeNotasRepository: AbaDeNotasRepository,
      var tamanhoDaListaCriaRelacionamento= MutableLiveData<Int>().apply { value=0 }
 
     val abaAtualById = abaDeNotasRepository
-        .abaDeNotasComImagemNotasByIdAba(posicaoAbaAtual.value!!)
-
+        .abaDeNotasComImagemNotasByIdAba(posicaoAbaAtual.value!!.plus(1))
+    var listaAtualById = Transformations.switchMap(posicaoAbaAtual) { posi ->
+        abaDeNotasRepository
+            .listaDaAbaByIdAba(posi.plus(1))
+    }
 
     fun mudaListaParaAbaEm(posicaoAtual:Int){
         val existeRelacionamentoNotaAba =
