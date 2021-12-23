@@ -16,11 +16,9 @@ class ListaNotasViewModel(): ViewModel()  {
     val listaImagemNotas:LiveData<MutableList<ImagemNota> > = _listaImageNotas
 
 
-      fun getListaNotasPesquisadas(txt:String?,abaElista:AbaDeNotasWithImagemNotas):List<ImagemNota>{
-        var listaNaDb =  abaElista.listaDeNotas
+      fun getListaNotasPesquisadas(txt:String?,listaNaDb:List<ImagemNota>):List<ImagemNota>{
         val results= mutableListOf<ImagemNota>()
           if(txt==null) return results
-
           if (listaNaDb != null) {
               for(notaimg in listaNaDb){
                   if (notaimg.titulo.contains(txt)){

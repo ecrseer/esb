@@ -14,7 +14,7 @@ class SliderAdapter (fa: FragmentManager,lifecycl:Lifecycle,
 
     private fun notaSegundoPosicao(position: Int):Fragment{
         val frag = NotaFragment()
-        frag.arguments = bundleOf("posicao" to position)
+        frag.arguments = bundleOf("posicaoNotaSelecionada" to position)
         return frag;
     }
 

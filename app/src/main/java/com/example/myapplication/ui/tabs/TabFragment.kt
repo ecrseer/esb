@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -12,7 +11,6 @@ import com.example.myapplication.*
 import com.example.myapplication.databinding.FragmentTabBinding
 import com.example.myapplication.domain.AbaDeNotas
 import com.example.myapplication.domain.AbaDeNotasWithImagemNotas
-import com.example.myapplication.domain.PersistenciaDadosNotas
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.*
@@ -87,9 +85,7 @@ class TabFragment : Fragment() {
         tabLayout = binding.tabLayout
         viewpagr = binding.viewpager
 
-        tabViewModel.todasImageNotasEabas.observe(viewLifecycleOwner, Observer {
-            tabViewModel.atualizaAbaAtual()
-        })
+
         tabViewModel.todasAbas.observe(viewLifecycleOwner, Observer {
 
             it.let{ lista->
@@ -99,36 +95,36 @@ class TabFragment : Fragment() {
             }
         })
 
-        tabViewModel.abaAtualById.observe(viewLifecycleOwner, Observer {
-            print(it)
-        })
+
 
         tabViewModel.posicaoAbaAtual.observe(viewLifecycleOwner, Observer {
             print(it)
 
         })
-        tabViewModel.todasNotas.observe(viewLifecycleOwner, Observer {
-            tabViewModel.atualizaAbaAtual()
-        })
-        tabViewModel.idNotaNova.observe(viewLifecycleOwner, Observer {
-            tabViewModel.abaAtualComNotas?.value
-                ?.let { abaAtual->
-                    abaAtual?.listaDeNotas.let {
-                        val posicao = abaAtual?.listaDeNotas!!.size.minus(1)
-                        val action = TabFragmentDirections
-                            .actionTabFragmentToNotaViewPagerFragment(
-                                posicao, true)
-                        findNavController().navigate(action)
 
-                    }
+
+         tabViewModel.listaAtualById.observe(viewLifecycleOwner, Observer {
+             tabViewModel.temNotaNova.value.let{ temNotaNova-> navegaSeTiverNotaNova(temNotaNova)}
+         })
+
+
+
+
+    }
+
+    private fun navegaSeTiverNotaNova(temNotaNova:Boolean?) {
+        if (temNotaNova==true){
+            tabViewModel.listaAtualById?.value
+                ?.let { listaAbaAtual->
+                    val posicao = listaAbaAtual?.size.minus(1)
+                    val action = TabFragmentDirections
+                        .actionTabFragmentToNotaViewPagerFragment(
+                            posicao, true)
+                    findNavController().navigate(action)
+                    tabViewModel.temNotaNova.postValue(false)
+
                 }
-        })
-
-        tabViewModel.abaAtualComNotas.observe(viewLifecycleOwner, Observer {
-            print("$it")
-        })
-
-
+        }
     }
 
 
@@ -150,15 +146,8 @@ class TabFragment : Fragment() {
         })
 
         binding.fabAdicionaNota.setOnClickListener {
-            if (tabViewModel.tamanhoDaListaCriaRelacionamento.hasObservers())
-                tabViewModel.tamanhoDaListaCriaRelacionamento
-                    .removeObservers(viewLifecycleOwner)
-
             val imagemPlaceholdr = getString(R.string.imagemTeste)
-
             tabViewModel.criaNota(imagemPlaceholdr)
-
-
         }
     }
 

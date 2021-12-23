@@ -11,13 +11,13 @@
         android:label="@string/nota_view_pager_label"
         tools:layout="@layout/fragment_nota_view_pager" >
         <argument
-                android:name="posicao"
+                android:name="posicaoNotaSelecionada"
                 app:argType="integer" />
         <argument
                 android:name="isNotaNova"
                 app:argType="boolean"  />
         <action
-                android:id="@+id/action_NotaViewPagerFragment_to_tabFragment2"
+                android:id="@+id/action_volta_tab_frag"
                 app:destination="@id/tabFragment2" />
     </fragment>
     <fragment

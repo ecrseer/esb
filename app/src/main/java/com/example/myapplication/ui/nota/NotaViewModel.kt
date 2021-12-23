@@ -61,11 +61,15 @@ class NotaViewModel(private val repository: ImagemNotaRepository ) : ViewModel()
         }
 
     }
-    fun deletaNota(): Boolean {
+    fun deletaNotaAtual(): Boolean {
         var deletouAlgo = false
 
-        //imageNotaRepository.removerAnotacao(_notaImg)
-        deletouAlgo = true
+        viewModelScope.launch {
+            _notaImg.value?.let {
+                repository.removerAnotacao(it)
+                deletouAlgo = true
+            }
+        }
 
         return deletouAlgo
     }

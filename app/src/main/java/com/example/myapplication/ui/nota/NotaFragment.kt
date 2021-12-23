@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.NoteCompletionApplication
-import com.example.myapplication.ui.listaimageminicial.ListaNotasViewModel
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNotaBinding
 import com.example.myapplication.ui.tabs.TabViewModel
@@ -49,7 +47,7 @@ class NotaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            posicaoNotaImagemArmazenada = it.getInt("posicao")
+            posicaoNotaImagemArmazenada = it.getInt("posicaoNotaSelecionada")
         }
     }
     override fun onDestroyView() {
@@ -95,7 +93,7 @@ class NotaFragment : Fragment() {
     }
     fun carregaDadosDaNota(){
         if(posicaoNotaImagemArmazenada!=null){
-            val todasNotaImgs = tabViewModel.abaAtualComNotas.value?.listaDeNotas
+            val todasNotaImgs = tabViewModel.listaAtualById.value
             if(todasNotaImgs!=null){
                 notaViewModel.carregaNotaRoom(todasNotaImgs,
                     posicaoNotaImagemArmazenada!!)
@@ -117,9 +115,7 @@ class NotaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.txtTitulo.setOnKeyListener { v, keyCode, event ->
-            if ((keyCode == KeyEvent.KEYCODE_SPACE) &&
-                (event.action == KeyEvent.ACTION_DOWN)
-            ) {
+            if (keyCode == KeyEvent.KEYCODE_SPACE ) {
                 notaViewModel.carregando.value = true
                 notaViewModel
                     .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
@@ -153,14 +149,14 @@ class NotaFragment : Fragment() {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
                 editaNotaNaLista()
-                findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
+                findNavController().navigate(R.id.action_volta_tab_frag)
                 //todo findNavController().popBackStack()
                 true
             }
             R.id.menu_itemDeletar -> {
                 val id = notaViewModel.notaImg.value?.idNota
-                findNavController().navigate(R.id.action_NotaViewPagerFragment_to_tabFragment2)
-                //todo listaNotasViewModel.deletaNota(id!!)
+                findNavController().navigate(R.id.action_volta_tab_frag)
+                notaViewModel.deletaNotaAtual()
                 true
             }
             R.id.menu_itemCompartilhar->{

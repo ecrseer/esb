@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.NoteCompletionApplication
@@ -32,7 +33,6 @@ class NotaViewPagerFragment : Fragment() {
         )
     }
     private var posicao:Int=0
-    private var isNotaNovaDeveSerCriada = false
     val args: NotaViewPagerFragmentArgs by navArgs()
 
 
@@ -43,19 +43,24 @@ class NotaViewPagerFragment : Fragment() {
     ): View? {
         _binding = FragmentNotaViewPagerBinding.inflate(inflater, container, false)
 
-        //todo trocar por safe args
-        posicao = args?.posicao?: 0
-
-        tabViewModel.abaAtualComNotas.value.let {
-            with(binding.pager as ViewPager2){
-                adapter =  SliderAdapter(childFragmentManager,lifecycle,
-                it?.listaDeNotas?.size)
-                currentItem = posicao
-            }
-        }
-
+        posicao = args?.posicaoNotaSelecionada?: 0
 
         return binding.root
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tabViewModel.listaAtualById.observe(viewLifecycleOwner, Observer {
+            print(it)
+
+            with(binding.pager as ViewPager2){
+                adapter =  SliderAdapter(childFragmentManager,lifecycle,
+                    it?.size)
+                currentItem = posicao
+            }
+
+        })
 
     }
 

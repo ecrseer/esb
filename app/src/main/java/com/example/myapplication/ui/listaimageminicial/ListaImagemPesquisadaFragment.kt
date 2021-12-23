@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -36,8 +35,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
             (requireActivity().application as NoteCompletionApplication)
                 .imgNotasRepository
         )
-    }
-
+    } 
     private var columnCount = 1
     private var isListaFavoritos = false
 
@@ -66,8 +64,8 @@ class ListaImagemPesquisadaFragment : Fragment() {
             arguments: Bundle?
         ) {
             with(binding.list) {
-                if (tabViewModel.abaAtualComNotas.value != null)
-                    this.scrollToPosition(tabViewModel.abaAtualComNotas.value!!.listaDeNotas.size)
+                if (tabViewModel.listaAtualById.value != null)
+                    this.scrollToPosition(tabViewModel.listaAtualById.value!!.size)
             }
         }
 
@@ -78,13 +76,13 @@ class ListaImagemPesquisadaFragment : Fragment() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            val lista = tabViewModel.abaAtualComNotas.value
+
             if (newText?.isBlank() == true) {
-                renovaListaAdapter(lista?.listaDeNotas)
+                renovaListaAdapter(tabViewModel.listaAtualById.value)
                 return false
             } else {
                 val resultadoPesquisa =
-                    listaNotasViewModel.getListaNotasPesquisadas(newText, lista!!)
+                    listaNotasViewModel.getListaNotasPesquisadas(newText, tabViewModel.listaAtualById.value!!)
                 renovaListaAdapter(resultadoPesquisa)
                 return true
             }
@@ -93,6 +91,7 @@ class ListaImagemPesquisadaFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             isListaFavoritos = it.getBoolean("isListaFavoritos")
         }
@@ -107,6 +106,12 @@ class ListaImagemPesquisadaFragment : Fragment() {
     ): View? {
         _binding = FragmentImagemItemListBinding.inflate(inflater, container, false)
 
+        tabViewModel.listaAtualById.observe(viewLifecycleOwner, Observer {
+            print(it)
+            if(it!=null)
+                renovaListaAdapter(it)
+
+        })
         return binding.root
     }
 
@@ -141,15 +146,6 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findNavController().addOnDestinationChangedListener(listenerAtualizaScroll)
-
-        tabViewModel.listaAtualById.observe(viewLifecycleOwner, Observer {
-            print(it)
-            if(it!=null)
-                renovaListaAdapter(it)
-
-        })
-
-
     }
 
     override fun onPause() {
