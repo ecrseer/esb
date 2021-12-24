@@ -21,9 +21,9 @@ class TabViewModel(
     val idNotaNova = MutableLiveData<Long>().apply { value = 0 }
     val posicaoAbaAtual = MutableLiveData<Int>().apply { value = 0 }
 
-    var listaAtualById = Transformations.switchMap(posicaoAbaAtual) { posi ->
+    var listaAtualById = Transformations.switchMap(posicaoAbaAtual) { posicao ->
         abaDeNotasRepository
-            .listaDaAbaByIdAba(posi.plus(1))
+            .listaDaAbaByIdAba(posicao.plus(1))
     }
 
     fun mudaListaParaAbaEm(posicaoAtual: Int) {
@@ -72,9 +72,7 @@ class TabViewModel(
             }
 
 
-        }
-
-    }
+        }     }
 
 
 }

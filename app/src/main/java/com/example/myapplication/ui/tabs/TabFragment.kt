@@ -98,8 +98,7 @@ class TabFragment : Fragment() {
 
 
         tabViewModel.posicaoAbaAtual.observe(viewLifecycleOwner, Observer {
-            print(it)
-
+                   viewpagr.currentItem=it
         })
 
 
