@@ -12,6 +12,12 @@ class SliderAdapter (fa: FragmentManager,lifecycl:Lifecycle,
                      var tamanho:Int?) : FragmentStateAdapter(fa,lifecycl) {
     override fun getItemCount(): Int = tamanho?: 2
 
+    fun mudaTamanho(novo:Int){
+        if(tamanho!=novo){
+            tamanho = novo;
+            notifyDataSetChanged()
+        }
+    }
     private fun notaSegundoPosicao(position: Int):Fragment{
         val frag = NotaFragment()
         frag.arguments = bundleOf("posicaoNotaSelecionada" to position)

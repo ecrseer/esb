@@ -90,7 +90,7 @@ class TabFragment : Fragment() {
 
             it.let{ lista->
                 val qtdAbas = tabViewModel.todasAbas.value?.size?: 1
-                viewpagr.adapter = TabAdapter(requireActivity(),qtdAbas)
+                viewpagr.adapter = TabAdapter(childFragmentManager,lifecycle,qtdAbas)
                 recriaTabMediator(tabLayout,viewpagr,lista)
             }
         })
@@ -120,8 +120,8 @@ class TabFragment : Fragment() {
                     val action = TabFragmentDirections
                         .actionTabFragmentToNotaViewPagerFragment(
                             posicao, true)
-                    findNavController().navigate(action)
                     tabViewModel.temNotaNova.postValue(false)
+                    findNavController().navigate(action)
 
                 }
         }

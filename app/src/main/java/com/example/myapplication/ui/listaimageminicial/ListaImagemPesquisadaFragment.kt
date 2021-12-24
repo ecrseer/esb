@@ -119,15 +119,14 @@ class ListaImagemPesquisadaFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-
-        if (findNavController().currentDestination?.id == R.id.NotaViewPagerFragment) {
-            inflater.inflate(R.menu.menu_nota, menu)
-        } else {
+        if(findNavController().currentDestination?.id==R.id.tabFragment2){
             inflater.inflate(R.menu.menu_main, menu)
             val searchWdgt = menu.findItem(R.id.app_bar_search)
             val actionViewPesquisa: SearchView = searchWdgt?.actionView as SearchView
             actionViewPesquisa.setOnQueryTextListener(listenerPesquisaNotas)
+
         }
+
 
     }
 

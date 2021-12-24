@@ -3,6 +3,7 @@ package com.example.myapplication.ui.nota
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -113,6 +114,8 @@ class NotaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val stext=findNavController().currentDestination
+        val text=findNavController().currentDestination?.displayName
 
         binding.txtTitulo.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_SPACE ) {
@@ -143,7 +146,13 @@ class NotaFragment : Fragment() {
         //finish()
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        if (findNavController().currentDestination?.id == R.id.NotaViewPagerFragment) {
+            inflater.inflate(R.menu.menu_nota, menu)
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
