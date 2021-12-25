@@ -2,8 +2,12 @@ package com.example.myapplication.ui.nota
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -43,6 +47,27 @@ class NotaFragment : Fragment() {
         )
     }
 
+    inner class handleTextWatch : Handler(),TextWatcher{
+        val pesquisaPalavraDepois= Runnable {
+            notaViewModel.carregando.value = true
+            notaViewModel
+                .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            removeCallbacks(pesquisaPalavraDepois)
+        }
+        override fun afterTextChanged(s: Editable?) {
+            postDelayed(pesquisaPalavraDepois,1000)
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+        }
+
+
+
+    }
+    private lateinit var listenerImagemPraTexto: handleTextWatch
     private var  posicaoNotaImagemArmazenada:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +75,7 @@ class NotaFragment : Fragment() {
         arguments?.let {
             posicaoNotaImagemArmazenada = it.getInt("posicaoNotaSelecionada")
         }
+        listenerImagemPraTexto = handleTextWatch()
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -112,20 +138,11 @@ class NotaFragment : Fragment() {
         }
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val stext=findNavController().currentDestination
-        val text=findNavController().currentDestination?.displayName
 
-        binding.txtTitulo.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_SPACE ) {
-                notaViewModel.carregando.value = true
-                notaViewModel
-                    .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
-            }
-            return@setOnKeyListener false;
-
-        }
+        binding.txtTitulo.addTextChangedListener(listenerImagemPraTexto)
 
 
     }
