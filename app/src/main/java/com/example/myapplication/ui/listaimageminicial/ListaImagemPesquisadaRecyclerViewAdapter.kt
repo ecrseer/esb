@@ -45,7 +45,7 @@ class ListaImagemPesquisadaRecyclerViewAdapter(
             val item = listaNotasImg[position]
             Picasso.get().load(item.big)
                 .centerCrop()
-                .resize(580, 120)
+                .resize(580, 142)
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.imgeView)
 

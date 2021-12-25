@@ -143,16 +143,6 @@ class NotaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.txtTitulo.addTextChangedListener(listenerImagemPraTexto)
-
-
-    }
-    private fun editaNotaNaLista(){
-        val titulo: String = binding.txtTitulo.text.toString()
-        val conteudo: String = binding.txtConteudoNota.text.toString()
-        val img: String = "${notaViewModel.fundoImagem.value}"
-
-        notaViewModel.editaNotaAtual(titulo, conteudo, img)
-
     }
 
     override fun onPause() {
@@ -170,7 +160,14 @@ class NotaFragment : Fragment() {
             inflater.inflate(R.menu.menu_nota, menu)
         }
     }
+    private fun editaNotaNaLista(){
+        val titulo: String = binding.txtTitulo.text.toString()
+        val conteudo: String = binding.txtConteudoNota.text.toString()
+        val img: String = "${notaViewModel.fundoImagem.value}"
 
+        notaViewModel.editaNotaAtual(titulo, conteudo, img)
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuItemSalva -> {
