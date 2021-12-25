@@ -2,6 +2,7 @@ package com.example.myapplication.ui.tabs
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -125,7 +126,9 @@ class TabFragment : Fragment() {
                 }
         }
     }
-
+fun nn(){
+    //val al = AlertDialog
+}
 
     override fun onResume() {
         super.onResume()

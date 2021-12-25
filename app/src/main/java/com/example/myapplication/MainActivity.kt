@@ -10,6 +10,7 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.android.material.shape.MaterialShapeDrawable
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        //val shap: MaterialShapeDrawable = binding.toolbar.background as MaterialShapeDrawable
+        //val stylePresente = shap.shapeAppearanceModel
+        //binding.too
     }
 
 
