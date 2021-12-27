@@ -5,5 +5,5 @@ recycler view, viewpager2, gson, OkHttp e databinding viewModel
 em kotlin android
 
 <h2> Demonstração</h2>
-<img src="https://raw.githubusercontent.com/ecrseer/note-completion-kotlin/main/assets/demo.gif" width="30%"/>
+<img src="https://raw.githubusercontent.com/ecrseer/note-completion-kotlin/main/assets/demonstracao.gif" width="30%"/>
 
