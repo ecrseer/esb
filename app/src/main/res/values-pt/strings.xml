@@ -22,4 +22,5 @@
 
     <string name="txt_aba_todas">Todas</string>
     <string name="txt_aba_favoritos">Favoritos</string>
+    <string name="nome_da_aba_nova">Nome da aba nova</string>
 </resources>

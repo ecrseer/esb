@@ -49,9 +49,13 @@ class NotaFragment : Fragment() {
 
     inner class handleTextWatch : Handler(),TextWatcher{
         val pesquisaPalavraDepois= Runnable {
-            notaViewModel.carregando.value = true
-            notaViewModel
-                .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
+            binding?.let{
+                if(it.txtTitulo.text.isNotBlank()){
+                    notaViewModel.carregando.value = true
+                    notaViewModel
+                        .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
+                }
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

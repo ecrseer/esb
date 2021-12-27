@@ -100,6 +100,13 @@ class TabFragment : Fragment() {
 
         tabViewModel.posicaoAbaAtual.observe(viewLifecycleOwner, Observer {
                    viewpagr.currentItem=it
+                    if(it.equals(2)){
+                        var caixa = CriarTabFragmentDialog()
+
+                        caixa.show(childFragmentManager,"abc")
+
+
+                    }
         })
 
 

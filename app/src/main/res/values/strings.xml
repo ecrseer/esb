@@ -5,7 +5,7 @@
 
     <string name="app_name">Imaginote</string>
     <string name="nota_view_pager_label">Book of notes</string>
-    
+
     <string name="menu_btnsalva">Save</string>
     <string name="menu_btndeleta">Delete</string>
     <string name="tituloNotaCriar">Title</string>
@@ -21,4 +21,5 @@
 
     <string name="txt_aba_todas">All</string>
     <string name="txt_aba_favoritos">Favorites</string>
+    <string name="nome_da_aba_nova">Nome da aba nova</string>
 </resources>
