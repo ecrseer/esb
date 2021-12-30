@@ -16,7 +16,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicatorGravity="top"
             app:tabMode="scrollable"
-            android:background="#3EFFFFFF">
+            android:background="#3EFFFFFF"
+            app:tabSelectedTextColor="@color/design_default_color_on_primary">
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"

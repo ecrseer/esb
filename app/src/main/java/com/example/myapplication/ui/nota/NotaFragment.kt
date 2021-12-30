@@ -6,6 +6,7 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.example.myapplication.databinding.FragmentNotaBinding
 import com.example.myapplication.ui.tabs.TabViewModel
 import com.example.myapplication.ui.tabs.TabViewModelFactory
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_nota.view.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -47,31 +49,7 @@ class NotaFragment : Fragment() {
         )
     }
 
-    inner class handleTextWatch : Handler(),TextWatcher{
-        val pesquisaPalavraDepois= Runnable {
-            binding?.let{
-                if(it.txtTitulo.text.isNotBlank()){
-                    notaViewModel.carregando.value = true
-                    notaViewModel
-                        .pesquisaImagemRetrofit("${binding.txtTitulo.text}")
-                }
-            }
-        }
 
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            removeCallbacks(pesquisaPalavraDepois)
-        }
-        override fun afterTextChanged(s: Editable?) {
-            postDelayed(pesquisaPalavraDepois,1000)
-        }
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-        }
-
-
-
-    }
-    private lateinit var listenerImagemPraTexto: handleTextWatch
     private var  posicaoNotaImagemArmazenada:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +57,6 @@ class NotaFragment : Fragment() {
         arguments?.let {
             posicaoNotaImagemArmazenada = it.getInt("posicaoNotaSelecionada")
         }
-        listenerImagemPraTexto = handleTextWatch()
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -146,6 +123,30 @@ class NotaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+         class handleTextWatch : Handler(),TextWatcher{
+            val pesquisaPalavraDepois= Runnable {
+                view.txtTitulo?.text?.let {
+                    if(it.isNotBlank()){
+                        notaViewModel.carregando.value = true
+                        notaViewModel
+                            .pesquisaImagemRetrofit("${it}")
+                    }
+                }
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                removeCallbacks(pesquisaPalavraDepois)
+            }
+            override fun afterTextChanged(s: Editable?) {
+                postDelayed(pesquisaPalavraDepois,1000)
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }//4.6 -> 5.1~5.2
+
+        }
+        val listenerImagemPraTexto = handleTextWatch()
         binding.txtTitulo.addTextChangedListener(listenerImagemPraTexto)
     }
 
